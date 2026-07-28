@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  version: 4.15.0
+  title: Trip Ninja API Documentation
+  description: ''
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server
+paths:
+  /v2/report/book/:
+    post:
+      summary: Booking Report
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingReportRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code; value is 0 for success response
+                    example: IE23
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: Not a valid search
+              examples:
+                IE45ErrorCode:
+                  $ref: '#/components/examples/IE45ErrorCode'
+                IE52ErrorCode:
+                  $ref: '#/components/examples/IE52ErrorCode'
+                IE55ErrorCode:
+                  $ref: '#/components/examples/IE55ErrorCode'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code; value is 0 for success response
+                    example: IE44
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: User is not authorized
+components:
+  schemas:
+    BookingReportRequest:
+      title: Booking Request
+      type: object
+      required:
+      - trip_id
+      - itinerary_id
+      properties:
+        trip_id:
+          type: string
+          description: Trip ID returned in search response
+          example: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        itinerary_id:
+          type: string
+          description: Itinerary ID returned in search response
+          example: f557310419e4c08a6ba40cc2785447970e7aea4c
+        customer_booking_reference_id:
+          type: string
+          description: Customer booking reference ID from the client, and the limit is 255 characters
+            long.
+          example: cust-book-1234aa94d
+        is_retry:
+          type: boolean
+          description: Optional field, set to true if this is a retry of a previously failed request.
+          example: false
+          default: false
+        final_price:
+          type: float
+          description: Optional field used to record the final base price of the booked itinerary, excluding
+            markup. Useful if the price changed after the search.
+          example: 199.99
+  examples:
+    IE45ErrorCode:
+      summary: customer_booking_reference_id Validation Error
+      value:
+        status: IE45
+        message: '`customer_booking_reference_id` length is invalid (must be less than 255 characters)'
+    IE55ErrorCode:
+      summary: Reporting Data Validation Error
+      value:
+        status: IE55
+        message: One of pricing_solution_ids or itinerary_id is required.
+    IE52ErrorCode:
+      summary: Trip ID Validation Error
+      value:
+        status: IE52
+        message: Trip ID not found

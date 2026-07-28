@@ -1,0 +1,463 @@
+aid: webjet
+name: Webjet
+review:
+  question: >-
+    What would it cost a customer of Webjet Group to leave — and does the group publish any real,
+    documented API surface a developer can reach?
+  date: '2026-07-28'
+  reviewer: API Evangelist
+  answer: >-
+    Webjet Group's consumer brands publish nothing. Its subsidiary Trip Ninja publishes a genuinely
+    open developer hub with eleven OpenAPI 3.0.0 documents, but nothing about it is self-serve, and
+    the switching-cost story is unusually mild for travel: a one-month auto-renewing term with
+    thirty days' notice, over an interface that is proprietary but sits on IATA identifiers the
+    customer already owns.
+findings:
+  summary: |
+    Webjet Group Limited (ASX: WJL) is the B2C remainder of Webjet Limited after the 23 September
+    2024 demerger; the B2B WebBeds bed bank went to Web Travel Group (ASX: WEB) and is NOT covered by
+    this profile. WJL comprises Webjet OTA (webjet.com.au / webjet.co.nz), the GoSee vehicle-rental
+    brands Airport Rentals and Motorhome Republic, and Trip Ninja.
+
+    Consumer side: no public API, no developer documentation, no partner portal. Every plausible
+    developer subdomain for the consumer brands fails DNS. www.webjet.com.au and www.webjet.co.nz
+    return 403 to non-browser clients; api.webjet.com.au resolves and serves the Webjet SPA shell
+    (an internal booking-front-end host), and requests for /swagger.json and /openapi.json on it
+    return that same HTML — not a spec. Third-party SEO pages (adivaha.com and similar) advertise a
+    "Webjet Travel API" and "Webjet White Label"; no first-party corroboration was found for either,
+    and neither is recorded in apis.yml.
+
+    Technology side: Trip Ninja's developer hub (docs.tripninja.io, redirecting to
+    devhub.tripninja.io) is publicly readable with no login. It is a Vite/React SPA that renders its
+    API reference with RedocStandalone from OpenAPI 3.0.0 documents embedded in the page bundle
+    rather than served as standalone files — no /openapi.json, /swagger.json or /.well-known/ path
+    exists on the host (all catch to the SPA index or 302 to it). Eleven complete OpenAPI 3.0.0
+    documents were extracted verbatim from that bundle and saved to openapi/.
+
+    Products documented: SmartFlights (current, v3), FareStructure and Virtual Interlining (both
+    marked deprecated and served under /deprecated/), DataStream (documented, no spec published), the
+    Admin Panel refresh-token operation, and a compression SDK published to PyPI (tn-sdk) and NuGet
+    (TripNinja.SDK). Public Postman collections exist for SmartFlights, FareStructure, DataStream and
+    Virtual Interlining in the tripninjadevteam public workspace.
+
+    Trip Ninja explicitly supplies no air content: "Trip Ninja specializes in optimizing the use of
+    content sources for travel platforms ... without providing any content ourselves." It requires
+    the customer to already hold "at least one active integration with a content source, such as a
+    Global Distribution System (GDS), New Distribution Capability (NDC), or other flight aggregator"
+    and to be able to book multiple PNRs per traveller itinerary.
+  probes:
+  - url: https://www.webjetgroup.com/
+    status: 200
+    note: Corporate/investor site. Brands page lists Webjet OTA, Airport Rentals, Motorhome Republic, Trip Ninja. No developer or API section.
+  - url: https://webjetgroup.com
+    status: 200
+  - url: https://developer.webjetgroup.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://developers.webjetgroup.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://api.webjetgroup.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://docs.webjetgroup.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://www.webjet.com.au/
+    status: 403
+    note: Blocked to non-browser clients even with a browser User-Agent.
+  - url: https://www.webjet.co.nz/
+    status: 403
+  - url: https://api.webjet.com.au/
+    status: 403
+    note: >-
+      Host resolves. With a browser User-Agent it returns the Webjet consumer SPA HTML shell, not an
+      API. /swagger.json and /openapi.json on this host return the same HTML. Not a documented API.
+  - url: https://developer.webjet.com.au
+    status: 000
+  - url: https://developers.webjet.com.au
+    status: 000
+  - url: https://docs.webjet.com.au
+    status: 000
+  - url: https://partners.webjet.com.au
+    status: 000
+  - url: https://affiliates.webjet.com.au
+    status: 000
+  - url: https://b2b.webjet.com.au
+    status: 000
+  - url: https://www.webjet.com.au/robots.txt
+    status: 200
+    note: >-
+      Allows OAI-SearchBot, Claude-SearchBot and PerplexityBot; disallows GPTBot and ClaudeBot
+      training crawlers. No API or docs paths referenced.
+  - url: https://www.webjet.com.au/.well-known/security.txt
+    status: 404
+    note: Azure Blob BlobNotFound error document. No security.txt published.
+  - url: https://www.motorhomerepublic.com/
+    status: 200
+    note: GoSee motorhome brand. No developer surface; developer/api subdomains do not resolve.
+  - url: https://www.airportrentals.com/
+    status: 200
+    note: GoSee car-rental brand. No developer surface; developer/api subdomains do not resolve.
+  - url: https://developer.motorhomerepublic.com
+    status: 000
+  - url: https://api.motorhomerepublic.com
+    status: 000
+  - url: https://developers.airportrentals.com
+    status: 000
+  - url: https://api.airportrentals.com
+    status: 000
+  - url: https://www.tripninja.io/
+    status: 200
+    note: Product marketing site for SmartFlights.
+  - url: https://docs.tripninja.io/
+    status: 200
+    note: Redirects to https://devhub.tripninja.io/ — the public developer hub, no login required.
+  - url: https://devhub.tripninja.io/
+    status: 200
+    note: >-
+      Vite/React SPA. All unknown paths return the SPA index (200) or 302 to /index.html; there is no
+      robots.txt, no sitemap.xml, no /openapi.json and no /.well-known/. The API reference is rendered
+      by RedocStandalone from OpenAPI documents compiled into assets/index-8odYpnZf.js.
+  - url: https://devhub.tripninja.io/assets/index-8odYpnZf.js
+    status: 200
+    note: 4,367,736 bytes. Source of the eleven harvested OpenAPI 3.0.0 documents.
+  - url: https://devhub.tripninja.io/openapi.json
+    status: 302
+    note: Redirects to /index.html. No standalone spec is served.
+  - url: https://devhub.tripninja.io/robots.txt
+    status: 302
+    note: Redirects to /index.html. No robots.txt published.
+  - url: https://sandbox.tripninja.io
+    status: 403
+    note: >-
+      Real API host. Returns {"message":"Forbidden"} as application/json. /v3/get-searches/,
+      /adminpanel/refresh-token/, /openapi.json and /swagger.json all return 403 JSON. Docs state the
+      servers are reachable only from IP addresses Trip Ninja has allow-listed.
+  - url: https://app.tripninja.io
+    status: 200
+    note: Admin Panel login. Credentials are issued by Trip Ninja; there is no signup.
+  - url: https://api.tripninja.io
+    status: 403
+  - url: https://developer.tripninja.io
+    status: 000
+  - url: https://developers.tripninja.io
+    status: 000
+  - url: https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+    status: 200
+    note: Public SmartFlights Postman collection.
+  - url: https://www.postman.com/_api/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+    status: 200
+    note: Metadata only — collection named "FareStructure", updated 2025-01-03. Full request bodies are not returned by this endpoint, so nothing was harvested.
+  - url: https://www.postman.com/_api/collection/20885222-5fccfe6e-479a-429f-a497-d42a0bb859c9
+    status: 200
+    note: Metadata only — collection named "DataStream", updated 2025-07-16.
+  - url: https://www.postman.com/_api/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+    status: 200
+    note: Metadata only — collection named "Virtual Interlining", updated 2025-09-02.
+  - url: https://pypi.org/project/tn-sdk/
+    status: 200
+    note: Python compression SDK.
+  - url: https://www.nuget.org/packages/TripNinja.SDK
+    status: 200
+    note: C#/.NET compression SDK.
+  - url: https://github.com/Webjet
+    status: 200
+    note: >-
+      GitHub organization "Webjet OTA", 2 public repos (NSQCore, a .NET client for NSQ; and
+      cachet-monitor, a Go endpoint prober). Internal infrastructure tooling — no API artifacts.
+  - url: https://github.com/webjetgroup
+    status: 404
+  - url: https://www.tripninja.io/legal/qt-tc
+    status: 200
+    note: Terms of Service / SaaS agreement. Source of the contractual terms quoted below.
+  - url: https://www.tripninja.io/legal/gdpr
+    status: 200
+    note: Data processing terms. Source of the data-return clauses quoted below.
+  - url: https://www.tripninja.io/legal/data-processing
+    status: 200
+  - url: https://www.tripninja.io/legal/privacy-policy
+    status: 200
+  endpointsConfirmedDocumented:
+  - POST https://sandbox.tripninja.io/v3/get-searches/
+  - POST https://sandbox.tripninja.io/v3/generate-solutions/
+  - POST https://sandbox.tripninja.io/v3/report/book/
+  - POST https://sandbox.tripninja.io/v3/report/cancel/
+  - POST https://sandbox.tripninja.io/adminpanel/refresh-token/
+  - POST https://sandbox.tripninja.io/v2/get-searches/ (deprecated — FareStructure and Virtual Interlining)
+  - POST https://sandbox.tripninja.io/v2/generate-solutions/ (deprecated — FareStructure and Virtual Interlining)
+  - POST https://sandbox.tripninja.io/v2/report/book/ (deprecated — FareStructure)
+  - POST https://sandbox.tripninja.io/v2/report/cancel/ (deprecated — FareStructure)
+  productionBaseURL: >-
+    Not published. The developer hub lists only the pre-production server
+    (https://sandbox.tripninja.io) and states "Once you are ready to go live, we will provide you
+    access to the production servers."
+switchingCost:
+  interfaceShape:
+    value: proprietary-documented
+    standardNamed: >-
+      No standard reference found. The interface implements neither IATA NDC (17.2/21.3/ONE Order),
+      OpenTravel/OTA nor HTNG. It is a Trip Ninja-specific REST/JSON contract — /get-searches/,
+      /generate-solutions/, /report/book/, /report/cancel/ — with its own request and response
+      schemas (FullGenerateSolutionsRequest, DatasourceItineraryInfoWithMarkup, and so on) and its
+      own zlib request-compression convention and IExx error codes. Authentication is a proprietary
+      token scheme, "Authorization: Token <access_token>", not OAuth 2.0 and not HTTP Bearer.
+    evidence: >-
+      Eleven OpenAPI 3.0.0 documents harvested from devhub.tripninja.io on 2026-07-28 (see openapi/).
+      Searched all eleven for NDC, OpenTravel, OTA-standard and HTNG references: the only occurrence
+      of "NDC" is in the Multi-PNR prerequisites page, describing the customer's own upstream content
+      source, never Trip Ninja's own interface.
+    mitigant: >-
+      The bind is real but shallow. Trip Ninja carries no content and stores no inventory: the
+      customer keeps its own GDS/NDC connections and its own PNRs, and Trip Ninja is an optimisation
+      layer in the middle of a search. Ripping it out costs the integration work and the loss of the
+      trained markup models, not the customer's distribution relationships.
+  secondSource:
+    value: alternatives-with-migration
+    alternativesConsidered: >-
+      For the flight-construction / virtual-interlining / split-ticketing capability specifically,
+      other vendors sell comparable products (Kiwi.com Tequila, Duffel, Skyscanner and Google Flights
+      style multi-source construction, and the GDSs' own multi-source shopping). None of them
+      implements Trip Ninja's interface, so a move is a re-integration project rather than a
+      credential swap — no drop-in second source exists on this contract. Named alternatives are
+      recorded here as market context only; no vendor comparison was published by Trip Ninja and none
+      was fetched.
+    note: >-
+      For the consumer businesses the question is inverted. Webjet OTA is itself a second source — a
+      traveller who wants an Australian OTA has Flight Centre, Expedia, Booking.com and the airlines'
+      own sites. There is no capability a customer is locked into, because there is no customer-facing
+      API to be locked into.
+  exitPath:
+    value: export-on-request
+    operationCited: >-
+      No export, dump, bulk or data-portability operation exists in any of the eleven harvested
+      OpenAPI documents. The only outbound flow is reporting INTO Trip Ninja (/report/book/,
+      /report/cancel/). Exit is contractual and manual, not an API call.
+    publishedCommitments:
+    - source: https://www.tripninja.io/legal/gdpr
+      clause: >-
+        "Trip Ninja and each Trip Ninja Affiliate shall promptly and in any event within sixty (60)
+        days of the date of cessation of any Services involving the Processing of Customer Personal
+        Data (the 'Cessation Date'), return all Customer Personal Data to the Customer."
+    - source: https://www.tripninja.io/legal/gdpr
+      clause: >-
+        "Customer may in its absolute discretion by written notice to Trip Ninja within 30 days of the
+        Cessation Date require Trip Ninja and each Trip Ninja Affiliate to (a) return a complete copy
+        of all Customer Personal Data to Customer by secure file transfer in such format as is
+        reasonably notified by Customer to Trip Ninja..."
+    - source: https://www.tripninja.io/legal/qt-tc
+      clause: >-
+        Trip Ninja may "delete or return all Customer Data ... to the extent technically feasible save
+        as required by any applicable law".
+    carveOut: >-
+      The customer's own data comes back, but the derived value does not. The ToS reserves to Trip
+      Ninja "all data derived in the process of providing the Services which is part of Company's
+      machine learning algorithms" — i.e. the markup models trained on the customer's own booking and
+      search behaviour stay with the vendor. That is the one genuinely non-portable asset in this
+      relationship.
+  identifierPortability:
+    value: >-
+      Shared IATA identifiers dominate, with a thin layer of vendor-opaque request IDs on top.
+    detail: >-
+      Harvested schemas hang on IATA three-letter city/airport codes (from_iata / to_iata, with an
+      explicit "C" city vs "A" airport qualifier), IATA two-letter carrier codes, IATA passenger type
+      codes (ADT, MIL, CHD, INF), ISO currency codes, and PNR record locators — the docs treat
+      multi-PNR handling as a customer prerequisite and instruct platforms to display the Booking
+      Codes (PNR numbers) per ticket. The vendor-specific keys are session-scoped rather than
+      permanent: trip_id, itinerary_id and 40-character hex booking identifiers, plus a
+      customer_booking_reference_id field explicitly reserved for the customer's OWN booking
+      reference (max 255 characters). At the corporate level Webjet carries portable industry
+      identifiers too: ATIA/ATAS accreditation A17325 and an IATA accredited agent entity (Webjet
+      Marketing). No GIATA IDs, hotel chain codes or GDS-proprietary record IDs appear, because this
+      is an air-only, content-free product.
+    verdict: >-
+      This is the low-lock-in end of travel. The data a customer would have to carry to a competitor
+      is written in industry codes anybody can read.
+  contractualLockIn:
+    published: true
+    source: https://www.tripninja.io/legal/qt-tc
+    clauses:
+    - term: Pilot Period
+      verbatim: '"14 days, starting the date that Company delivers the account administrator credentials"'
+      fee: '"$0 USD"'
+    - term: Initial Service Term
+      verbatim: '"1 month, commencing on the day the Pilot Period expires"'
+    - term: Renewal
+      verbatim: '"automatically renewed for additional periods of the same duration as the Initial Service Term"'
+    - term: Termination notice
+      verbatim: >-
+        "either party requests termination at least thirty (30) days prior to the end of the
+        then-current term"; also "terminate this Agreement upon thirty (30) days' notice (or without
+        notice in the case of nonpayment)"
+    - term: Vendor suspension right
+      verbatim: >-
+        "terminate or suspend your access to the Services ... at any time, with or without cause, and
+        without notice"
+    - term: Customer data ownership
+      verbatim: '"Customer shall own all right, title and interest in and to the Customer Owned Data"'
+    - term: Vendor retention of derived data
+      verbatim: >-
+        Company retains "all data derived in the process of providing the Services which is part of
+        Company's machine learning algorithms"
+    notPublished: >-
+      No exclusivity clause was found. No minimum volume commitment, full-content agreement, segment
+      fee or per-booking fee is published — fees are deferred to a "Products & Services order form"
+      that is not public, so the commercial rate card cannot be verified and is not asserted here.
+    verdict: >-
+      Unusually light for this industry. A one-month auto-renewing term terminable on thirty days'
+      notice is closer to a SaaS subscription than to a travel-distribution contract; the asymmetry
+      is the vendor's unilateral suspension right and its retention of the trained markup models.
+  accessGate:
+    value: commercial-agreement
+    whatADeveloperMustDo:
+    - Read the docs freely — devhub.tripninja.io requires no account and returns 200 to anyone.
+    - >-
+      Go through Trip Ninja's contact form (https://www.tripninja.io/contact) and a scoping exercise;
+      the developer hub links a "Trip Ninja - Scoping Effort Sheet" PDF.
+    - >-
+      Sign the SaaS agreement at https://www.tripninja.io/legal/qt-tc (14-day pilot at $0, then a
+      1-month auto-renewing term), plus the data-processing terms.
+    - >-
+      Already hold "at least one active integration with a content source, such as a Global
+      Distribution System (GDS), New Distribution Capability (NDC), or other flight aggregator" —
+      Trip Ninja supplies no air content of its own.
+    - Already be able to book multiple PNRs against a single traveller itinerary.
+    - >-
+      Receive an Admin Panel username and password issued by Trip Ninja ("You have been provided with
+      an admin panel username and password by Trip Ninja") — there is no signup form.
+    - >-
+      Send Trip Ninja the IP addresses to be allow-listed: "For security, Trip Ninja's servers are
+      only accessible from whitelisted IPs. Please contact your account manager to whitelist the IPs
+      you will be using."
+    - Generate a sandbox token in the Admin Panel's Developer Resources section. Sandbox is capped at 5,000 requests per day.
+    - >-
+      Pass certification: "Once core development and integration for SmartFlights is complete,
+      execute the required test cases to pass the certification process." Only then is a production
+      base URL issued.
+    noAccreditationRequired: >-
+      No IATA or ARC accreditation is required to consume the Trip Ninja API itself — the accreditation
+      burden sits upstream, on whatever content source the customer already holds.
+  distributionModel:
+    value: aggregator-reseller
+    detail: >-
+      Webjet OTA is a retail intermediary: it does not own inventory and resells airline, hotel and
+      car content sourced through upstream distribution. Trip Ninja is one layer further removed — it
+      is neither a distributor nor an aggregator of content but an optimisation service that operates
+      on content the customer has already sourced: "Trip Ninja consumes the content sources ... without
+      providing any content ourselves", with the documentation naming Amadeus and Travelport as example
+      customer-side connections and marking segment "fees" as "*Travelport customers only*".
+  ndcPosture:
+    value: >-
+      Not an airline, and no NDC role of its own. NDC appears exactly once in the entire harvested
+      surface — as one of the acceptable upstream content sources a customer must already have ("a
+      Global Distribution System (GDS), New Distribution Capability (NDC), or other flight
+      aggregator"). No NDC certification level is claimed anywhere by Webjet Group or Trip Ninja, no
+      NDC endpoint is published, and no GDS-versus-NDC surcharge position is stated. Webjet's own
+      airline-content sourcing arrangements are not disclosed publicly and are not asserted here.
+  standardConformance:
+    value: >-
+      OpenAPI 3.0.0 for description; no travel-domain standard implemented. No NDC, OpenTravel/OTA,
+      HTNG, ONE Order or Arazzo artifact was found. IATA CODES are used as data (airport, city,
+      carrier, passenger type) but IATA MESSAGE STANDARDS are not.
+sources:
+- url: https://www.webjetgroup.com/
+  type: Website
+  note: Brands, markets, investor material. No developer or API section anywhere on the corporate site.
+- url: https://www.asx.com.au/blog/the-story-of-webjet-group
+  type: Reference
+  note: Corroborates the 23 September 2024 demerger — WJL takes Webjet OTA, GoSee and Trip Ninja; WEB takes WebBeds.
+- url: https://devhub.tripninja.io/
+  type: Documentation
+  note: The only public developer surface in the group. Publicly readable, no login.
+- url: https://devhub.tripninja.io/assets/index-8odYpnZf.js
+  type: OpenAPI
+  note: >-
+    Source bundle for the eleven harvested OpenAPI 3.0.0 documents. Fetched 2026-07-28, HTTP 200,
+    4,367,736 bytes.
+- url: https://www.tripninja.io/legal/qt-tc
+  type: TermsOfService
+  note: Term length, renewal, termination notice, data ownership, derived-data retention.
+- url: https://www.tripninja.io/legal/gdpr
+  type: Compliance
+  note: 60-day data return on cessation; 30-day customer election for a complete copy by secure file transfer.
+- url: https://www.iata.org/en/services/travel-agency-program/tids/
+  type: Reference
+  note: Context for the IATA/TIDS identifiers Australian agencies carry.
+harvest:
+  openapiDirectory: openapi/
+  specCount: 11
+  fetchDate: '2026-07-28'
+  sourceURL: https://devhub.tripninja.io/assets/index-8odYpnZf.js
+  sourceStatus: 200
+  method: >-
+    The developer hub serves no standalone spec file. Its API reference is rendered client-side by
+    RedocStandalone from OpenAPI 3.0.0 document objects compiled into the page bundle. Each document's
+    openapi / info / servers / paths / components members were located in the bundle, extracted by
+    balanced-delimiter matching, evaluated as data-only literals (some are JSON.parse of a string
+    literal), and re-serialised to YAML with no edits to content. No key was added, removed or
+    renamed; the only change is the JSON-to-YAML serialisation.
+  specs:
+  - file: openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml
+    paths: ['/adminpanel/refresh-token/']
+    product: Admin Panel
+    infoVersion: 4.15.0
+  - file: openapi/webjet-tripninja-smartflights-get-searches-openapi.yml
+    paths: ['/v3/get-searches/']
+    product: SmartFlights
+    infoVersion: 1.0.0
+  - file: openapi/webjet-tripninja-smartflights-generate-solutions-openapi.yml
+    paths: ['/v3/generate-solutions/']
+    product: SmartFlights
+    infoVersion: 1.0.0
+  - file: openapi/webjet-tripninja-smartflights-report-book-openapi.yml
+    paths: ['/v3/report/book/']
+    product: SmartFlights
+    infoVersion: 4.15.0
+  - file: openapi/webjet-tripninja-smartflights-report-cancel-openapi.yml
+    paths: ['/v3/report/cancel/']
+    product: SmartFlights
+    infoVersion: 4.15.0
+  - file: openapi/webjet-tripninja-farestructure-get-searches-openapi.yml
+    paths: ['/v2/get-searches/']
+    product: FareStructure (deprecated)
+    infoVersion: 1.0.0
+  - file: openapi/webjet-tripninja-farestructure-generate-solutions-openapi.yml
+    paths: ['/v2/generate-solutions/']
+    product: FareStructure (deprecated)
+    infoVersion: 1.0.0
+  - file: openapi/webjet-tripninja-farestructure-report-cancel-openapi.yml
+    paths: ['/v2/report/cancel/']
+    product: FareStructure (deprecated)
+    infoVersion: 4.15.0
+  - file: openapi/webjet-tripninja-farestructure-report-book-openapi.yml
+    paths: ['/v2/report/book/']
+    product: FareStructure (deprecated)
+    infoVersion: 4.15.0
+  - file: openapi/webjet-tripninja-virtual-interlining-get-searches-openapi.yml
+    paths: ['/v2/get-searches/']
+    product: Virtual Interlining (deprecated)
+    infoVersion: 1.0.0
+  - file: openapi/webjet-tripninja-virtual-interlining-generate-solutions-openapi.yml
+    paths: ['/v2/generate-solutions/']
+    product: Virtual Interlining (deprecated)
+    infoVersion: 1.0.0
+notRecorded:
+- claim: '"Webjet Travel API" and "Webjet White Label" partner programs'
+  seenAt: https://www.adivaha.com/webjet-partner-api.html
+  reason: >-
+    Third-party SEO/reseller marketing page. No first-party Webjet page, subdomain, endpoint or
+    document corroborates either program. Not entered in apis.yml.
+- claim: WebBeds partner APIs
+  reason: >-
+    WebBeds belongs to Web Travel Group (ASX: WEB) after the September 2024 demerger, not to Webjet
+    Group (ASX: WJL). Out of scope for this profile.
+- claim: Trip Ninja "Dynamic Packaging" (MSDP) product
+  reason: >-
+    A /dynamic-packaging/ route exists in the developer hub's route table but no endpoint, spec or
+    base URL for it was found. Not listed.
+actions:
+  apisYmlCreated: true
+  readmeCreated: true
+  openapiHarvested: true
+  githubRepoCreated: false
+  pushed: false

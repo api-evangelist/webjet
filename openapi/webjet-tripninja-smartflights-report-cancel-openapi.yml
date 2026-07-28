@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  version: 4.15.0
+  title: Trip Ninja API Documentation
+  description: ''
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server
+paths:
+  /v3/report/cancel/:
+    post:
+      summary: Cancel Booking Report
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code indicating request outcome.
+                    example: 200
+                  message:
+                    type: string
+                    description: A human-readable message providing more details. (e.g., <code>"Trip has
+                      been cancelled."</code>)
+                    example: Trip has been cancelled.
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: A human-readable error code. (e.g., <code>"IE13"</code>)
+                    example: IE23
+                  message:
+                    type: string
+                    description: A human-readable message providing more details. (e.g., <code>"Currency
+                      is required"</code>)
+                    example: Not a valid search
+              examples:
+                IE52ErrorCode:
+                  $ref: '#/components/examples/IE52ErrorCode'
+                IE41ErrorCode:
+                  $ref: '#/components/examples/IE41ErrorCode'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: A human-readable error code. (e.g., <code>"IE13"</code>)
+                    example: IE44
+                  message:
+                    type: string
+                    description: A human-readable message providing more details. (e.g., <code>"User is
+                      not authorized"</code>)
+                    example: User is not authorized
+components:
+  schemas:
+    CancelRequest:
+      title: Request
+      type: object
+      required:
+      - trip_id
+      properties:
+        trip_id:
+          type: string
+          description: Unique identifier from <code>get-searches</code> for this search. Used in all subsequent
+            requests related to this trip.
+          example: gAAAAABoElDHItHlqVNLp7dSOFaKmldHwk_d_5lBZIUhTMFJXmNnh-zpPbrPBCm-nZhqTQNeRgTt8e7X0KTOyg0cuLiB3s61xAYDoOWNMjWjM5Ln2wgSItqalRiymlk5PCcokfM3LAqp09u1i3bpWHxNTrT6yOEYk_hEwFxXwdQpkQroawW-hZUQAQM2M9763o2nWLt-LVgX0M-F2unSvWep7l9c5C8pcHxdKQ1GPdm6sxdkEgV30_9U_C-59CvVAcHWpontAcIh6kO6NSC-4_jJ4xQitlbxGyDxAd3PyuEWGBTVfdTGm8qeCEQG_XVvLDy5_uKOq9vY9i6STo-XB-kYSULYCGJ720gOFd3Ohpp1u5n20yg2I8I0hbc-227FWQFp_hBmpdvATvU9SIblcRxnEcGqyeR5axKjm1U-6cN8hJNGhNb_Ewdm8fbIPKsO4OJT4ZjvTFfLnDp5PU63TQy4wtCyzrCSqT8Zsn_JgqZqBwxQkAH-LVFX3P7oGHi17UtsTiSoPunSZF5liySn7jMAELBQ7z5V2oozO7i-NjSiWUV4kwaNlXKoHT3IvZ31P6r3bERa9SOsA2hA16hv9KMN04HX-qnZc0MVgROygu_l-d66yqejW_vk1RO35CFHqhuyVyy0N6s_59QVdY8kjzEvBNwKy19o0P5Z0khmYyDgqkvcLVdKqPRia2K8_gbbe2bXMxzss5IoqeyfAKObydL1Mr6qmEVhzM4-BwKCMjz_3lC8YNWzEGisNRC8hkY_yBhqJp2ZQkgIaoyzILAuPVXks4Hdwu_Y0iz6D3HmUPr0eiRv4rGGl4iUIDup18OclOyYvbCQ_5RS44nSY0MRwATX-QRdtRGoJeLr7Xb79eH8ImOwihSkVW7rITd8d_BF85P8Fx3XH2_Kg7l2p6mN382rpKvmFoas_K3phqlDLAY2X0ru34ZC5hOjK0BRwFcTNGCrgHHAwpt4zPYYCaAiuDwvcjC5UPvh_B4o_-j5oUpGjdM9QNEMg1OECaHSTZOFjC58h0yzs-fk0lgy0rLIMow4ABThn5APIzKerhOvAtr4j6arzHMqh0CVaprkL0XMQyPcrdDYZAU8nALT9rgDA-Fsde8mqz6E7_1vb_hevhJ91edjFkZBNzc0fmC4LbH6iNKPMUkL0GD8SByW4Uot7i6sS2KSyYCOpatBjvtS9ah1oWP23MwY11aY5HuX6ljwB1kO9JpcVuoWzr-Tl4exk_a8N-b5lmGuYsXaW_r4vgquq2MDdfuW7xagZTM-uapGOo-_8IlWjoV-7flUqaWdR5BqZWJAr1uniO0uP2gM8MAWN9aGTasPZi3-mJTQJz4Z_2Y2Fx72Oi6ICK8Ggxp29UY4B3KAP96ZpSLynaLJikz6dJlNHhTe7x9WxRr-CTxflW0MQAeif_DW6MD31FFYzYf1E757QyuZD3xCCs5OGcSkW6Kw6aT97ZrAWdqYQOLrDSp6pj-I-7OfR3EXiQLlIsR5eCy7_2nrjTwwtaO1l99Ax5I4q-rnb97qSs52o5tdEwchNURafUsENTHzPIRcgbxSPpSW3ke5j0LjqOlWRGTjrl81v4WKTJocMUEV8v61OtLOKuGPF8N_SUx4NbHw1Bar3NYGeLl1BV2B7G8ZBHXfplXV2aqM5PgygFSVXRf7Olr0zWLp9wn5
+  examples:
+    IE52ErrorCode:
+      summary: Trip ID Validation Error
+      value:
+        status: IE52
+        message: Trip ID not found
+    IE41ErrorCode:
+      summary: Invalid Itinerary Status Validation Error
+      value:
+        status: IE41
+        message: Invalid itinerary status, you cannot set a cancelled itinerary to a cancelled itinerary.
+          Make sure you are following the workflow stated in documentation. If error continues to occur,
+          please contact support@tripninja.io

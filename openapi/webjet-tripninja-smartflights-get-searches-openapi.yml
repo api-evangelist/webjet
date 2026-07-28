@@ -1,0 +1,1094 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Trip Ninja API Documentation
+  description: '<h2>Get Searches</h2>
+
+    The <code>/get-searches/</code> endpoint is responsible for taking a traveller search request from
+    your platform and applying our FareStructure logic to determine the optimal queries predicted.
+
+
+    <b>The general flow is as follows:</b>
+
+    A traveller makes a search request on your platform for an itinerary and you send this request from
+    your platform to Trip Ninja using the                               endpoint.
+
+    Trip Ninja reviews this search request, builds a set of optimal content search queries for you to
+    send to your content provider(s), and returns this set of content search queries to you.
+
+
+    !
+
+    '
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server for development and testing
+paths:
+  /v3/get-searches/:
+    post:
+      summary: Get Searches
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetSearchesRequest'
+            examples:
+              one-way-request:
+                $ref: '#/components/examples/OneWayRequest'
+              two-way-request:
+                $ref: '#/components/examples/TwoWayRequest'
+              three-way-request:
+                $ref: '#/components/examples/ThreeWayRequest'
+              four-way-request:
+                $ref: '#/components/examples/FourWayRequest'
+              minimal-request:
+                $ref: '#/components/examples/MinimalRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSearchesResponse'
+              examples:
+                one-way-response:
+                  $ref: '#/components/examples/OneWayResponse'
+                two-way-response:
+                  $ref: '#/components/examples/TwoWayResponse'
+                three-way-response:
+                  $ref: '#/components/examples/ThreeWayResponse'
+                four-way-response:
+                  $ref: '#/components/examples/FourWayResponse'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: A human-readable error code. (e.g., <code>"IE13"</code>)
+                    example: IE23
+                  message:
+                    type: string
+                    description: A human-readable message providing more details about the error. (e.g.,
+                      <code>"Currency is required"</code>)
+                    example: Not a valid search
+              examples:
+                IE16ErrorCode:
+                  $ref: '#/components/examples/IE16ErrorCode'
+                IE62ErrorCode:
+                  $ref: '#/components/examples/IE62ErrorCode'
+                IE18ErrorCode:
+                  $ref: '#/components/examples/IE18ErrorCode'
+                IE27ErrorCode:
+                  $ref: '#/components/examples/IE27ErrorCode'
+                IE20ErrorCode:
+                  $ref: '#/components/examples/IE20ErrorCode'
+                IE21ErrorCode:
+                  $ref: '#/components/examples/IE21ErrorCode'
+                IE12ErrorCode:
+                  $ref: '#/components/examples/IE12ErrorCode'
+                IE63ErrorCode:
+                  $ref: '#/components/examples/IE63ErrorCode'
+                IE11ErrorCode:
+                  $ref: '#/components/examples/IE11ErrorCode'
+                IE09ErrorCode:
+                  $ref: '#/components/examples/IE09ErrorCode'
+                IE10ErrorCode:
+                  $ref: '#/components/examples/IE10ErrorCode'
+                IE13ErrorCode:
+                  $ref: '#/components/examples/IE13ErrorCode'
+                IE58ErrorCode:
+                  $ref: '#/components/examples/IE58ErrorCode'
+                IE59ErrorCode:
+                  $ref: '#/components/examples/IE59ErrorCode'
+                IE60ErrorCode:
+                  $ref: '#/components/examples/IE60ErrorCode'
+                IE61ErrorCode:
+                  $ref: '#/components/examples/IE61ErrorCode'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: A human-readable error code. (e.g., <code>"IE13"</code>)
+                    example: IE44
+                  message:
+                    type: string
+                    description: A human-readable message providing more details about the error. (e.g.,
+                      <code>"Currency is required"</code>)
+                    example: User is not authorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    GetSearchesRequest:
+      title: Request
+      type: object
+      required:
+      - segments
+      properties:
+        segments:
+          description: Array containing all flight segments for the itinerary.
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - from_iata
+            - to_iata
+            - departure_date
+            properties:
+              id:
+                type: integer
+                description: Unique identifier for each flight segment, numbered sequentially from <code>1</code>
+                  to <code>n</code>.
+                example: 1
+              from_iata:
+                type: string
+                description: Three-letter IATA code representing the departure city / airport of the segment.
+                example: YHZ
+              from_type:
+                default: C
+                type: string
+                description: Specifies the search by city <code>"C"</code> or airport <code>"A"</code>.
+                  City searches include nearby airports.
+                example: C
+              to_iata:
+                type: string
+                description: Three-letter IATA code representing the arrival city / airport of the segment.
+                example: LON
+              to_type:
+                default: C
+                type: string
+                description: Specifies the search by city <code>"C"</code> or airport <code>"A"</code>.
+                  City searches include nearby airports.
+                example: C
+              departure_date:
+                type: string
+                description: Segment departure date in <code>"YYYY-MM-DD"</code> format. Additional characters
+                  are ignored.
+                example: '2023-06-20'
+              cabin_class:
+                default: E
+                type: string
+                description: 'Requested cabin class for the query. Can be set globally or per segment.
+                  <strong>Values</strong>: <code>"E"</code> (Economy), <code>"PE"</code> (Premium Economy),
+                  <code>"BC"</code> (Business Class), <code>"FC"</code> (First Class), <code>"PFC"</code>
+                  (Premium First Class).'
+                example: BC
+                enum:
+                - E
+                - PE
+                - BC
+                - FC
+                - PFC
+        num_results:
+          default: 50
+          description: Number of constructed itineraries returned. Single-PNR itineraries always included
+            regardless of this limit.
+          type: integer
+          minimum: 50
+          maximum: 5000
+        markup_source:
+          description: Specifies which markup model to apply. Models are configured in your Trip Ninja
+            Admin Panel.
+          example: onsite
+          type: string
+        travellers:
+          default:
+          - ADT
+          description: Defines passenger types. <strong>Values:</strong> <code>"ADT"</code> (Adult), <code>"CHD"</code>
+            (Child), <code>"INF"</code> (Infant), <code>"MIL"</code> (Military).
+          type: array
+          items:
+            type: string
+          example:
+          - ADT
+          - ADT
+          - CHD
+        currency:
+          default: USD
+          description: Three-letter currency code (e.g., <code>"USD"</code>, <code>"CAD"</code>) for provider
+            queries and price calculations.
+          example: USD
+          type: string
+        country_code:
+          description: 'Two-letter country code for search origin (e.g., CA, US). '
+          example: CA
+          type: string
+        cabin_class:
+          default: E
+          description: Requested cabin class for the query. Can be set globally or per segment. <strong>Values:</strong>
+            <code>"E"</code> (Economy), <code>"PE"</code> (Premium Economy), <code>"BC"</code> (Business
+            Class), <code>"FC"</code> (First Class), <code>"PFC"</code> (Premium First Class).
+          example: BC
+          enum:
+          - E
+          - PE
+          - BC
+          - FC
+          - PFC
+          type: string
+        time_value:
+          default: 0
+          description: This parameter sets the value of passenger time in [currency]/hour to balance flight
+            price against duration. Flight duration equals minutes from first departure to last arrival
+            in a leg. True Cost = <code>total_price</code> + (<code>time_value</code> ÷ 60) x Flight Duration.
+            The system returns the itinerary with lowest True Cost. Setting time_value to 0 or omitting
+            it sorts by price only.
+          type: integer
+        return_single_pnr_itineraries:
+          description: When <code>false</code>, removes most non-constructed itineraries from the response.
+            <strong>Note:</strong> if <code>single_pnr</code> = <code>true</code> some single-PNR itineraries
+            may still appear.
+          default: true
+          type: boolean
+    GetSearchesResponse:
+      type: object
+      properties:
+        trip_id:
+          description: Unique identifier for this search. Used in all subsequent requests related to this
+            trip.
+          type: string
+          example: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_requests:
+          description: List of datasource queries to execute for this search.
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasourceRequest'
+    DatasourceRequest:
+      properties:
+        datasource_request_id:
+          description: Identifier for the datasource request (e.g., <code>1578b29999fc8f5cb0008df53679b10ea0856e16</code>).
+            After executing the requested flight searches, use this ID as the key in your datasource_responses
+            object, with your formatted search results as the value, then submit to the generate-solutions
+            endpoint.
+          type: string
+          example: 4f499298b303c55a1ee522118afce28abe2f68e4
+        datasource_segments:
+          description: List of segments containing flight details to search for with your datasources.
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasourceSegments'
+    DatasourceSegments:
+      type: object
+      properties:
+        departure_date:
+          description: Segment departure date in <code>"YYYY-MM-DD"</code> format.
+          type: string
+          example: '2023-06-30'
+        from_iata:
+          description: Three-letter IATA code representing the departure city / airport of the leg.
+          type: string
+          example: YHZ
+        from_type:
+          description: Specifies the search by city <code>C</code> or airport <code>A</code>. City searches
+            include nearby airports.
+          type: string
+          example: C
+        to_iata:
+          description: Three-letter IATA code representing the arrival city / airport of the leg.
+          type: string
+          example: YVR
+        to_type:
+          description: Specifies the search by city <code>C</code> or airport <code>A</code>. City searches
+            include nearby airports.
+          type: string
+          example: C
+        is_international:
+          description: Indicates whether the segment crosses international borders. May be <code>null</code>
+            if parsing fails.
+          type: boolean
+          example: false
+        content_source:
+          description: Recommended content sources to query. For VI searches, specifies the source used
+            to find VI options. For FareStructure, includes all enabled sources for your account.
+          type: array
+          items:
+            type: string
+          example:
+          - atlas
+          - travelport
+  examples:
+    OneWayRequest:
+      summary: One Way Request
+      value:
+        segments:
+        - id: 1
+          from_iata: LHR
+          from_type: C
+          to_iata: CDG
+          to_type: C
+          departure_date: '2026-07-15'
+          cabin_class: BC
+        num_results: 50
+        markup_source: onsite
+        travellers:
+        - ADT
+        - ADT
+        - CHD
+        currency: USD
+        country_code: CA
+        cabin_class: BC
+        time_value: 0
+        return_single_pnr_itineraries: true
+    TwoWayRequest:
+      summary: Two Way Request
+      value:
+        segments:
+        - id: 1
+          from_iata: LHR
+          to_iata: CDG
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-15'
+          cabin_class: E
+        - id: 2
+          from_iata: CDG
+          to_iata: LHR
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-20'
+          cabin_class: E
+        travellers:
+        - ADT
+        num_results: 50
+        markup_source: markup_test
+        content_source:
+        - atlas
+        - travelport
+        currency: CAD
+        country_code: CA
+        cabin_class: E
+        time_value: 0
+        return_single_pnr_itineraries: true
+    ThreeWayRequest:
+      summary: Three Way Request
+      value:
+        segments:
+        - id: 1
+          from_iata: PHX
+          to_iata: MNL
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-15'
+          cabin_class: E
+        - id: 2
+          from_iata: MNL
+          to_iata: PHX
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-20'
+          cabin_class: E
+        - id: 3
+          from_iata: PHX
+          to_iata: LAX
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-22'
+          cabin_class: E
+        travellers:
+        - ADT
+        num_results: 50
+        markup_source: markup_test
+        content_source:
+        - atlas
+        - travelport
+        currency: CAD
+        country_code: CA
+        cabin_class: E
+        time_value: 0
+        return_single_pnr_itineraries: true
+    FourWayRequest:
+      summary: Four Way Request
+      value:
+        segments:
+        - id: 1
+          from_iata: LHR
+          to_iata: CDG
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-15'
+          cabin_class: E
+        - id: 2
+          from_iata: CDG
+          to_iata: LHR
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-20'
+          cabin_class: E
+        - id: 3
+          from_iata: LHR
+          to_iata: JFK
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-22'
+          cabin_class: E
+        - id: 4
+          from_iata: JFK
+          to_iata: LAX
+          to_type: A
+          from_type: A
+          departure_date: '2026-07-25'
+          cabin_class: E
+        travellers:
+        - ADT
+        num_results: 50
+        markup_source: markup_test
+        content_source:
+        - atlas
+        - travelport
+        currency: CAD
+        country_code: CA
+        cabin_class: E
+        time_value: 0
+        return_single_pnr_itineraries: true
+    MinimalRequest:
+      summary: Minimal Request
+      value:
+        segments:
+        - id: 1
+          from_iata: LHR
+          to_iata: CDG
+          departure_date: '2026-05-15'
+    OneWayResponse:
+      summary: One Way Response
+      value:
+        trip_id: gAAAAABoPaUGNlknuEEJZ0K3dfY5aKMqzVh6IXF3KKGF5Acky_ShkKUl1lH0Or5pyoa_rpJ8vquFo59-4RsNX9F-Hez0glRSANpGUz_1CTrIsX1WvueV8tRrj9nstrxcvgDBp9CMRIpXIB5gUdmF047z57_t3gpJcvRyIHiV_28Fi_UcWyRlp4wTDgL6H-89XmGO--r6PvBe_P_Gon2EJ9O9u1UI6FFsh29FFp3CqZ7q94QoB1Mr-MbXXvj1nkOYe-xL58lyV4gGHOYQ99AcDTQ11xs3R5hyCGyUKmwY6fNFydVV6ynax2yS0Yp6Qi0nT6zu_T-iY6iCTK30mkHsLSASjVUEZXnfEhlbdvVvXUyd3NSefl7ilyWClhMBJXn3zu46b_gLZkobD9-oxytXmo-NRtnBGLa881rU0lQwxYnz4jKqWGrD7Uyu7hdes4G0mR9kW1Rq9Jgxj2__8DRp-RqzzkBEe4YQMNN4zdHRpXpAiHX8qZB_FW2ar4jz_sH1Fgoa4AI7J1ZTuw6CeivBYy3nxeDb959MfXvjUei4PmxdgQIlq2o6tXty1Pn7oXFvL69MpnbNhCfjYkfOqPa1xKhm8SWNUX83JzNw3CPGr-ONfbVFQRUJ0ALFQ9eteqcz-OVDiehtV4CTAAmzdQDmSvjYYdYrgA88LWenxBpS3uAGbG03FDibLTXLsSSXN_znxqbX3Cri8B_6X9IX-qYafkfflf2wVn-nJ4EjaBYOwjsaZEgSgOMaHa1NDQeaGuSqaCaoKDA6sLBojb1ax6mQFGyUp33eCE1xg5QznorbOW3AG7S_KhLManFE0qZNpXLgMSYRulC-Z0gngC3CPdxWY6Zgji6olqLZXFqx9VsIrrfAkAxJumfsMXEjkt2D1X6lH1SYfILI-94OfhZ1H8O1TzvPmzH9ayoaYW9OojOjssnVZTfyxaLYj2ukG-WQYzXZuzbTSCIHQgBhWL1Z2A1oINDOu_VZywmjQxCcqPR1pJQIrYbTNZ303MMESaQWlh5xUHD_gDLrgC_eG93daNKfOwKeG9RduzvFIlHQXGUPA-WPI_z9W8MkomfMSqJtTPMJOiEPf35zCJAGEY1DwQmWzQRgp1W8KcapkKuh-SRtpQ1E_lJiwFigsKX-P_5gNKT8T8R7YrlF_lj3zn74CaijHNlrFc_sr1zKkIbjfLJSNn4513C1aXK7qo_5aVgxnQChRty4nkMUtdwvFczmAmfkaoPRltdEIZB97X7jBzn81aSgr76s_MDvSvM55M4x60PwET1r2zI-5MfKzdvCUnj0B5DnkaEqxTQYZsqQIVIE32sSg1Hs8ac4y8BfTzb8Skn5zRU6aFHLqOHB_WNmtUOt_cCYCZdfgcZzlMGQBayvYCAbiPaTf1-cz_eREhsotXuMnpnduuvv8zIkCacPj16hTFUEpRBr7PiEeI2cMZb8vKAoaYu2efTw4gcNQWnmihVc7_XgVvXVKQfMQACOvpLzMK9qI9Pu847Rw0ohbMUtvpN1pFk0-rBgAF5lDuhV8pMlG7kRUX2_RsaX4W6jCSHR_-fJJnCMHxs_PS2lOn8pRNy4g_1YP1IjsB4HTqfuBQtWvPfRMgqgdGwxMJBXRRxbmCWGIdQa7Cj-SM4iKt1u0lnS0M60wrvphFnm0Uq7Cjt1pTMv0kku9cEvkoRGhKFPfxsKW0V1gPf0QA==
+        datasource_requests:
+        - datasource_request_id: 1578b29999fc8f5cb0008df53679b10ea0856e16
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+    TwoWayResponse:
+      summary: Two Way Response
+      value:
+        trip_id: gAAAAABoPaa7MBa_dcG_R0E48UY6YzNj5lvuMRHUPYGF-Xv8cBe35heoVoIGbhumpNWRW7zSzarl6qfMh6wBjSE3EEZ7ASrdqeBtPf-Qtj-WBZnKkCjLti884ThkZNFP6lBTC8nunanNxYuivTtIdWXd0bFA801gW46yH4a7jVFT9bJTj3yCdGK7k-Gc_Yh5yiFSP5Ix90v71BOejD4zz9P87OIgavEb8kVdrcKceANjSl4Lm7fTxAgPejWWYA_6uqr4EjxMcD0c0NrQ5rk-ykAlOv3reAQiUBEGq29G0FszdLfXNqd6DUcyHX9gNtHyTC9DNOP5ENXFpG5aa3qbyFKywwhfofI1L0mOSwcKq_10thuXZed6qv8-Cn2CmMbDzZ-2tRVCN0r-vcbEhDoR4oXURheEx9e-umwuHwnQmnQ0e_3FDFrnKbek08QFtnQwITmcN4EoJNdO0Y-mjKEY8txmwa1IscdKwd8MYnfsKZE5msz27nuD2tWdki2ODBu43ocjuZ10pSHn8DspnED0xzRn-1lpaXdYF6Pd8mN_QEWatA9ND3geaGJKAjU5c7U3u_Q9iA2s7AxcFtSj50epubcNtKJgLBlbUK0hfg34cve2bEsPZ-n0JVme1_dSjduMUNAxKQvMJ6qgCvJ33LeRWdf7pU9pRyruU8CTWcZnjmYe4AFpU9QWl9BRC7uanawEB7MJInmo75L0_D0uSVyWPbiu8Pu9e3RJVtdeOgADAy2tI5GxC-HqupjH45DjBcUOhMYbO-viF1vFXKFAP_WDfWMC7ifCiiXVLDZpLAu-SS9MXUToVXmk86hv5jBRgN8azX2ZjY4c1ODPOq2STWs-51TAxexZq-5si0wLCVpai0Y4a97-SU9wVJ_VGvz1KvyYMtnwnqJxjBh0iHBC-xgXbPS1Ea6HbrcphmHhMXBVQo7bHyoo9x0i774dA5cTX_l03L2wTpMLiVuLPSgDVDnvKsivvWE_AfdI6wq7wI_vsJzHX-Mj1uIVap5w0kXQMa64y16KWJejNoqX8Sgeeey44TsSOrq0ZH2LKcbuGGybJGK9cvxN8cOGpTU1_MTB7RuCuUTymJjntC4z54rGDSBu7u7Z4V1j9nKMGnuJY8RQEwcNg26OC_odNaZyZwt7sIBWKAckjmoub_2HN58KtylXQWZD3ov91RdQkYqGxdRdolmcIrwvxP4Gu5MISah1voqEGmD6kVCqVeQpOa7VB_2ejxLXLq9mIutLkU3-b9Z3vK18hreW_391J6aSZ_WOrFPA9JkVfNn_mE1-n-wKDOHBvDF7C1KLcuz0rjJ_GVF_xHgb9Y5UY29lgonJvsOjEzRyzbErj_gseqo_stZWssCQKb70hJOuxl2UGgOtrsQNKAthv1sibjvHg5SlA1kFtcd8NFO0mhQ9EGvNtbUhLHFSIJX-j7tpk7TCK_pIqeLCaOuRMgOz_NG5wxmgU770kSAUf1V40dIYxeDvej9C0LrxMCTDT_Lqp_MNyUmb0Z4Gff1PpU2s7BcfR9SV_hicEKfsp750yui38KjAZHRqm8V66SeqVQoIuGCwcychCM4MHj121Q3ahzfLVa9JM2OlMANy1NwbBNuG-e3TLNVhp4XWoYBoRljVx3YW3C7wKLxFjqhcKl_NMgG6fkoDJ_5o4DDdK4wYocEL-YEakgzTSGDFivQ-yqsnyAVwmrf9OGT6-jGnbAFf9LdYBJmX-e7ejgQic2YmtW9pF7jdIsc2zrAiib6EiVXfKvHus7YhohL8Z8hhEM4TPiagQQS3tQictFNeGo2lUIX5yzQltGCpuvGYOxO_Xz7Td0XfL0lqd-sOoq-dQWaxFcwLs1HQCY2VV9oTeYRapTveOpGIZWRq-4rytNXXqsyrgu9zZKIV5lm--PrrClNqXRZC_N_60Bj1MUZc4zoQZc-UAO8Y80Z-a-_shVnZkkiXFEqEzrVanb4Bpm1lxVj0Q_4ywunHz07S9y7gpzfQ5R2pcjPoaxFTZVK-gXdLH1TjHpwx0-AtDpsvfYoMo_XUtq9vFfQ=
+        datasource_requests:
+        - datasource_request_id: 76a6c524a9f3d36a4d4a9b88c6da2758174c79ad
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 40145ee4d83f94c69ae6f99380d4bbf2c11818a5
+          datasource_segments:
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: ec270ece973d5ede998f6bb39bdfded3b3ae51cc
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+    ThreeWayResponse:
+      summary: Three Way Response
+      value:
+        trip_id: gAAAAABoPadpLFPVvHDHwyFtxlYyws50zX2dtOWVW8oY8A2-xjIYm-Ql-syXDldrJ1-H8_Khu-IwRC393smbhJ8i8WnM6zEwQJwY_x7SP9eC6BWWkRW9KC2QuA_-8fv8HCVhYw-r2tehuDkZwQjyVBk7-bOtQ1pmpT7LZepvEwhIZLpoB_5UYZD5tpSP8F1qlZiLQOHiCDmskP9nxVUh7if1t_JqXqSQVNN-Y-deRRdvAyhpoaTO3_gv_l9Bx1L29BiimM1oZyu_w8azlZjm2ggHy5O6TP-JwXmTUpK40ZDECQMweIg3GGuPJleoka57OQcMmVfLtqM3IuFFrmzXsvDL71-rN3Ct7OvhGCyh9j3o5bNvDl4npoPZM9QBPh2qeG3Ve163wsf7cAcsp7ql2k0r2FjDyuMfAYqahy5stwO4vPFMWVU5JePoQ924YusySF2H6GchO9hTqQ4oJcagENBTUmnpBawXQ287JxfhPlJjxv7uq0ag3I0oM5Nc00YAo80lmh5ScDCrS92-JboG9fXR0gqBsbsbC_f6jcEM1PFPItMawO1oOaRzHdkqhayQgGW4jG53UN_8VXbD2ZDAY43H_L4e5VvuzB7U8oykdJ22RKH1ehJ4G0mHGJIDJClTveabPKI--ySKZrOfz0WGBKVa1cumONd80kOAFm4L_JzV3WJhoJMWkhJV72GFqOLbmTuyRZ9Z2f1rpdwrEs3zQumhq4_GCSAKZdSXIW0UJc6hb9pmpJqjYiuWmK4jAnJb_U1nTtxMYFjXADGS6bvlhqJRCatruCgsg0GsoEuxy4gpco_DMs4kMpubdmJZUUR9yqWUP9uh3EujTNrDt3ojqrKPNBvuLbIjbZx7NxaU87w7YQU5sqaQh01vGtCEIJzq4p9FAe4uOlg61wo4JW5HhNe9VunruxluM9XwpP5c0PIWfMGPz_yIbCoUD_aw2cakZWBbtSGHgbvzKicoBDsk4C2e5US5ynEpr6cP4iNhY57nifi3FS1IykB8jztb3LIntJx25Ta_OT1HkWegCBvyGvPZFX6iUIhn1WR7-8wk6GeIaMsQ34GQnrGJowsHs1oFyjSvqBE5rdo3QE7bQ8Ka1tAoY_8okHeoY01iG5B5RmuhYJS36tKLFXVN6D49ZEKaNBQsYCONjLQ1jdDTQgugEDEJdnLH_TtANmlX7PcDTyZKXnLtE-C8BK6GZ0-MMk9JEbegq7BMvl1yWtRtsHgU_rNM0JzjeAebFqgbTZV-KqARJTD8Ttrzzne4Q0hEzCPIMNt4322cVEVR80mq__NScbVnr-BMULRK0X0AB61CrTT_EW2QZFt17N9G6DZjd8EphoA65rn_sqaSAmnIHVc26fIWJj3OhZ0MHvczVe4BBwdOPtWWE05bmBiPCrf3P-chD6S5Y5Zpb-KFEYqQAwFVw3lHWTMkaApnjcUQTbO95zMtaQ6dkUvRbrUbUeLK-mArCPntr5jnQg-0xZK0atILgq2kG4jO9SdWzPR1G6UQL_vbIHSb7AUz3xaL_KcVtwUhGYoSG2iJeE9p_gbUUFWD6tT2XAmb9IpeDayXfv7FOtAOCYSG57QnBCgiGOI5gEVM8rXe7Oa5NtASafT2a2ZLyAzL3Tvug6GBaOiTf_tka4v0Rq3qCWp_CL6wLBbo-c06FarOJ91nOasYpTt16iplIoLgSMFtKBu9Cvzme2hU5AhkbcDwoF8ZB3URzeGsjkonA0zqBVL53MHoQsOzJl8e8GKmQga7NfKFV4VFj6EFhYnmDPWveHuzKRhWXFF92zdo76Hw65ENYMKdXZS2ZjTSNMtKUxwHsxaZlQePc7YpDZMPYREsXGq78yu58rv5VPXIPOGFBXZ3kgY3dareGqWH8pQ6uITYDQZG7AHjC6qGb-PUvlWbIp3QdEGB4N4AQlGEwvPEepNlhuU5X77PZ3I8IlqSXAYvmwzgFRBwXnl8BmnK0JvjCASnWO7xYVeUCp4ZUzT2ssj-Yxar6OexUcQH4gFiQ-90q08vE4G5_r54_mTwN0Yul8lRh_DgIBO99-UVpxDM9O8V73TQEkISorpJqc9_kjm6Jq-KiJxwEJ2cWrcJl_0z4kReGItzQU8rQr_u68vtdDd12DDp0vSaOCkf8Vx-XtYPM9beEkYmxsaRa_LCBnW6DBgoI73pNMSU-sTySS5h_qcy6swc21vKgXSLgKgtBvzXnCJDe86yKLMdXKKp1_QnasStgjj7iGPbKgHgjTUw-yepTXKaEofxp35pKC2vGV44mPaIC9MW67xc5COV-j31xPry4n3P_U08dc-n1X1sGxm8m23XZvaqqTQErmZBxdyR96azsIL7jSQyZDRP2BUbDly3mzt_5eS2s0Zf688SEcuiVpLFcN0feGYDXDKXg5ChY5y24Ksg2WTjSmfvT6xhrrf1Y6FTF08GkrghDrfIM_QeH_T-bU1WhsBgrpsNb0VuurmqLvOhzKbl1SuB-PU2aoN9CiQUMnBhpbTywq4WSuoaD321DKzTIl8wW5ULYIrAQVKLttVysu9utG67xFm51IImL9eoNpmwrzDL-JGsrq062Qziz3Yyuokll6mHTOEn5YeYBTrT86CX4wwgTmDrSbhQIfI=
+        datasource_requests:
+        - datasource_request_id: 8990b0614d788057afefc7492399c368f8f1b0a2
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: PHX
+            from_type: C
+            to_iata: MNL
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-20'
+            from_iata: MNL
+            from_type: A
+            to_iata: PHX
+            to_type: C
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-22'
+            from_iata: PHX
+            from_type: C
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 7564c7baa60ae82b701972a2727f871dbb04729d
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: PHX
+            from_type: C
+            to_iata: MNL
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 4c7f40287238a499f244d736eec7400e810e9995
+          datasource_segments:
+          - departure_date: '2026-07-20'
+            from_iata: MNL
+            from_type: A
+            to_iata: PHX
+            to_type: C
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 8dec2daa292205afd451ff64acbe9ff1b825e03f
+          datasource_segments:
+          - departure_date: '2026-07-22'
+            from_iata: PHX
+            from_type: C
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 42ae9acc32eafa3c04cd8ca3200cecce66766ab8
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: PHX
+            from_type: C
+            to_iata: MNL
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-22'
+            from_iata: PHX
+            from_type: C
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 6471b6c5dab08c9f5080e0db4cf734446d123a85
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: PHX
+            from_type: C
+            to_iata: MNL
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-20'
+            from_iata: MNL
+            from_type: A
+            to_iata: PHX
+            to_type: C
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 9f1ac8a0e146927b0fe024bb77e80394650797a0
+          datasource_segments:
+          - departure_date: '2026-07-20'
+            from_iata: MNL
+            from_type: A
+            to_iata: PHX
+            to_type: C
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-22'
+            from_iata: PHX
+            from_type: C
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+    FourWayResponse:
+      summary: Four Way Response
+      value:
+        trip_id: gAAAAABoPaiK11R3Y7sKORQm-vSVYHWBulS6HsRgqmNmFbfaoBnhzLHohgdBj85GtwdI_jl-EBDFVI5Qv-z6Zvt5VARt-UIrtAwLk8-5j4GzU6-sz9QREI0EY_0WuSW034zI6Djxyh6-siJeswPnXYnmzjuHqZmnQb10n807iOHD-KOUdcyTzprJQS4ZituspJZvAAP3CK1VLhpTi-gotILH3htLZVLoHrYLU38HXgzykCZWAv6kFE_oSTM7RfvL35AW2LTsUGl0FDL37GfEVluIhk8O-wwSEaLqKNWgYb5YGVIb6rk5EhELE3c7dp3J9mqQHU6D4Pd1nBH3qst2xHIbPzNADG36R-RO36QD9Ef1iiSFdPs8sUBLgkOcHaPlkpL33-jOIjWyGOGbfnXKzksBTvJJT5W_rG60ZfqKpFRoOh5R96x46rEkHTkfpsmNGaiQQSsFEaMI0FzbHMHsB1bhQCtfw6WEqEtiFPJqC1P_o05KngVBp1bhB0mTzvDDg3ZeqIjqnm0wcT589xHgvjHGlFgWYFwIOjq_ZtkLEgxJMcPGOQpymSg46q2beLEXWinZjU6EcxtsRQYxegf_BUcR46ZreAca0QMdEa_kK246-a4Ltw3vmBTaUhNxN4BVzNfd7sUjFSJN6OeqKdVkNeNSnwtMJsppackbxXtHvHMyVyiFJihMJOW9lXtwOEsyVSqeupmaP3a43gH1r0jEh7xny-QaFsBxsWb62m9_kGsp_tz0FPD35BK4rkRt3OTQqQ_WSZaW98imjwX9bOgU3VR6yRCFWhjMHtHhvv8yZkzSXRp6AbHpr3NksGIOxDb3rjdKyAD5r3PEtpRclA6GpSBOEbZSTgSHF4bTOYN9vgkVM3tOP2yHj2oBfhz1LDAltemPTkApnXliizdp-76y8kkyMp6YZaYPfiMCEiaCD5dVHD6_Nnn6LDN_61OiJO5zynqlMcsDxY4yFC1BY2YwkO5gRU47CJtkNdOfOqOmK2kCrb7mqGWqmVcuKRUY5VnCTmOM7zwALODj1-uXPUwIBkvPiEDbr_szxZ0fRwC0sTscFFwkNNtC4HBypw1lfoZWTaNAVbMdMNVCd2IctOAvomWQ85EJ7TwGqd9jSfHqON9pgKWHdJVdcHVoKIuwhYYRCOdU9nfaI5ne0Pyz9rXJLehNPVTN8KlJCvQcgwMMuI6enzQAY1Vq4CzAVSfZvhmrjvwI7egR-uA3JRw4FKGCMWwixSGH0CIJXZp9FjV7KnKrjJcuRc79VtoqpT0YzFkLENH37FZmDaWcgYXRa4SwUEYwVykDfuOl9ggW9RhouXEyYhVhwvJs0IumSRi6q74-Ivr97e55vJQBuPIHDASdauXXaXIS87TrxCb1bpMgV0fsJ2N_EMd43mGsDtO_mnFkTI5LHhSpVRGY2sqoZBeoXw3p3XkAYaBdL8RhSVsq1KzCMNyW01es0UCZiPNdmYuRyHLRHoPCZJiPxGWXbaGEVguJE80dC_lHFcM_oOHE9_q2iLdOevXBLysU_tpgFJbZB21BaTE-c6GBJ85SsjZW1jVcIYwZooclzui7whOooK7Rp6mhquAS-GOb8hCjRdBkixgAHqU-ErM43tFePEt-PlKU4lXIyL7JxGuwYFZFXtxLRTdPhAq87E3HM2X5GPGNCGm6QO9PwdMdbPWML-5NYBmARQzjLPMaTl1KFsdOPOeYPT5u3nIFBac1oGzsYqhDROuRPMUY-VT1iK2sjlLqEZSnyEKqBEVETQPjB99dGJTjg4bzCw2lK82Veb8ScXFsx9bdyK6LhqPp5ljg8X_2OppQX64o3RYyID3E7QKz8z4zTWmc6jkPzt_aiYH6ODIhvlL7K9GnIOzNnSr5QWiAgPayPKx9GeBNuEzcEHSUnQO5-dqNFVk5B5B5bZUuAU1TX7UijFybcoB8hqUK-uMCJdag8Joi5I2Bas5e2vVDmrTec4jR4SktZrZg8DlOnw9RWvNluSeX1PLVaVHbseVn2msZg2RqkKCN368qFPxDQOtUtiPqDqGZ-N3iWyyPGdaUopRg9GBacz31rx3n5EfkDd1JUF5EG7aKQ5YAqrR0tNuHCyLf_M_nr6yDQ1JReYOAdcE_yCNliWzX7DgE-N5aNlPtveoPcFMlSTES4KzZyfgAaEj0K2yQc-L67RSOxbYEVQLuPOjjcSSYMhzkOP6AKN9m5QmGss6UvxSw1yI1QoWtArqpbt3OPTWCN10UNeUJgiYoakPZV8H-u3g9fmozQhkvcukYmPFE-SPYkKQgyT-FioprCrq9TUPOjsUymWsLSa_uowAYwOjhKOZVoOzYa31dVU4IBCKCcGpKCpNCajzrp9gFFK0-DwrFgOdRNOGKKS7qfI1oum7q1gvyaS97d_1lFAp72kkQPjupQ2sAhfMAWzPg12N8AhiESLqaGCwJIXcZ8_Z8lWmo8RUneDiZXZYb_oLMOvSkz-AHjOHmPKl6wehhpt5cxIpIv7D0pniLuWRijNMhwzv7Oq3D_sZVOseTckunn25y3GyMmHWNxarfOLvy-xBthr774f_zJjWUPa0efT3jHj-9kJ8DaXJwy4i3AfMhYrWytW-sLu1fPhfalXXovHE4WGaY8bHL9Ci-h3B7gJfB0cm5cDY9BAVRRblR-efKY1y2-SURK4xtxZgw1fxwml1b2J6DuzTUf5VCTAVYRgwh6JAOLzu3Dg7FO5AjlTf9aRvsTuGfTueH6CIVFrwo-lfjc5tXOgitOM_fwt3LB3XD20bSpiRs3UKCxnIlW3kKEU2tICIYgCmOiNRBpnz1ajK9xWGzk0a9RtWKMnydJv7eyttHuv0SY_2CwMk4guIik2MAj5wZ3XdU3QLq9098UUnLxKPdaNJ0TVF-hQto-pctkCZdpvF53cxtE2IBmF9aBdiPvu_2zrnkvKDGhFf0L7LR2sBUUUQzfSlr3xbCOoIiUMH0mUwrhdTzJ1N5ITpxfFevZYuFNKI8ZO-ISvdTKjIoxXvArGIjq0YkNQdN18VvL_FDXriafDnKv5K8A276ZqugQvaxCnWk_WARUVyU7mGKWEIBYHts95BCotMM3HQSmdHgrzYrMMJzXfRGWLPeIS6C4REYhy6UDabuK7rhS0uR6y4=
+        datasource_requests:
+        - datasource_request_id: cb8eb6f885733f350d60b9e05edcfe518e9364fb
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-22'
+            from_iata: LHR
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-25'
+            from_iata: JFK
+            from_type: A
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 60ad92fa71302564715796073c1326213fe45cb0
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: b469c5eba775b852619e9957f8f50183d00c3dbb
+          datasource_segments:
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: efeac41e94d542de77ca9d6b4370f7a86352c83d
+          datasource_segments:
+          - departure_date: '2026-07-22'
+            from_iata: LHR
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: c8473eea31c44a9e471f7e9be56a4e2f5d5b787c
+          datasource_segments:
+          - departure_date: '2026-07-25'
+            from_iata: JFK
+            from_type: A
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 86865427526983b9c5d47063585f0ff99e6eb3ca
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-25'
+            from_iata: JFK
+            from_type: A
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 6ba99fc7d81636c9f641a2314336fb2118492427
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 7994ff842e4614304fb81509e8ca966ce88a2ba7
+          datasource_segments:
+          - departure_date: '2026-07-22'
+            from_iata: LHR
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-25'
+            from_iata: JFK
+            from_type: A
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: aa596b1292a7fbeaa658c2d96fccb72d25318f93
+          datasource_segments:
+          - departure_date: '2026-07-15'
+            from_iata: LHR
+            from_type: A
+            to_iata: CDG
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-22'
+            from_iata: LHR
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: b5479a0c3ec020fec3e22075b8386f5406bf12e0
+          datasource_segments:
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-22'
+            from_iata: LHR
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+        - datasource_request_id: 3db286f971743c4a1361c96e8f141c3935b372c8
+          datasource_segments:
+          - departure_date: '2026-07-20'
+            from_iata: CDG
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - atlas
+          - departure_date: '2026-07-25'
+            from_iata: JFK
+            from_type: A
+            to_iata: LAX
+            to_type: A
+            is_international: false
+            content_source:
+            - travelport
+            - atlas
+    VirtualInterliningResponse:
+      summary: One Way Virtual Interlining Response
+      value:
+        trip_id: gAAAAABoPauerWAqkSlzOTDj-jxghwo2S7fENIWT94kLuqXinM0iOsGgCAZ_VqqzlNZMiKW9FYrpi4o8LBQcJun0NktE2iUw3GV_XeIIGJ69yDCDSuR1Qd7wwqGE53xlVeX6BYACf8LSBlsXvTOJqG-3r8LBmaaiN_sZUNo2wQYW8qbCo-7EUJfprtCtQSwz_xSYRTGZiCqAhPe1I95M3P1MfThFWr9aG3NfMgM0Rxo1CsM1KHfgb4z8Jp5Vox9UT4Er27xZxsXcgYRt4NfS-3pRwgxq5x-TtVkFy5CZmQ9wdCSc-IM4R8K2UbTj0rOCnpUQyAbDFheLdQp8oaC3YaRY2HO3zYF2Ax__d4U1zz4d0Oe28ZsLZpnlF_M73lup4PMDS9BsYH4xjSun5_R2o5mg397t9gQmje4kVLdDBmSyrKkwcirMGwEtABXLG_BdDPDjpOq1Lvc1-1EODvCffMA3dH5LkRs1AAJuguMM9l7M5jAEpYnXgN9BL8lHKOna1YjTReqwRRtg5nf2x4Au3gAO4xIe51LANDulvhjxqB_y_8utgj0FFVoSl8Jpghxpl6pavmWJcL5jXQXsPA8axaD4ZXIkh3MM_r19E4IJZifGr_m1sW0JpmUfCqUIUgTeGlGKe_a_4u1b30KTRDPmFHccBMyCySioxFPL6U-zBjl5EJUozc1Stfp6YLf5ffB8Me_qPIrZYverJCUUjslYDwvoRk6iQESrYlO9Kiw0PMaiLz_-EtMcTk6KzkikCiyks_h9eNNo6y4AvbP4TDAxqfTEi06bP7CjxPX7hMLkiJkHAYEkJ-Na7phyzzDJm0N-YHf5iAQFa1OP8tfRdX58quabhrJGFRAVfScHHCZSCNdTp1uoO1FbSfBy0TJCzCqH2-1RzqHjcOVc6dSY7CJc1h5DNO4rqHAMjIrFeW7JzDLAa3gNr0LPbdfPrlVth7JMbkqi-Kh8zsvm1iWFvVN4j_CEhkRUHYPkiu4nqTn97qIlIjb7lULwbHG8wY8qLGqx3LnAo4RDvgcw_4LiEo2nE3-l06TQ44gT_9E_9x9uF-Lha03Wy1k6VzGcFpcWrIb_3suHvXuJiZFdk76RiFsoW6NQtdhVYuFB4ETxWFfklXzep4MRVzxE6_Whm-KdLW0frMebOoC-0R-04rQG98Ie61xlsTM6z9NskUkx8prQSNFTSho8EMqoQSNx9qOSo11-byi8etmzoKVeoAnsMmljFmfpbLm959c4CC4VPxN1eX7GioQf7tjWJyQU-JRAhL2sQETdOodA5UNTNDr4v2ONclWPLHjFe8RLld753iGiCBeOWzz7gTuPgC0aFdcZ2p2ypH6k7FyqHoV7h1AVDwqm2HsH2zRshA2Skt6sEizHim1fg6Ll7C3f-woipXeTpG-WWB2k9l_sFJBUBGkiWn49tRk-ravk__m01QFkjY1B5XIwh34_NesRNT83KdAcX8dh0Af3ip3esYSIq9znoXPlESxS3HI1USwBaQkS33vtqpgtypS7jM8xcGM-12sXr1fuZteGtvQTEuTb01lVFu7fPCB_M-pnmUwhrAJTdhvjRF1rpu2O9Tk9QyCNhNHa7G2XmfyKEsJJ6gMA9-fJvePdnu46euZubQJJWwpXCGzht95JciMRMB4Jk-yGE5tIZ88rtYgU0L6SeEHhicEIlXX0TE4E5TgQV9OB7Rose9LX0HFd1j3xtd7u1lx6GqvAPsH2Sfm5Di8-N9WCs1QeKyeHKeWGpl0_H2pGz1Lxv-13XxKtIurgezfvioRTxuB3JfNBjtWH8eiPVatgvZ_hH8ojEjkMndPwHEZDj1ks-CqDk1Ov5IKqooXA8jCgAj2A8XNy_5v1Yxf558MN1GeM8fXAG2bpzT2k4YsEUYCF1WFF2MjgB-P-pnJbNuegOUpoR8K1G3EvHgifD7AbcM2df29F7HO_-oo6Fbgi9iIbbFdxMBlTO9pHGl5AFQzLmuR9sNnqZWqI9hAY-D3ZX3XOe04j6SM9cKRQsrliEZchx1C1R6lqK7OYTzt3RX4na_qBgQQfDAWNxjhe0yR4ENbOp5Ili-dEX9vOqd7bzTJlAoz03FHCoL6SbYVcUK1Yw9rkLTZaXkKtw_zu21NP6cCvBaqRPREWvK-gClZxG3iOfO4_EjO07UNUmSTU6OHe6EfBXfx6T6qTFwKksshlke_OJjI-17NSz_QbyPeeIzqMxG_hgDDK31dbOI9iS4GM3t-gOhSpADnmnTDVV3rncwb80JQEOOI2o1nlN1tUQzH1wOqV844H-3Perjp0R64rto6sxjMCfZSaQH72y24PKD16jcD3LX25KIXAvnF-9ENDo6fsy6wzBADBcNsM-Q2eHsDhNDdF2VKBbtH8NNYHm41x05jSdU5DWS5RWrOmcASearCHw9uGV5oui-V7H2o=
+        datasource_requests:
+        - datasource_request_id: d9748b8d86c42654f4aa3c7fc48f315cc2f7e233
+          search_type: FS
+          datasource_segments:
+          - departure_date: '2026-09-20'
+            from_iata: SIN
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - amadeus
+            - sabre
+            - atlas
+            - travelfusion
+        - datasource_request_id: f4773db7f3dbd92fa9c01d29621a0a5f600c6b56
+          search_type: VI_OW
+          datasource_segments:
+          - departure_date: '2026-09-20'
+            from_iata: SIN
+            from_type: A
+            to_iata: HKT
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+        - datasource_request_id: 2a8d4d2796ff54e74c609d20a09d35dfba3f0d51
+          search_type: VI_OW
+          datasource_segments:
+          - departure_date: '2026-09-20'
+            from_iata: HKT
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+        - datasource_request_id: 63f986efd992e34ad48e1ad07a5626c607c9dab3
+          search_type: VI_OW
+          datasource_segments:
+          - departure_date: '2026-09-20'
+            from_iata: SIN
+            from_type: A
+            to_iata: CGK
+            to_type: A
+            is_international: true
+            content_source:
+            - atlas
+        - datasource_request_id: 7ff27237f0ebbfdcb141e513faaac37c9903ca9a
+          search_type: VI_OW
+          datasource_segments:
+          - departure_date: '2026-09-20'
+            from_iata: CGK
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+    OpenJawVIResponse:
+      summary: Open Jaw Virtual Interlining Response
+      value:
+        trip_id: gAAAAABpKf-5eeXVYuRDy4VyyfGiXw_6D42g2JosIob6aIB6yZ0igi4n0dYTXXwslTptn_rlc_DwxyvhjNEInbbHBiDasEJt1T7f0z0Cem6cRrECi671eRp5JevTbFropNT1jzLX06bfsnR5kuTqH2Klza2ffmFoVu6Ch_9bjR1ZUF-u02GbxKQ_MO4HKlEUq1gyxTUIyooi9glN1EcT3cAr6fl3fpZVRBHA6NbRdA1yc6Ycyqab8lAYyi6op4jtWU_wxVlFaqMJxRm7IkZ4gk03tUEJIeoqAvKxnkzsFL8ToRzerb2mk7H6-t-OWQSFULjYnEkZ1yHKqSHotlCboYSrOeDIJ7XOz-c4A4EIw8LcpC0OM7IlAJypeg0plH7c0Ysf3u0dGZXlS0xVJ5VCsOBHo0aFWXd42Nig_V5-vMwcBxknBT06115f4FTu45zpuAp_dgWt618p9QRibztXsoytz3l9UNq4C83q-jo98nb0hKITZx7CU0NxksCBaec8TpsPtXYsEn9RY9GkNpGqFbwcgpvaM348AtwkRpzi3xuMIoFvu2hlOjLtSEtgBnOn-iDQWsv4QhqcVberadKkOLabZPZiQefMaqgK3gA3An7oKYes_8IWTQwsqGm4iAo9yVoCOoD0Ge-EXDJR222XsvHe_vm4S3sh5NjdB5YIPXE-Y7yB58l-ytlsAOjEnrxUxZNKYglF4yQ8ryGiLmr6XFA6ZzAiCRp6RID-sOaR9VSHxK6E6hFv199kXU43DUSSSm5TO3YzBdMt1wBaCP89PZK_CJmi1NYbByqFf7R264K9a-7jGZmecynfWU5tSbwIDmm5S-N25Sy6zn3s-eIiWFYJBLMymq4asCa4Qxr3dnPYZ54T-aKuPWBpS7F99Js678PtvHPkqpSSLbHlfjXJlIVaUAzrDP2USrqzexbXXwyejTBOdfMjU8tuIplAb9J8dxUVLSpqEwuGPgCaKewQhHd5QLa_0SxoF3jvdETnVqmdXzCG4z53GlQC4SQvvGw8gjiXcS2uDFCgPNPc5xWQptE8V3T3swJMjjKgOmnlK5dt8_n_E8hwG1ZUYaE2aSvEkcmzvuuiLsCK5igIE30owIVKQEP0jCuBe03NkD7-XwLmoswakKABAJ1_VLEZBFGoVo403xam4wX1t9yIvt59PiI4hJAJ_PnKfyXzTRZpqbBIdjriJFEfxJB7Tp3GS7XaKdqzi0wyYCDbyQWD2Nrn0_GHIT36X_7WqMP50PiL0fxw_canimemD7HN5sDsxqhg59wX2FvTPIyJcbs8jizuiJ1BSRjqcA98k2gq_GGWxRL7go6V2stWkXUFDs7nu-gaVzFivL49ii8mwxAEU7hLpZg2-E1Pbr3_Co1f9tmesXQTIDOfm2NyRAiUX_wJvlemGR9OeNsoaCR8TpfMryTUMfco4e5-6t5GJ9TqGrGV0EgpqG5s4uoYbh1x9_5stMZ58GvJ9GsWbjWXVroedPtdAoVp6CG7fBuQl9s0hfAS95jquNtRK6LwtjlVxwDDW33r6_28HLtJyl5pZ8sDGJu7ZAaAZA-5uKLhDHUvebbPO6sRBsJ1sUp6ccoYWgZrGeKH6YRF-jubdI3OVWLObMq-TDM4-SurRNiFYD5x09OAQTX-0tRwUCWstfkVt6vRZuo1TBWuKzs3kK1lgN5Bqm73le2wG0gkCICVf5G75Pw5o2MmZC4AjzPjru2o0n5JG9z2wG2lUU3oVjFkRqeaWzT0d7XLBt63u8oG89Vtj6M02lrFMxrq6bK91aoWSryVGeM9HjndL9zv0M374x-Oov5gj8VEvuPWicn8Ol6-6iC9UWK6mXSSUSBM1TuYn2oKV9Ts79p44bm-HiDE_fSaacZPiH5kJAgvh_xkribHNOnu8_stnRIrI5l-RgMRbQ9zjqXIX5UueWk9ahoOO3VBokNHV54Wry5wvY31pUxYZoS3cVYoC3ImGNCKycOi_6iNPeVUxHB0AVG3K0UGBQs-N9OGmk3TS7dcFRWxQQgqkqYWk7tnPNQ83LJZRv-yqqxcN8xpMr26nKWKjlv-LoY7PQBr43rB11brvM-dPpoUfC84gNkoj2vhdIB8t-8IbqdK1OYOCmFo0F-xydcv2PSc52ITh7ctlt728E_Zr38owoQxdlbtNDpElqddHcEmyRllITWFaGXHcjsRGuc3wZ6GjaOAkuvcYMOXZQe1a6mqSGUeAw6t4xLxFul-45sDLwS74iS97wIWNVzqkKncLj1YwOsDPDLiApTFVEuMT3f2d2vc0Cvngv9n07o3jHiqPmQ27T4KDVbALJ5ukPe26lKIxP-F_u5JkvA2O0mXoqpusgnBI0DKHbPwfe5uL7VkgB1wT0cRuioKdZ1gdW2l9Ebd6-vSP6BVcdQx3ztfAiv4WlZLNzfiQ3uaB0bRQxWJpIx5jCGt03uU8f_ZC2ryT14mrakl8cYqlg9qqCfB7a8pT0riuhrXhXqLXGW4vmlEEZh7s07Z89aELBfB34fwVtVvEQRXSCduk2O5b4Iigw1cHpARjVy9YyjbcJ5miFIuyToJRvzTxFYqrPV_cIVYg3n5ukB4L3bWMXnhGnQMC4Voa7e4BIo-21t7iAla6U0=
+        datasource_requests:
+        - datasource_request_id: e0686256316526e4674f59f2e2d8a5fec3c2fa20
+          search_type: FS
+          datasource_segments:
+          - departure_date: '2026-01-15'
+            from_iata: YYZ
+            from_type: A
+            to_iata: DAC
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - coast
+        - datasource_request_id: dc066ac3146222cb3cb8561b35a48e28904b2684
+          search_type: FS
+          datasource_segments:
+          - departure_date: '2026-02-03'
+            from_iata: DAC
+            from_type: A
+            to_iata: YYZ
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - coast
+        - datasource_request_id: 43a200d3e42f15de35219b399222a227723bed6a
+          search_type: FS
+          datasource_segments:
+          - departure_date: '2026-01-15'
+            from_iata: YYZ
+            from_type: A
+            to_iata: DAC
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - coast
+          - departure_date: '2026-02-03'
+            from_iata: DAC
+            from_type: A
+            to_iata: YYZ
+            to_type: A
+            is_international: true
+            content_source:
+            - travelport
+            - coast
+        - datasource_request_id: 7a7827424966d3c51d6bfeba8b970b009d9d3ac7
+          search_type: VI_OJ
+          datasource_segments:
+          - departure_date: '2026-01-15'
+            from_iata: YYZ
+            from_type: A
+            to_iata: LGA
+            to_type: A
+            is_international: true
+            content_source:
+            - coast
+          - departure_date: '2026-02-04'
+            from_iata: JFK
+            from_type: A
+            to_iata: YYZ
+            to_type: A
+            is_international: true
+            content_source:
+            - coast
+        - datasource_request_id: a28f394bbb7916074971412862af5ec6e1bc809b
+          search_type: VI_OJ
+          datasource_segments:
+          - departure_date: '2026-01-15'
+            from_iata: LGA
+            from_type: A
+            to_iata: DAC
+            to_type: A
+            is_international: true
+            content_source:
+            - coast
+        - datasource_request_id: 5bff13eecf7650dd5e55f18d7579f4ce84e87330
+          search_type: VI_OJ
+          datasource_segments:
+          - departure_date: '2026-02-03'
+            from_iata: DAC
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            is_international: true
+            content_source:
+            - coast
+    IE16ErrorCode:
+      summary: Segment Id Validation Error
+      value:
+        status: IE16
+        message: Segment ID is invalid.
+    IE62ErrorCode:
+      summary: Cabin Class Validation Error
+      value:
+        status: IE62
+        message: cabin_class is invalid, it must be one of ["E", "PE", "BC", "FC", "PFC"]
+    IE18ErrorCode:
+      summary: Time Value Validation Error
+      value:
+        status: IE18
+        message: Time Value outside of expected range [$0,$200]/hr
+    IE27ErrorCode:
+      summary: Number Results Validation Error
+      value:
+        status: IE27
+        message: num_results should be an integer between 50 and 5000
+    IE20ErrorCode:
+      summary: Data Source Validation Error
+      value:
+        status: IE20
+        message: Source is invalid.
+    IE21ErrorCode:
+      summary: Invalid IATA Code Validation Error
+      value:
+        status: IE21
+        message: 'Invalid IATA code: ''...'''
+    IE63ErrorCode:
+      summary: Traveller Validation Error
+      value:
+        status: IE63
+        message: travellers' is invalid, it must be one of ["ADT", "MIL", "CHD", "INF"]
+    IE09ErrorCode:
+      summary: Date Validation Error
+      value:
+        status: IE09
+        message: Can't run any queries for flight dates in the past
+    IE10ErrorCode:
+      summary: Departure Date Order Validation Error
+      value:
+        status: IE10
+        message: Departure date must be greater than the previous departure_date
+    IE11ErrorCode:
+      summary: Departure Date Validation Error
+      value:
+        status: IE11
+        message: Departure date format is invalid
+    IE12ErrorCode:
+      summary: Currency Validation Error
+      value:
+        status: IE12
+        message: Currency is invalid.
+    IE13ErrorCode:
+      summary: Currency Missing Validation Error
+      value:
+        status: IE13
+        message: Currency is required.
+    IE58ErrorCode:
+      summary: '`from_iata` Validation Error'
+      value:
+        status: IE58
+        message: '`from_iata` length is invalid, it cannot be > 3 characters.'
+    IE59ErrorCode:
+      summary: '`to_iata` Validation Error'
+      value:
+        status: IE59
+        message: '`to_iata` length is invalid, it cannot be > 3 characters.'
+    IE60ErrorCode:
+      summary: '`from_type` Validation Error'
+      value:
+        status: IE60
+        message: '`from_type` is invalid, it must be one of ["A", "C"]'
+    IE61ErrorCode:
+      summary: '`to_type` Validation Error'
+      value:
+        status: IE61
+        message: '`to_type` is invalid, it must be one of ["A", "C"]'

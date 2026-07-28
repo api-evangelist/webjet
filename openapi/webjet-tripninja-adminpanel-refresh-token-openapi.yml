@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  version: 4.15.0
+  title: Trip Ninja API Documentation
+  description: ''
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server
+paths:
+  /adminpanel/refresh-token/:
+    post:
+      summary: Refresh Token
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Machine-readable error code for auth failures.
+                    example: '401'
+                  message:
+                    type: string
+                    description: A human-readable message providing more details about the error. (e.g.,
+                      <code>"Invalid Token"</code>)
+                    example: Invalid token
+components:
+  schemas:
+    RefreshTokenRequest:
+      title: Request
+      type: object
+      required:
+      - access_token
+      - refresh_token
+      properties:
+        access_token:
+          type: string
+          description: 'Token used to authorize requests to protected API endpoints. (Send as Authorization:
+            Token <code>access_token</code> to protected endpoints). Expires 90 days after <code>created_date</code>.'
+          example: 6774c6717cb93ba8dbfac19c142d043d2ca5a7e7
+        refresh_token:
+          type: string
+          description: Token used to obtain a new <code>access_token</code>. Has indefinite lifespan until
+            regenerated. When used to generate new credentials (e.g., after the 90-day <code>access_token</code>
+            expiration), a new <code>refresh_token</code> is also issued.
+          example: 9aecb3c4aa17cb35758a2446a5c957040c879684
+    RefreshTokenResponse:
+      title: Response
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: 'Token used to authorize requests to protected API endpoints. (Send as Authorization:
+            Token <code>access_token</code> to protected endpoints). Expires 90 days after <code>created_date</code>.'
+          example: a1c1ebeb7460cb88f4dd366a21c790b8ca716889
+        refresh_token:
+          type: string
+          description: Token used to obtain a new <code>access_token</code>. Has indefinite lifespan until
+            regenerated. When used to generate new credentials (e.g., after the 90-day <code>access_token</code>
+            expiration), a new <code>refresh_token</code> is also issued.
+          example: ca46466787677bd50743a016532c6gg778b41532
+        expiry_date:
+          type: string
+          description: 'Timestamp when the new <code>access_token</code> becomes invalid. Format: <code>YYYY-MM-DDThh:mm:ss.SSSSSSZ</code>
+            (UTC).'
+          example: '2023-10-26T18:27:16.657382Z'
+        created_date:
+          type: string
+          description: 'Timestamp when the <code>access_token</code> was issued. Format: <code>YYYY-MM-DDThh:mm:ss.SSSSSSZ</code>
+            (UTC).'
+          example: '2023-09-26T18:27:16.657370Z'
+        is_production_token:
+          type: boolean
+          description: When <code>false</code>, indicates that the generated <code>access_token</code>
+            and <code>refresh_token</code> are intended for sandbox use only.
+          example: false
+        is_datastream_token:
+          type: boolean
+          description: When <code>false</code>, indicates that the generated <code>access_token</code>
+            and <code>refresh_token</code> are intended for SmartFlights only.
+          example: false

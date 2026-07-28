@@ -1,0 +1,3656 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Trip Ninja API Documentation
+  description: "<h2>Generate Solutions/h2>\nAfter your infrastructure has made the queries to your content\
+    \ sources that Trip Ninja defined in /get-searches/, the \ngenerate-solutions/ endpoint will generate\
+    \ a set of optimal itineraries including the ideal markup on those itineraries and then return them\
+    \ to you. You can then present those itineraries on the front end of your platform to your customers.\n\
+    \nThe /generate-solutions/ endpoint contains an optional metadata field that exists on each query\
+    \ that your infrastructure performs. This field contains any metadata that you want to pass in (branded\
+    \ fares, tax info, etc.). \n\n<b>1. Include Metadata Field</b>\nIf you choose to include the metadata\
+    \ field, we will pass you these values in a list inside the corresponding itinerary when we have finished\
+    \ generating the itineraries for the search.\nPros -The benefit of this extra metadata data is that\
+    \ the response from the /generate-solutions/ endpoint will be ready to be displayed on the front end\
+    \ of your platform.\nCons - This will inflate the request/response size considerably which can result\
+    \ in longer loading times.\n\n<b>2. Ignore MetaData Field</b>\nIn approach, your infrastructure will\
+    \ only send the required fields listed in our docs.\nPros - This will result in a much smaller request/response.\n\
+    Cons - It will be up to your infrastructure and platform to process the data and add any additional\
+    \ metadata to the itineraries returned.\n\n!\n"
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server for development and testing
+paths:
+  /v2/generate-solutions/:
+    post:
+      summary: Generate Solutions
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FullGenerateSolutionsRequest'
+            examples:
+              oneWayGenerateSolutionRequest:
+                $ref: '#/components/examples/OneWayGenerateSolutionRequest'
+              twoWayGenerateSolutionRequest:
+                $ref: '#/components/examples/TwoWayGenerateSolutionRequest'
+              threeWayGenerateSolutionRequest:
+                $ref: '#/components/examples/ThreeWayGenerateSolutionRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateSolutionsResponseTwo'
+              examples:
+                oneWayGenerateSolutionResponse:
+                  $ref: '#/components/examples/OneWayGenerateSolutionResponse'
+                twoWayGenerateSolutionResponse:
+                  $ref: '#/components/examples/TwoWayGenerateSolutionResponse'
+                threeWayGenerateSolutionResponse:
+                  $ref: '#/components/examples/ThreeWayGenerateSolutionResponse'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE38
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: Trip ID not found
+              examples:
+                IE52ErrorCode:
+                  $ref: '#/components/examples/IE52ErrorCode'
+                IE08ErrorCode:
+                  $ref: '#/components/examples/IE08ErrorCode'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE44
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: User is not authorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    FullGenerateSolutionsRequest:
+      type: object
+      title: Generate Solutions Request
+      properties:
+        trip_id:
+          description: The trip id of the search. This will be used in all future requests relating to
+            this search.
+          type: string
+          example: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_responses:
+          description: The list of datasource responses to be used to generate solutions.
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/FullDatasourceResponse'
+    MinimalDatasourceResponse:
+      type: object
+      properties:
+        4f499298b303c55a1ee522118afce28abe2f68e4:
+          description: The ID of the datasource request. The ID varies between requests.
+          type: array
+          items:
+            $ref: '#/components/schemas/BasicGenerateDatasourceRequest'
+    FullDatasourceResponse:
+      type: object
+      properties:
+        4f499298b303c55a1ee522118afce28abe2f68e4:
+          description: The datasource_request_id of a datasource request returned from the first get-searches
+            call after the OTA has performed the flight searches requested. The value of this id will
+            be the formatted results from that search.
+          type: array
+          items:
+            $ref: '#/components/schemas/FullGenerateDatasourceRequest'
+    MinimalDatasourceLegDetails:
+      description: A list of required info for each leg of this segment.
+      type: object
+      required:
+      - departure_time
+      - departure_timestamp
+      - arrival_time
+      - arrival_timestamp
+      - flight_number
+      - operating_carrier
+      - transportation_type
+      - fare_type
+      - cabin_class
+      - from_iata
+      - to_iata
+      properties:
+        departure_time:
+          type: string
+          description: Departure time written in the ISO 8601 datetime format (e.g. 2023-03-15T08:00:00-04:00).
+          example: '2023-03-15T08:00:00'
+        departure_timestamp:
+          type: int
+          description: Departure timestamp written in epoch time, in seconds (e.g. 1678892400).
+          example: 1678892400
+        arrival_time:
+          type: string
+          description: Arrival time written in the ISO 8601 datetime format (e.g. 2023-03-15T10:29:00-04:00).
+          example: '2023-03-15T10:29:00'
+        arrival_timestamp:
+          type: int
+          description: Arrival timestamp written in epoch time, in seconds (e.g. 1678901340).
+          example: 1678901340
+        flight_number:
+          type: string
+          description: Flight number.
+          example: '391'
+        operating_carrier:
+          type: string
+          description: Operating carrier.
+          example: WS
+        transportation_type:
+          type: string
+          description: Transportation vehicle used for this segment.
+          example: flight
+        fare_type:
+          type: string
+          description: Fare Type of the segment
+          example: Published
+        cabin_class:
+          type: string
+          description: The cabin class of the leg. Accepted values are E - Economy, PE - Premium Economy,
+            BC - Business Class, FC - First Class, PFC - Premium First Class.
+          example: BC
+          enum:
+          - E
+          - PE
+          - BC
+          - FC
+          - PFC
+        from_iata:
+          type: string
+          description: IATA of departure airport for leg.
+          example: YWG
+        to_iata:
+          type: string
+          description: IATA of arrival airport for leg.
+          example: FCO
+        marketing_carrier:
+          type: string
+          description: Marketing carrier
+          example: AC
+    MinimalMetadataRequest:
+      type: object
+      description: Any data can be provided to this optional field. We will not alter the data within
+        this field.
+      properties:
+        OriginName:
+          type: string
+          example: Halifax, NS, Canada (YHZ)
+        Origin:
+          type: string
+          example: YHZ
+        DestinationName:
+          type: string
+          example: Ottawa, ON, Canada (YOW)
+        Destination:
+          type: string
+          example: YOW
+        DepartureTime:
+          type: string
+          example: '2023-03-15T08:00:00'
+        DepartureTimestamp:
+          type: number
+          example: 1678892400
+        ArrivalTime:
+          type: string
+          example: '2023-03-15T10:29:00'
+        ArrivalTimestamp:
+          type: number
+          example: 1678901340
+        FlightNumber:
+          type: string
+          example: '391'
+        Carrier:
+          type: string
+          example: PD
+        CarrierFullName:
+          type: string
+          example: Porter Airlines, Inc.
+        FlightTime:
+          type: number
+          example: 138
+        AircraftType:
+          type: string
+          example: DH4
+        AvailabilitySource:
+          type: string
+          example: A
+        Key:
+          type: string
+          example: oMrDKtSqWDKAFrUOpAAAAA==
+        BookingCode:
+          type: string
+          example: W
+        cabin_class:
+          type: string
+          example: Business Class
+    DatasourceLegDetailsResponse:
+      allOf:
+      - $ref: '#/components/schemas/MinimalDatasourceLegDetails'
+      properties:
+        segment_leg_position:
+          type: number
+          description: Indicates the segment position of this specific leg.
+          example: 0
+    DatasourcePriceBreakdownDetails:
+      type: object
+      description: Displays the pricing for each passenger type
+      properties:
+        passenger_type_code:
+          type: string
+          description: Passenger type code.
+          example: ADT
+        base_price:
+          type: number
+        total_price:
+          type: number
+        taxes:
+          type: number
+        tax_breakdown:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasourceTaxBreakdownDetails'
+    DatasourceTaxBreakdownDetails:
+      type: object
+      description: Breakdown of taxes amount into their categories
+      properties:
+        category:
+          type: string
+          description: Tax category.
+          example: FR
+        amount:
+          type: number
+          description: Tax amount.
+    GenerateSolutionsResponseTwo:
+      title: 'Generate Solutions Request #2'
+      type: object
+      properties:
+        trip_id:
+          type: string
+          description: A unique key used for identification and when booking a trip.
+          example: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        currency:
+          type: string
+          description: Currency that was passed in get-searches
+          example: MXN
+        itineraries:
+          $ref: '#/components/schemas/DatasourceItineraryInfoWithMarkup'
+    DatasourceItineraryInfo:
+      type: array
+      description: Array of itineraries sorted by weight.
+      items:
+        properties:
+          itinerary_id:
+            type: string
+            description: Unique identifier for the itinerary
+            example: f557310419e4c08a6ba40cc2785447970e7aea4c
+          total_price:
+            type: number
+            description: Price of the itinerary (fare and tax included).
+            example: 197.1
+          weight:
+            type: number
+            description: Weight of the segment (time-value considered).
+            example: 239
+          refundable:
+            type: boolean
+            description: Denotes whether the booking will be refundable.
+            example: true
+          transportation_time:
+            type: integer
+            description: Total transportation time for the itinerary.
+            example: 425
+          is_virtual_interline:
+            type: boolean
+            description: Denotes whether the itinerary contains virtual interline.
+            example: false
+          structure:
+            type: array
+            description: "\"Array representing the structure of the trip in terms of one-ways and open-jaw\
+              \ segments. \nFor example: [(0, 1), (3, 4), 2] means there would be three bookings. One\
+              \ openjaw for segments ”0 and 1”, \none for segments ”3 and 4” and a one-way for segment\
+              \ ‘2”.\"\n"
+            example: '[(0, 1), 2]'
+          flight_numbers:
+            type: array
+            description: Array of strings listing the flight numbers in this itinerary.
+            items:
+              type: string
+              example: AC135
+          segments:
+            type: array
+            description: Array of strings listing the flight numbers in this itinerary.
+            items:
+              type: object
+              properties:
+                pricing_solution_id:
+                  type: string
+                  description: A unique identifier that matches objects within metadata_details
+                  example: c2f59ef0eeec039233d60e694fed09edc4dfa954
+                is_vi_segment:
+                  type: boolean
+                  description: Denotes whether the segment is a virtual interline segment.
+                  example: false
+                price:
+                  type: number
+                  description: Price of the segment (fare and tax included)
+                  example: 671.88
+                weight:
+                  type: number
+                  description: Weight of the segment (time-value considered).
+                  example: 716
+                segment_position:
+                  type: number or array of number
+                  description: Position of the segment in the itinerary. For example, `[0, 2]` means the
+                    combined segment is an open-jaw segment and it represents the **first** segment of
+                    the itinerary and the **third** segment of the itinerary.
+                  example: 0
+                is_private_fare:
+                  type: boolean
+                  description: Indicates whether or not this segment is a private fare. If this value
+                    is false, it is considered to be a public fare.
+                  example: true
+                legs:
+                  type: array
+                  description: A list of required legs information for this segment
+                  items:
+                    $ref: '#/components/schemas/DatasourceLegDetailsResponse'
+          metadata:
+            type: array
+            description: This field is completely optional and we will not alter the data within this
+              object. Whatever passed within this object will be returned as-is back to the OTA.<br/>
+              This array contains all the metadata that correlates with the related itineraries. This
+              will not be populated if no metadata is passed in the generate solutions request.
+            items:
+              $ref: '#/components/schemas/MinimalMetadataRequest'
+    DatasourceItineraryInfoWithMarkup:
+      type: array
+      description: Array of itineraries sorted by weight.
+      items:
+        properties:
+          itinerary_id:
+            type: string
+            description: Unique identifier for the itinerary
+            example: f557310419e4c08a6ba40cc2785447970e7aea4c
+          total_price:
+            type: number
+            description: Price of the itinerary (fare and tax included).
+            example: 197.1
+          weight:
+            type: number
+            description: Weight of the segment (time-value considered).
+            example: 239
+          refundable:
+            type: boolean
+            description: Denotes whether the booking will be refundable.
+            example: true
+          transportation_time:
+            type: integer
+            description: Total transportation time for the itinerary.
+            example: 425
+          is_virtual_interline:
+            type: boolean
+            description: Denotes whether the itinerary contains virtual interline.
+            example: false
+          structure:
+            type: array
+            description: "\"Array representing the structure of the trip in terms of one-ways and open-jaw\
+              \ segments. \nFor example: [(0, 1), (3, 4), 2] means there would be three bookings. One\
+              \ openjaw for segments ”0 and 1”, \none for segments ”3 and 4” and a one-way for segment\
+              \ ‘2”.\"\n"
+            example: '[(0, 1), 2]'
+          flight_numbers:
+            type: array
+            description: Array of strings listing the flight numbers in this itinerary.
+            items:
+              type: string
+              example: AC135
+          segments:
+            type: array
+            description: Array of strings listing the flight numbers in this itinerary.
+            items:
+              type: object
+              properties:
+                pricing_solution_id:
+                  type: string
+                  description: A unique identifier that matches objects within metadata_details
+                  example: c2f59ef0eeec039233d60e694fed09edc4dfa954
+                is_vi_segment:
+                  type: boolean
+                  description: Denotes whether the segment is a virtual interline segment.
+                  example: false
+                price:
+                  type: number
+                  description: Price of the segment (fare and tax included)
+                  example: 671.88
+                weight:
+                  type: number
+                  description: Weight of the segment (time-value considered).
+                  example: 716
+                segment_position:
+                  type: number or array of number
+                  description: Position of the segment in the itinerary. For example, `[0, 2]` means the
+                    combined segment is an open-jaw segment and it represents the **first** segment of
+                    the itinerary and the **third** segment of the itinerary.
+                  example: 0
+                is_private_fare:
+                  type: boolean
+                  description: Indicates whether or not this segment is a private fare. If this value
+                    is false, it is considered to be a public fare.
+                  example: true
+                baggage:
+                  type: string
+                  description: A string value representing the baggage for this itinerary. Will be a string
+                    value if baggage is present, otherwise will be `null`.
+                  example: 2pc
+                legs:
+                  type: array
+                  description: A list of required legs information for this segment
+                  items:
+                    $ref: '#/components/schemas/DatasourceLegDetailsResponse'
+          metadata:
+            type: array
+            description: This field is completely optional and we will not alter the data within this
+              object. Whatever passed within this object will be returned as-is back to the OTA.<br/>
+              This array contains all the metadata that correlates with the related itineraries. This
+              will not be populated if no metadata is passed in the generate solutions request.
+            items:
+              $ref: '#/components/schemas/MinimalMetadataRequest'
+          markup:
+            type: number
+            description: Markup amount determined by Trip Ninja's revenue management system.
+            example: 20
+    DatasourceItinerarySegmentInfo:
+      type: object
+      properties:
+        segment_id:
+          type: string
+          description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
+          example: 344d73be0d61f820aa9a6ace300742fed0672f2e
+        price:
+          type: number
+          description: Price of the segment (fare and tax included)
+          example: 72.3
+    PercentageWithExtraInfo:
+      type: object
+      description: Information about penalty percentage and amount
+      properties:
+        amount:
+          type: number
+          description: Penalty amount
+          example: 78
+        percentage:
+          type: number
+          description: Penalty percentage
+          example: 0
+    ChangePenaltyWithExtraInfo:
+      type: object
+      description: Information about changing.
+      properties:
+        amount:
+          type: number
+          description: Change penalty amount
+          example: 78
+        percentage:
+          $ref: '#/components/schemas/PercentageWithExtraInfo'
+        applies_at:
+          type: string
+          description: When will the change penality apply at
+          example: Anytime
+    CancelPenaltyWithExtraInfo:
+      type: object
+      description: Information about cancelling.
+      properties:
+        amount:
+          type: number
+          description: Cancel penalty amount
+          example: 78
+        percentage:
+          $ref: '#/components/schemas/PercentageWithExtraInfo'
+        applies_at:
+          type: string
+          description: When will the cancel penality apply at
+          example: Anytime
+    FareInfoBrandDetails:
+      type: object
+      description: Contains brand information for the fare
+      properties:
+        name:
+          type: string
+          description: Name of the brand
+          example: STANDARD
+        brand_description:
+          type: string
+          description: Description of the brand
+          example: 'Standard: Carry on baggage only'
+        tag_line:
+          type: string
+          description: Tag line of the brand
+          example: Low Fares for Carefee Travel
+        brand_services:
+          type: object
+          description: Contains information of what the brand offers
+          properties:
+            carry_on_hand_baggage:
+              type: string
+              description: Are carry on bags permitted on this ticket. True/False or "$"
+              example: true
+            checked_baggage:
+              type: string
+              description: Are checked bags permitted on this ticket. True/False or "$"
+              example: true
+            rebooking:
+              type: string
+              description: Rebooking available on this ticket.
+              example: $
+            refund:
+              type: boolean
+              description: Refundability of the ticket.
+              example: true
+            seat_assignment:
+              type: string
+              description: Seat assignment availability on this ticket.
+              example: $
+            meals_and_beverages:
+              type: boolean
+              description: Are meals and beverages provided as part of this ticket.
+              example: true
+            wifi:
+              type: string
+              description: Wifi availability on the flight.
+              example: $
+        tier:
+          type: string
+          description: Brand tier
+          example: '0002'
+    BrandFareInfo:
+      type: array
+      description: Contains fare info for the brand
+      items:
+        type: object
+        properties:
+          origin:
+            description: Origin of the segment
+            type: string
+            example: YHZ
+          destination:
+            description: Destination of the segment
+            type: string
+            example: YVR
+          fare_basis:
+            description: Fare Basis Code for the segment.
+            type: string
+            example: QUSDSI0E
+          booking_code:
+            description: Booking code for the segment
+            type: string
+            example: 12S3TI3P
+          cabin_class:
+            description: Cabin class of the segment. Accepted values are E - Economy, PE - Premium Economy,
+              BC - Business Class, FC - First Class, PFC - Premium First Class.
+            type: string
+            example: E
+          brand:
+            $ref: '#/components/schemas/FareInfoBrandDetails'
+    DatasourceBrandDetails:
+      type: array
+      description: List of branded fares for the current segment
+      items:
+        type: object
+        properties:
+          base_price:
+            description: Base price of the segment (tax excluded)
+            type: number
+            example: 0
+          taxes:
+            description: Tax price of the segment
+            type: number
+            example: 119.1
+          fees:
+            description: Fees for the segment *Travelport customers only*
+            type: number
+            example: 0
+          price:
+            description: Price of the segment (fare and tax included).
+            type: number
+            example: 197.1
+          change_penalty:
+            $ref: '#/components/schemas/ChangePenaltyWithExtraInfo'
+          cancel_penalty:
+            $ref: '#/components/schemas/CancelPenaltyWithExtraInfo'
+          baggage_info:
+            description: Contains baggage information.
+            type: object
+            properties:
+              pieces:
+                description: Number of baggages included
+                type: integer
+                example: 1
+              units:
+                description: Unit of the baggage
+                type: string
+                example: pc
+          fare_info:
+            $ref: '#/components/schemas/BrandFareInfo'
+    BasicGenerateDatasourceRequest:
+      type: object
+      description: blah
+      required:
+      - pricing_solution_id
+      - total_price
+      - segment_source
+      - is_private_fare
+      - segments
+      properties:
+        pricing_solution_id:
+          type: string
+          description: A unique identifier that represents the itinerary details.
+          example: 40495f0f293b54ffe64c833d987cd80ecdb5aca5
+        total_price:
+          type: number
+          description: Total price of the segment (fare and tax included).
+          example: 197.1
+        segment_source:
+          type: string
+          description: GDS or LCC provider source for the segment. Please see all supported content sources
+            in the Admin Panel.
+          example: travelport
+        is_private_fare:
+          type: boolean
+          description: Indicates whether or not this segment is a private fare. If this value is false,
+            it is considered to be a public fare.
+          example: true
+        segments:
+          type: array
+          description: A list of segments for this itinerary
+          items:
+            type: array
+            description: A list of required legs information for this segment
+            items:
+              $ref: '#/components/schemas/MinimalDatasourceLegDetails'
+        baggage:
+          type: string
+          description: A string value representing the baggage allowance per segment. Itineraries are
+            built and returned based on their baggage allowances. (Eg. segments with a `null` baggage
+            allowance will be grouped together, while segments with a baggage allowance will be grouped
+            together.)
+          example: 2pc
+        metadata:
+          $ref: '#/components/schemas/MinimalMetadataRequest'
+        refundable:
+          type: boolean
+          description: Explains whether the booking will be refundable.
+          example: true
+    FullGenerateDatasourceRequest:
+      allOf:
+      - $ref: '#/components/schemas/BasicGenerateDatasourceRequest'
+    MetaDataDetails:
+      type: array
+      description: Contains a list of metadata for data mapping, this will not be populated if no metadata
+        is passed in the generate solutions request.
+      items:
+        type: object
+        properties:
+          metadata_id:
+            type: string
+            description: A unique identifier that matches the metadata within each itinerary
+            example: c2f59ef0eeec039233d60e694fed09edc4dfa954
+  examples:
+    OneWayGenerateSolutionRequest:
+      summary: One Way Generate Solution Request
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_responses:
+          4f499298b303c55a1ee522118afce28abe2f68e4:
+          - pricing_solution_id: a70de9b20c927e2d93996f8ada28adc2a8cfdbb1
+            total_price: 9623.2
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T15:30:00.000-03:00'
+                departure_timestamp: 1721500200
+                arrival_time: '2024-06-20T18:08:00.000-06:00'
+                arrival_timestamp: 1721520480
+                flight_number: '235'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YYC
+              - departure_time: '2024-06-20T20:35:00.000-06:00'
+                departure_timestamp: 1721529300
+                arrival_time: '2024-06-21T12:00:00.000+01:00'
+                arrival_timestamp: 1721559600
+                flight_number: '18'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YYC
+                to_iata: LHR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-20T15:30:00.000-03:00'
+                DepartureTimestamp: 1721500200
+                ArrivalTime: '2024-06-20T18:08:00.000-06:00'
+                ArrivalTimestamp: 1721520480
+                FlightNumber: '235'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 338
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: eAo/mASqWDKABuv4NABCSAAA==
+                BookingCode: K
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: London, United Kingdom (LHR)
+                Destination: LHR
+                DepartureTime: '2024-06-20T20:35:00.000-06:00'
+                DepartureTimestamp: 1721529300
+                ArrivalTime: '2024-06-21T12:00:00.000+01:00'
+                ArrivalTimestamp: 1721559600
+                FlightNumber: '18'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 505
+                AircraftType: '789'
+                AvailabilitySource: P
+                Key: eAo/mASqWDKADuv4NABCSAAA==
+                BookingCode: D
+                cabin_class: Business
+          - pricing_solution_id: e0edb24bc906f445f7c1bc05e1a4434bd97cc425
+            total_price: 17550.34
+            segment_source: travelport
+            is_private_fare: false
+            refundable: true
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T17:25:00.000-03:00'
+                departure_timestamp: 1721507100
+                arrival_time: '2024-06-20T18:04:00.000-04:00'
+                arrival_timestamp: 1721513040
+                flight_number: '667'
+                operating_carrier: AC
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YHZ
+                to_iata: YUL
+              - departure_time: '2024-06-20T18:50:00.000-04:00'
+                departure_timestamp: 1721515800
+                arrival_time: '2024-06-21T06:30:00.000+01:00'
+                arrival_timestamp: 1721539800
+                flight_number: '866'
+                operating_carrier: AC
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YUL
+                to_iata: LHR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Montreal, PQ, Canada (YUL)
+                Destination: YUL
+                DepartureTime: '2024-06-20T17:25:00.000-03:00'
+                DepartureTimestamp: 1721507100
+                ArrivalTime: '2024-06-20T18:04:00.000-04:00'
+                ArrivalTimestamp: 1721513040
+                FlightNumber: '667'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 99
+                AircraftType: '333'
+                AvailabilitySource: Q
+                Key: eAo/mASqWDKAZuv4NABCSAAA==
+                BookingCode: J
+                cabin_class: Business
+              - OriginName: Montreal, PQ, Canada (YUL)
+                Origin: YUL
+                DestinationName: London, United Kingdom (LHR)
+                Destination: LHR
+                DepartureTime: '2024-06-20T18:50:00.000-04:00'
+                DepartureTimestamp: 1721515800
+                ArrivalTime: '2024-06-21T06:30:00.000+01:00'
+                ArrivalTimestamp: 1721539800
+                FlightNumber: '866'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 400
+                AircraftType: '788'
+                AvailabilitySource: Q
+                Key: eAo/mASqWDKAcuv4NABCSAAA==
+                BookingCode: J
+                cabin_class: Business
+    OneWayGenerateSolutionResponse:
+      summary: One Way Generate Solution Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        currency: MXN
+        itineraries:
+        - itinerary_id: 3e5438fd21674dc539b1ef2fa0720e23c01d495d
+          total_price: 9623.2
+          weight: 9623.2
+          transportation_time: 990
+          refundable: false
+          is_virtual_interline: false
+          structure: '[0]'
+          flight_numbers:
+          - WS18
+          - WS235
+          segments:
+          - pricing_solution_id: a70de9b20c927e2d93996f8ada28adc2a8cfdbb1
+            is_vi_segment: false
+            price: 9623.2
+            weight: 9623.2
+            segment_position: 0
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-20T15:30:00.000-03:00'
+              departure_timestamp: 1721500200
+              arrival_time: '2024-06-20T18:08:00.000-06:00'
+              arrival_timestamp: 1721520480
+              flight_number: '235'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YHZ
+              to_iata: YYC
+              segment_leg_position: 0
+            - departure_time: '2024-06-20T20:35:00.000-06:00'
+              departure_timestamp: 1721529300
+              arrival_time: '2024-06-21T12:00:00.000+01:00'
+              arrival_timestamp: 1721559600
+              flight_number: '18'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: YYC
+              to_iata: LHR
+              segment_leg_position: 0
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Calgary, AB, Canada (YYC)
+              Destination: YYC
+              DepartureTime: '2024-06-20T15:30:00.000-03:00'
+              DepartureTimestamp: 1721500200
+              ArrivalTime: '2024-06-20T18:08:00.000-06:00'
+              ArrivalTimestamp: 1721520480
+              FlightNumber: '235'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 338
+              AircraftType: 7M8
+              AvailabilitySource: P
+              Key: eAo/mASqWDKABuv4NAABdAA==
+              BookingCode: K
+              cabin_class: Economy
+            - OriginName: Calgary, AB, Canada (YYC)
+              Origin: YYC
+              DestinationName: London, United Kingdom (LHR)
+              Destination: LHR
+              DepartureTime: '2024-06-20T20:35:00.000-06:00'
+              DepartureTimestamp: 1721529300
+              ArrivalTime: '2024-06-21T12:00:00.000+01:00'
+              ArrivalTimestamp: 1721559600
+              FlightNumber: '18'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 505
+              AircraftType: '789'
+              AvailabilitySource: P
+              Key: eAo/mASqWDKADuv4NAABdAA==
+              BookingCode: D
+              cabin_class: Business
+          markup: 323
+        - itinerary_id: 54aad547029a628303a47a21844fef0332070bbb
+          total_price: 17550.34
+          weight: 17550.34
+          transportation_time: 545
+          refundable: false
+          is_virtual_interline: false
+          structure: '[0]'
+          flight_numbers:
+          - AC667
+          - AC866
+          segments:
+          - pricing_solution_id: e0edb24bc906f445f7c1bc05e1a4434bd97cc425
+            is_vi_segment: false
+            price: 17550.34
+            weight: 17550.34
+            segment_position: 0
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-20T17:25:00.000-03:00'
+              departure_timestamp: 1721507100
+              arrival_time: '2024-06-20T18:04:00.000-04:00'
+              arrival_timestamp: 1721513040
+              flight_number: '667'
+              operating_carrier: AC
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: YHZ
+              to_iata: YUL
+              segment_leg_position: 0
+            - departure_time: '2024-06-20T18:50:00.000-04:00'
+              departure_timestamp: 1721515800
+              arrival_time: '2024-06-21T06:30:00.000+01:00'
+              arrival_timestamp: 1721539800
+              flight_number: '866'
+              operating_carrier: AC
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: YUL
+              to_iata: LHR
+              segment_leg_position: 0
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Montreal, PQ, Canada (YUL)
+              Destination: YUL
+              DepartureTime: '2024-06-20T17:25:00.000-03:00'
+              DepartureTimestamp: 1721507100
+              ArrivalTime: '2024-06-20T18:04:00.000-04:00'
+              ArrivalTimestamp: 1721513040
+              FlightNumber: '667'
+              Carrier: AC
+              CarrierFullName: Air Canada
+              FlightTime: 99
+              AircraftType: '333'
+              AvailabilitySource: Q
+              Key: eAo/mASqWDKAZuv4NAABdAA==
+              BookingCode: J
+              cabin_class: Business
+            - OriginName: Montreal, PQ, Canada (YUL)
+              Origin: YUL
+              DestinationName: London, United Kingdom (LHR)
+              Destination: LHR
+              DepartureTime: '2024-06-20T18:50:00.000-04:00'
+              DepartureTimestamp: 1721515800
+              ArrivalTime: '2024-06-21T06:30:00.000+01:00'
+              ArrivalTimestamp: 1721539800
+              FlightNumber: '866'
+              Carrier: AC
+              CarrierFullName: Air Canada
+              FlightTime: 400
+              AircraftType: '788'
+              AvailabilitySource: Q
+              Key: eAo/mASqWDKAcuv4NAABdAA==
+              BookingCode: J
+              cabin_class: Business
+          markup: 325
+    TwoWayGenerateSolutionRequest:
+      summary: Two Way Generate Solution Request
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_response:
+          7507312b410f5740cfc7368853461619624366c5:
+          - pricing_solution_id: e394589376cc6d9ce1a95c7e813b0dd63132f30a
+            total_price: 4433.18
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T21:25:00.000+01:00'
+                departure_timestamp: 1724185500
+                arrival_time: '2024-06-20T23:40:00.000+00:00'
+                arrival_timestamp: 1724197200
+                flight_number: '455'
+                operating_carrier: FI
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: LHR
+                to_iata: KEF
+              - departure_time: '2024-06-21T18:35:00.000+00:00'
+                departure_timestamp: 1724265300
+                arrival_time: '2024-06-21T20:30:00.000-03:00'
+                arrival_timestamp: 1724283000
+                flight_number: '607'
+                operating_carrier: FI
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: KEF
+                to_iata: YHZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LHR)
+                Origin: LHR
+                DestinationName: Reykjavik, Iceland (KEF)
+                Destination: KEF
+                DepartureTime: '2024-06-20T21:25:00.000+01:00'
+                DepartureTimestamp: 1724185500
+                ArrivalTime: '2024-06-20T23:40:00.000+00:00'
+                ArrivalTimestamp: 1724197200
+                FlightNumber: '455'
+                Carrier: FI
+                CarrierFullName: Icelandair
+                FlightTime: 195
+                AircraftType: 76W
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKADif+NAsfAA==
+                BookingCode: A
+                cabin_class: Business
+              - OriginName: Reykjavik, Iceland (KEF)
+                Origin: KEF
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-21T18:35:00.000+00:00'
+                DepartureTimestamp: 1724265300
+                ArrivalTime: '2024-06-21T20:30:00.000-03:00'
+                ArrivalTimestamp: 1724283000
+                FlightNumber: '607'
+                Carrier: FI
+                CarrierFullName: Icelandair
+                FlightTime: 295
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAFif+NAsfAA==
+                BookingCode: A
+                cabin_class: Business
+          - pricing_solution_id: 9fe864e6c11dea59b5870c537fb0f3545ce814bd
+            total_price: 8163.04
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T14:10:00.000+01:00'
+                departure_timestamp: 1724159400
+                arrival_time: '2024-06-20T15:53:00.000-06:00'
+                arrival_timestamp: 1724190780
+                flight_number: '19'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: LHR
+                to_iata: YYC
+              - departure_time: '2024-06-20T23:15:00.000-06:00'
+                departure_timestamp: 1724217300
+                arrival_time: '2024-06-21T07:08:00.000-03:00'
+                arrival_timestamp: 1724234880
+                flight_number: '228'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YHZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LHR)
+                Origin: LHR
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-20T14:10:00.000+01:00'
+                DepartureTimestamp: 1724159400
+                ArrivalTime: '2024-06-20T15:53:00.000-06:00'
+                ArrivalTimestamp: 1724190780
+                FlightNumber: '19'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 523
+                AircraftType: '789'
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAdif+NAsfAA==
+                BookingCode: D
+                cabin_class: Business
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T23:15:00.000-06:00'
+                DepartureTimestamp: 1724217300
+                ArrivalTime: '2024-06-21T07:08:00.000-03:00'
+                ArrivalTimestamp: 1724234880
+                FlightNumber: '228'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 293
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAfif+NAsfAA==
+                BookingCode: L
+                cabin_class: Economy
+          0238d1eff02a8a7128d6790958cca54a7de406b7:
+          - pricing_solution_id: 15267582c311e11cf9ce5ab5a9a1890358873b17
+            total_price: 4075.55
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-25T10:05:00.000-03:00'
+                departure_timestamp: 1724591100
+                arrival_time: '2024-06-25T12:25:00.000-07:00'
+                arrival_timestamp: 1724613900
+                flight_number: '361'
+                operating_carrier: AC
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YHZ
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T10:05:00.000-03:00'
+                DepartureTimestamp: 1724591100
+                ArrivalTime: '2024-06-25T12:25:00.000-07:00'
+                ArrivalTimestamp: 1724613900
+                FlightNumber: '361'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 380
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: eAo/mASqWDKA9eC9NAsfAA==
+                BookingCode: P
+                cabin_class: Business
+          - pricing_solution_id: 45b1f84e1d0c7b655a1b18caac9bdb6579d5d2a1
+            total_price: 4075.55
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-25T19:25:00.000-03:00'
+                departure_timestamp: 1724624700
+                arrival_time: '2024-06-25T21:47:00.000-07:00'
+                arrival_timestamp: 1724647620
+                flight_number: '363'
+                operating_carrier: AC
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YHZ
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T19:25:00.000-03:00'
+                DepartureTimestamp: 1724624700
+                ArrivalTime: '2024-06-25T21:47:00.000-07:00'
+                ArrivalTimestamp: 1724647620
+                FlightNumber: '363'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 382
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: eAo/mASqWDKApfC9NAsfAA==
+                BookingCode: P
+                cabin_class: Business
+          4f499298b303c55a1ee522118afce28abe2f68e4:
+          - pricing_solution_id: 8c98f6bd8c322983b0bb22d4466c25d79a91b32a
+            total_price: 25152.89
+            segment_source: travelport
+            is_private_fare: false
+            refundable: true
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T19:30:00.000+01:00'
+                departure_timestamp: 1724178600
+                arrival_time: '2024-06-20T22:05:00.000+02:00'
+                arrival_timestamp: 1724184300
+                flight_number: '919'
+                operating_carrier: LH
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: LHR
+                to_iata: FRA
+              - departure_time: '2024-06-21T15:40:00.000+02:00'
+                departure_timestamp: 1724247600
+                arrival_time: '2024-06-21T18:00:00.000-03:00'
+                arrival_timestamp: 1724274000
+                flight_number: '7386'
+                operating_carrier: 4Y
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: FRA
+                to_iata: YHZ
+            - - departure_time: '2024-06-25T10:05:00.000-03:00'
+                departure_timestamp: 1724591100
+                arrival_time: '2024-06-25T12:25:00.000-07:00'
+                arrival_timestamp: 1724613900
+                flight_number: '361'
+                operating_carrier: AC
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YHZ
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LHR)
+                Origin: LHR
+                DestinationName: Frankfurt, Germany (FRA)
+                Destination: FRA
+                DepartureTime: '2024-06-20T19:30:00.000+01:00'
+                DepartureTimestamp: 1724178600
+                ArrivalTime: '2024-06-20T22:05:00.000+02:00'
+                ArrivalTimestamp: 1724184300
+                FlightNumber: '919'
+                Carrier: LH
+                CarrierFullName: Lufthansa German Airlines
+                FlightTime: 95
+                AircraftType: 32N
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAUDg+NAsfAA==
+                BookingCode: J
+                cabin_class: Business
+              - OriginName: Frankfurt, Germany (FRA)
+                Origin: FRA
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-21T15:40:00.000+02:00'
+                DepartureTimestamp: 1724247600
+                ArrivalTime: '2024-06-21T18:00:00.000-03:00'
+                ArrivalTimestamp: 1724274000
+                FlightNumber: '7386'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 440
+                AircraftType: '333'
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAWDg+NAsfAA==
+                BookingCode: J
+                cabin_class: Business
+                OperatingCarrier: 4Y
+                OperatingCarrierFullName: Yute Air Aka Flight Alaska
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T10:05:00.000-03:00'
+                DepartureTimestamp: 1724591100
+                ArrivalTime: '2024-06-25T12:25:00.000-07:00'
+                ArrivalTimestamp: 1724613900
+                FlightNumber: '361'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 380
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAZDg+NAsfAA==
+                BookingCode: J
+                cabin_class: Business
+          - pricing_solution_id: 7cdce8862992b21794fa72905d7f4464b0675fa3
+            total_price: 25152.89
+            segment_source: travelport
+            is_private_fare: false
+            refundable: true
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T19:30:00.000+01:00'
+                departure_timestamp: 1724178600
+                arrival_time: '2024-06-20T22:05:00.000+02:00'
+                arrival_timestamp: 1724184300
+                flight_number: '919'
+                operating_carrier: LH
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: LHR
+                to_iata: FRA
+              - departure_time: '2024-06-21T15:40:00.000+02:00'
+                departure_timestamp: 1724247600
+                arrival_time: '2024-06-21T18:00:00.000-03:00'
+                arrival_timestamp: 1724274000
+                flight_number: '7386'
+                operating_carrier: 4Y
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: FRA
+                to_iata: YHZ
+            - - departure_time: '2024-06-25T19:25:00.000-03:00'
+                departure_timestamp: 1724624700
+                arrival_time: '2024-06-25T21:47:00.000-07:00'
+                arrival_timestamp: 1724647620
+                flight_number: '363'
+                operating_carrier: AC
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: BC
+                from_iata: YHZ
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LHR)
+                Origin: LHR
+                DestinationName: Frankfurt, Germany (FRA)
+                Destination: FRA
+                DepartureTime: '2024-06-20T19:30:00.000+01:00'
+                DepartureTimestamp: 1724178600
+                ArrivalTime: '2024-06-20T22:05:00.000+02:00'
+                ArrivalTimestamp: 1724184300
+                FlightNumber: '919'
+                Carrier: LH
+                CarrierFullName: Lufthansa German Airlines
+                FlightTime: 95
+                AircraftType: 32N
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAUDg+NAsfAA==
+                BookingCode: J
+                cabin_class: Business
+              - OriginName: Frankfurt, Germany (FRA)
+                Origin: FRA
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-21T15:40:00.000+02:00'
+                DepartureTimestamp: 1724247600
+                ArrivalTime: '2024-06-21T18:00:00.000-03:00'
+                ArrivalTimestamp: 1724274000
+                FlightNumber: '7386'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 440
+                AircraftType: '333'
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAWDg+NAsfAA==
+                BookingCode: J
+                cabin_class: Business
+                OperatingCarrier: 4Y
+                OperatingCarrierFullName: Yute Air Aka Flight Alaska
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T19:25:00.000-03:00'
+                DepartureTimestamp: 1724624700
+                ArrivalTime: '2024-06-25T21:47:00.000-07:00'
+                ArrivalTimestamp: 1724647620
+                FlightNumber: '363'
+                Carrier: AC
+                CarrierFullName: Air Canada
+                FlightTime: 382
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAOFg+NAsfAA==
+                BookingCode: J
+                cabin_class: Business
+    TwoWayGenerateSolutionResponse:
+      summary: Two Way Generate Solution Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        currency: USD
+        itineraries:
+        - itinerary_id: cdac1656cd37658471d0cd9acc43739198bfb1d4
+          total_price: 8508.73
+          weight: 8508.73
+          transportation_time: 2005
+          refundable: false
+          is_virtual_interline: false
+          structure: '[0, 1]'
+          flight_numbers:
+          - AC361
+          - FI455
+          - FI607
+          segments:
+          - pricing_solution_id: e394589376cc6d9ce1a95c7e813b0dd63132f30a
+            is_vi_segment: false
+            price: 4433.18
+            weight: 4433.18
+            segment_position: 0
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-20T21:25:00.000+01:00'
+              departure_timestamp: 1724185500
+              arrival_time: '2024-06-20T23:40:00.000+00:00'
+              arrival_timestamp: 1724197200
+              flight_number: '455'
+              operating_carrier: FI
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: LHR
+              to_iata: KEF
+              segment_leg_position: 0
+            - departure_time: '2024-06-21T18:35:00.000+00:00'
+              departure_timestamp: 1724265300
+              arrival_time: '2024-06-21T20:30:00.000-03:00'
+              arrival_timestamp: 1724283000
+              flight_number: '607'
+              operating_carrier: FI
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: KEF
+              to_iata: YHZ
+              segment_leg_position: 0
+          - pricing_solution_id: 15267582c311e11cf9ce5ab5a9a1890358873b17
+            is_vi_segment: false
+            price: 4075.55
+            weight: 4075.55
+            segment_position: 1
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-25T10:05:00.000-03:00'
+              departure_timestamp: 1724591100
+              arrival_time: '2024-06-25T12:25:00.000-07:00'
+              arrival_timestamp: 1724613900
+              flight_number: '361'
+              operating_carrier: AC
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: YHZ
+              to_iata: YVR
+              segment_leg_position: 1
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LHR)
+              Origin: LHR
+              DestinationName: Reykjavik, Iceland (KEF)
+              Destination: KEF
+              DepartureTime: '2024-06-20T21:25:00.000+01:00'
+              DepartureTimestamp: 1724185500
+              ArrivalTime: '2024-06-20T23:40:00.000+00:00'
+              ArrivalTimestamp: 1724197200
+              FlightNumber: '455'
+              Carrier: FI
+              CarrierFullName: Icelandair
+              FlightTime: 195
+              AircraftType: 76W
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKADif+NAsfAA==
+              BookingCode: A
+              cabin_class: Business
+            - OriginName: Reykjavik, Iceland (KEF)
+              Origin: KEF
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-06-21T18:35:00.000+00:00'
+              DepartureTimestamp: 1724265300
+              ArrivalTime: '2024-06-21T20:30:00.000-03:00'
+              ArrivalTimestamp: 1724283000
+              FlightNumber: '607'
+              Carrier: FI
+              CarrierFullName: Icelandair
+              FlightTime: 295
+              AircraftType: 7M8
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKAFif+NAsfAA==
+              BookingCode: A
+              cabin_class: Business
+          - segment_source: travelport
+            legs:
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-06-25T10:05:00.000-03:00'
+              DepartureTimestamp: 1724591100
+              ArrivalTime: '2024-06-25T12:25:00.000-07:00'
+              ArrivalTimestamp: 1724613900
+              FlightNumber: '361'
+              Carrier: AC
+              CarrierFullName: Air Canada
+              FlightTime: 380
+              AircraftType: 7M8
+              AvailabilitySource: S
+              Key: eAo/mASqWDKA9eC9NAsfAA==
+              BookingCode: P
+              cabin_class: Business
+          markup: 323
+        - itinerary_id: 6ce451c1de96ad276e087b5b87e2300a9f9b88f8
+          total_price: 25152.89
+          weight: 25127.89
+          transportation_time: 1970
+          refundable: false
+          is_virtual_interline: false
+          structure: '[(0, 1)]'
+          flight_numbers:
+          - 4Y7386
+          - AC361
+          - LH919
+          segments:
+          - pricing_solution_id: 8c98f6bd8c322983b0bb22d4466c25d79a91b32a
+            is_vi_segment: false
+            price: 25152.89
+            weight: 25152.89
+            segment_position:
+            - 0
+            - 1
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-20T19:30:00.000+01:00'
+              departure_timestamp: 1724178600
+              arrival_time: '2024-06-20T22:05:00.000+02:00'
+              arrival_timestamp: 1724184300
+              flight_number: '919'
+              operating_carrier: LH
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: LHR
+              to_iata: FRA
+              segment_leg_position: 0
+            - departure_time: '2024-06-21T15:40:00.000+02:00'
+              departure_timestamp: 1724247600
+              arrival_time: '2024-06-21T18:00:00.000-03:00'
+              arrival_timestamp: 1724274000
+              flight_number: '7386'
+              operating_carrier: 4Y
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: FRA
+              to_iata: YHZ
+              segment_leg_position: 0
+            - departure_time: '2024-06-25T10:05:00.000-03:00'
+              departure_timestamp: 1724591100
+              arrival_time: '2024-06-25T12:25:00.000-07:00'
+              arrival_timestamp: 1724613900
+              flight_number: '361'
+              operating_carrier: AC
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: BC
+              from_iata: YHZ
+              to_iata: YVR
+              segment_leg_position: 1
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LHR)
+              Origin: LHR
+              DestinationName: Frankfurt, Germany (FRA)
+              Destination: FRA
+              DepartureTime: '2024-06-20T19:30:00.000+01:00'
+              DepartureTimestamp: 1724178600
+              ArrivalTime: '2024-06-20T22:05:00.000+02:00'
+              ArrivalTimestamp: 1724184300
+              FlightNumber: '919'
+              Carrier: LH
+              CarrierFullName: Lufthansa German Airlines
+              FlightTime: 95
+              AircraftType: 32N
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKAUDg+NAsfAA==
+              BookingCode: J
+              cabin_class: Business
+            - OriginName: Frankfurt, Germany (FRA)
+              Origin: FRA
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-06-21T15:40:00.000+02:00'
+              DepartureTimestamp: 1724247600
+              ArrivalTime: '2024-06-21T18:00:00.000-03:00'
+              ArrivalTimestamp: 1724274000
+              FlightNumber: '7386'
+              Carrier: AC
+              CarrierFullName: Air Canada
+              FlightTime: 440
+              AircraftType: '333'
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKAWDg+NAsfAA==
+              BookingCode: J
+              cabin_class: Business
+              OperatingCarrier: 4Y
+              OperatingCarrierFullName: Yute Air Aka Flight Alaska
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-06-25T10:05:00.000-03:00'
+              DepartureTimestamp: 1724591100
+              ArrivalTime: '2024-06-25T12:25:00.000-07:00'
+              ArrivalTimestamp: 1724613900
+              FlightNumber: '361'
+              Carrier: AC
+              CarrierFullName: Air Canada
+              FlightTime: 380
+              AircraftType: 7M8
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKAZDg+NAsfAA==
+              BookingCode: J
+              cabin_class: Business
+          markup: 352
+    ThreeWayGenerateSolutionRequest:
+      summary: Three Way Generate Solution Request
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_responses:
+          73c93522b736b41053f738b3dfcce66be1373224:
+          - pricing_solution_id: 9bc85999afbc9c30c0562f1943ae43ac44352c7a
+            total_price: 2986.41
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-08-20T14:10:00+01:00'
+                departure_timestamp: 1724159400
+                arrival_time: '2024-08-20T15:53:00-06:00'
+                arrival_timestamp: 1724190780
+                flight_number: '19'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: LHR
+                to_iata: YYC
+              - departure_time: '2024-08-21T09:15:00-06:00'
+                departure_timestamp: 1724253300
+                arrival_time: '2024-08-21T17:09:00-03:00'
+                arrival_timestamp: 1724270940
+                flight_number: '230'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YHZ
+            - - departure_time: '2024-08-25T17:50:00-03:00'
+                departure_timestamp: 1724619000
+                arrival_time: '2024-08-25T18:20:00-04:00'
+                arrival_timestamp: 1724624400
+                flight_number: '256'
+                operating_carrier: PD
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YUL
+              - departure_time: '2024-08-25T20:30:00-04:00'
+                departure_timestamp: 1724632200
+                arrival_time: '2024-08-25T23:15:00-07:00'
+                arrival_timestamp: 1724652900
+                flight_number: '7772'
+                operating_carrier: TS
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YUL
+                to_iata: YVR
+            - - departure_time: '2024-08-30T22:09:00-07:00'
+                departure_timestamp: 1725080940
+                arrival_time: '2024-08-31T05:39:00-04:00'
+                arrival_timestamp: 1725097140
+                flight_number: '318'
+                operating_carrier: PD
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YYZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LHR)
+                Origin: LHR
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-08-20T14:10:00+01:00'
+                DepartureTimestamp: 1724159400
+                ArrivalTime: '2024-08-20T15:53:00-06:00'
+                ArrivalTimestamp: 1724190780
+                FlightNumber: '19'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 523
+                Key: e596caf1f578b06a36aff8285489f6c7ff4facf6
+                fare_type: Published fare
+                FareBasisCode: LP7J3KEK
+                BookingCode: L
+                cabin_class: Economic Standard
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-08-21T09:15:00-06:00'
+                DepartureTimestamp: 1724253300
+                ArrivalTime: '2024-08-21T17:09:00-03:00'
+                ArrivalTimestamp: 1724270940
+                FlightNumber: '230'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 294
+                Key: c417e87f96e3941cf1590cbbdcca866cfcdab166
+                fare_type: Published fare
+                FareBasisCode: LCUD0QEK
+                BookingCode: L
+                cabin_class: Economic Standard
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Montreal, PQ, Canada (YUL)
+                Destination: YUL
+                DepartureTime: '2024-08-25T17:50:00-03:00'
+                DepartureTimestamp: 1724619000
+                ArrivalTime: '2024-08-25T18:20:00-04:00'
+                ArrivalTimestamp: 1724624400
+                FlightNumber: '256'
+                Carrier: PD
+                CarrierFullName: Porter Airlines, Inc.
+                FlightTime: 90
+                Key: dabc73bcbec56e68344b712fc60d00a2f35138ef
+                fare_type: Published fare
+                FareBasisCode: L0N3ZOZS
+                BookingCode: L
+                cabin_class: Economic Standard
+              - OriginName: Montreal, PQ, Canada (YUL)
+                Origin: YUL
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-08-25T20:30:00-04:00'
+                DepartureTimestamp: 1724632200
+                ArrivalTime: '2024-08-25T23:15:00-07:00'
+                ArrivalTimestamp: 1724652900
+                FlightNumber: '7772'
+                Carrier: PD
+                CarrierFullName: Porter Airlines, Inc.
+                FlightTime: 345
+                Key: e1ed2a29f953c40d8620293c97ff888a58602406
+                fare_type: Published fare
+                OperatingCarrier: TS
+                OperatingCarrierFullName: Air Transat
+                FareBasisCode: L0N3ZOZS
+                BookingCode: L
+                cabin_class: Economic Standard
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Toronto, ON, Canada (YYZ)
+                Destination: YYZ
+                DepartureTime: '2024-08-30T22:09:00-07:00'
+                DepartureTimestamp: 1725080940
+                ArrivalTime: '2024-08-31T05:39:00-04:00'
+                ArrivalTimestamp: 1725097140
+                FlightNumber: '318'
+                Carrier: PD
+                CarrierFullName: Porter Airlines, Inc.
+                FlightTime: 270
+                Key: c6756033ad1bfe7b4471681367e0bdd74299934e
+                fare_type: Published fare
+                FareBasisCode: V2N0ZRZL
+                BookingCode: V
+                cabin_class: Economic Standard
+          bcbc265364d2581723625d95081835e2ee63cd1e:
+          - pricing_solution_id: 6f97d49268a6dad7fded97f617bac71f17d992ba
+            total_price: 836.2
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T11:00:00.000+01:00'
+                departure_timestamp: 1724148000
+                arrival_time: '2024-06-20T13:46:00.000-03:00'
+                arrival_timestamp: 1724172360
+                flight_number: '25'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: LGW
+                to_iata: YHZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LGW)
+                Origin: LGW
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T11:00:00.000+01:00'
+                DepartureTimestamp: 1724148000
+                ArrivalTime: '2024-06-20T13:46:00.000-03:00'
+                ArrivalTimestamp: 1724172360
+                FlightNumber: '25'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 406
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAZYZFOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+          - pricing_solution_id: 1da2442fe765c8c6779df882c7e724c7054c5ab1
+            total_price: 2698.61
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T14:10:00.000+01:00'
+                departure_timestamp: 1724159400
+                arrival_time: '2024-06-20T15:53:00.000-06:00'
+                arrival_timestamp: 1724190780
+                flight_number: '19'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: LHR
+                to_iata: YYC
+              - departure_time: '2024-06-20T23:15:00.000-06:00'
+                departure_timestamp: 1724217300
+                arrival_time: '2024-06-21T07:08:00.000-03:00'
+                arrival_timestamp: 1724234880
+                flight_number: '228'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YHZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LHR)
+                Origin: LHR
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-20T14:10:00.000+01:00'
+                DepartureTimestamp: 1724159400
+                ArrivalTime: '2024-06-20T15:53:00.000-06:00'
+                ArrivalTimestamp: 1724190780
+                FlightNumber: '19'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 523
+                AircraftType: '789'
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAoYZFOAAAAA==
+                BookingCode: K
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T23:15:00.000-06:00'
+                DepartureTimestamp: 1724217300
+                ArrivalTime: '2024-06-21T07:08:00.000-03:00'
+                ArrivalTimestamp: 1724234880
+                FlightNumber: '228'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 293
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: lbzAnAVqWDKAqYZFOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+          0828e810ee117e0ca8f3d537cdd51b6b32f8708a:
+          - pricing_solution_id: 876c8046e272accbd8af4416dfd9691f61fb5038
+            total_price: 1059.54
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-25T07:15:00.000-03:00'
+                departure_timestamp: 1724580900
+                arrival_time: '2024-06-25T09:46:00.000-07:00'
+                arrival_timestamp: 1724604360
+                flight_number: '385'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T07:15:00.000-03:00'
+                DepartureTimestamp: 1724580900
+                ArrivalTime: '2024-06-25T09:46:00.000-07:00'
+                ArrivalTimestamp: 1724604360
+                FlightNumber: '385'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 391
+                AircraftType: 73W
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKA/EZFOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+          - pricing_solution_id: 8a167f4755dafcfae6c79ebd05897ec3b56e2b52
+            total_price: 1059.54
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-08-25T17:05:00.000-03:00'
+                departure_timestamp: 1724616300
+                arrival_time: '2024-08-25T17:54:00.000-04:00'
+                arrival_timestamp: 1724622840
+                flight_number: '244'
+                operating_carrier: PD
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YOW
+              - departure_time: '2024-08-25T18:45:00.000-04:00'
+                departure_timestamp: 1724625900
+                arrival_time: '2024-08-25T21:08:00.000-07:00'
+                arrival_timestamp: 1724645280
+                flight_number: '267'
+                operating_carrier: PD
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YOW
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-25T18:05:00.000-03:00'
+                DepartureTimestamp: 1724619900
+                ArrivalTime: '2024-06-25T20:40:00.000-06:00'
+                ArrivalTimestamp: 1724640000
+                FlightNumber: '233'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 335
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKAnFZFOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T21:25:00.000-06:00'
+                DepartureTimestamp: 1724642700
+                ArrivalTime: '2024-06-25T21:59:00.000-07:00'
+                ArrivalTimestamp: 1724648340
+                FlightNumber: '131'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 94
+                AircraftType: 73H
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKApFZFOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+          - pricing_solution_id: c7168b7f775eaf7eccddaacd50f2b08055871274
+            total_price: 495.09
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-08-25T17:50:00-03:00'
+                departure_timestamp: 1724619000
+                arrival_time: '2024-08-25T18:20:00-04:00'
+                arrival_timestamp: 1724624400
+                flight_number: '256'
+                operating_carrier: PD
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YUL
+              - departure_time: '2024-08-25T20:30:00-04:00'
+                departure_timestamp: 1724632200
+                arrival_time: '2024-08-25T23:15:00-07:00'
+                arrival_timestamp: 1724652900
+                flight_number: '7772'
+                operating_carrier: TS
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YUL
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Montreal, PQ, Canada (YUL)
+                Destination: YUL
+                DepartureTime: '2024-08-25T17:50:00-03:00'
+                DepartureTimestamp: 1724619000
+                ArrivalTime: '2024-08-25T18:20:00-04:00'
+                ArrivalTimestamp: 1724624400
+                FlightNumber: '256'
+                Carrier: PD
+                CarrierFullName: Porter Airlines, Inc.
+                FlightTime: 90
+                Key: dabc73bcbec56e68344b712fc60d00a2f35138ef
+                fare_type: Published fare
+                FareBasisCode: L0N3ZOZS
+                BookingCode: L
+                cabin_class: Economic Standard
+              - OriginName: Montreal, PQ, Canada (YUL)
+                Origin: YUL
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-08-25T20:30:00-04:00'
+                DepartureTimestamp: 1724632200
+                ArrivalTime: '2024-08-25T23:15:00-07:00'
+                ArrivalTimestamp: 1724652900
+                FlightNumber: '7772'
+                Carrier: PD
+                CarrierFullName: Porter Airlines, Inc.
+                FlightTime: 345
+                Key: e1ed2a29f953c40d8620293c97ff888a58602406
+                fare_type: Published fare
+                OperatingCarrier: TS
+                OperatingCarrierFullName: Air Transat
+                FareBasisCode: L0N3ZOZS
+                BookingCode: L
+                cabin_class: Economic Standard
+          d762cce7f9811adbd33b97a9c5760d8b046b575d:
+          - pricing_solution_id: 1c3ac84c0b9a811ad9165fcf2ae24834c15e1e5a
+            total_price: 398.51
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-30T23:55:00.000-07:00'
+                departure_timestamp: 1725087300
+                arrival_time: '2024-07-01T07:05:00.000-04:00'
+                arrival_timestamp: 1725102300
+                flight_number: '1204'
+                operating_carrier: F8
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YXX
+                to_iata: YKF
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Abbotsford, BC, Canada (YXX)
+                Origin: YXX
+                DestinationName: Kitchener, ON, Canada (YKF)
+                Destination: YKF
+                DepartureTime: '2024-06-30T23:55:00.000-07:00'
+                DepartureTimestamp: 1725087300
+                ArrivalTime: '2024-07-01T07:05:00.000-04:00'
+                ArrivalTimestamp: 1725102300
+                FlightNumber: '1204'
+                Carrier: W1
+                CarrierFullName: W1
+                FlightTime: 250
+                AircraftType: 7M8
+                AvailabilitySource: A
+                Key: FywAnATqWDKAsi9IOAAAAA==
+                BookingCode: M
+                cabin_class: Economy
+                OperatingCarrier: F8
+                OperatingCarrierFullName: Freedom Airlines d/b/a HP Expr
+          - pricing_solution_id: 43f56d0d396a6a0f4b2bc1c6aa8bde75461379c4
+            total_price: 420.5
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-30T23:25:00.000-07:00'
+                departure_timestamp: 1725085500
+                arrival_time: '2024-07-01T07:00:00.000-04:00'
+                arrival_timestamp: 1725102000
+                flight_number: '1263'
+                operating_carrier: F8
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YKF
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Kitchener, ON, Canada (YKF)
+                Destination: YKF
+                DepartureTime: '2024-06-30T23:25:00.000-07:00'
+                DepartureTimestamp: 1725085500
+                ArrivalTime: '2024-07-01T07:00:00.000-04:00'
+                ArrivalTimestamp: 1725102000
+                FlightNumber: '1263'
+                Carrier: W1
+                CarrierFullName: W1
+                FlightTime: 275
+                AircraftType: 7M8
+                AvailabilitySource: A
+                Key: FywAnATqWDKA8i9IOAAAAA==
+                BookingCode: M
+                cabin_class: Economy
+                OperatingCarrier: F8
+                OperatingCarrierFullName: Freedom Airlines d/b/a HP Expr
+          5dc60d68d31f05b571bb5a765e846fa076ffac46:
+          - pricing_solution_id: 52847f57120f5e91bf9f01940b88d0c7776dfbe8
+            total_price: 1743.77
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T11:00:00.000+01:00'
+                departure_timestamp: 1724148000
+                arrival_time: '2024-06-20T13:46:00.000-03:00'
+                arrival_timestamp: 1724172360
+                flight_number: '25'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: LGW
+                to_iata: YHZ
+            - - departure_time: '2024-06-30T06:00:00.000-07:00'
+                departure_timestamp: 1725022800
+                arrival_time: '2024-06-30T13:32:00.000-04:00'
+                arrival_timestamp: 1725039120
+                flight_number: '700'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YYZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LGW)
+                Origin: LGW
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T11:00:00.000+01:00'
+                DepartureTimestamp: 1724148000
+                ArrivalTime: '2024-06-20T13:46:00.000-03:00'
+                ArrivalTimestamp: 1724172360
+                FlightNumber: '25'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 406
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: FywAnATqWDKAFI9IOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Toronto, ON, Canada (YYZ)
+                Destination: YYZ
+                DepartureTime: '2024-06-30T06:00:00.000-07:00'
+                DepartureTimestamp: 1725022800
+                ArrivalTime: '2024-06-30T13:32:00.000-04:00'
+                ArrivalTimestamp: 1725039120
+                FlightNumber: '700'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 272
+                AircraftType: 73H
+                AvailabilitySource: S
+                Key: FywAnATqWDKAHI9IOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+          - pricing_solution_id: ccc8215f827ff2b4df4332d7574eab9031408a4a
+            total_price: 1743.77
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T11:00:00.000+01:00'
+                departure_timestamp: 1724148000
+                arrival_time: '2024-06-20T13:46:00.000-03:00'
+                arrival_timestamp: 1724172360
+                flight_number: '25'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: LGW
+                to_iata: YHZ
+            - - departure_time: '2024-06-30T07:00:00.000-07:00'
+                departure_timestamp: 1725026400
+                arrival_time: '2024-06-30T14:32:00.000-04:00'
+                arrival_timestamp: 1725042720
+                flight_number: '702'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YYZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LGW)
+                Origin: LGW
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T11:00:00.000+01:00'
+                DepartureTimestamp: 1724148000
+                ArrivalTime: '2024-06-20T13:46:00.000-03:00'
+                ArrivalTimestamp: 1724172360
+                FlightNumber: '25'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 406
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: FywAnATqWDKAFI9IOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Toronto, ON, Canada (YYZ)
+                Destination: YYZ
+                DepartureTime: '2024-06-30T07:00:00.000-07:00'
+                DepartureTimestamp: 1725026400
+                ArrivalTime: '2024-06-30T14:32:00.000-04:00'
+                ArrivalTimestamp: 1725042720
+                FlightNumber: '702'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 272
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: FywAnATqWDKANJ9IOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+          - pricing_solution_id: ff787dc1d6ef2d82fdea93268ee9167c87222d0f
+            total_price: 1609.96
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-08-20T11:00:00+01:00'
+                departure_timestamp: 1724148000
+                arrival_time: '2024-08-20T13:46:00-03:00'
+                arrival_timestamp: 1724172360
+                flight_number: '25'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: LGW
+                to_iata: YHZ
+            - - departure_time: '2024-08-30T15:15:00-07:00'
+                departure_timestamp: 1725056100
+                arrival_time: '2024-08-30T22:49:00-04:00'
+                arrival_timestamp: 1725072540
+                flight_number: '718'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: Published fare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YYZ
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LGW)
+                Origin: LGW
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-08-20T11:00:00+01:00'
+                DepartureTimestamp: 1724148000
+                ArrivalTime: '2024-08-20T13:46:00-03:00'
+                ArrivalTimestamp: 1724172360
+                FlightNumber: '25'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 406
+                Key: 010935c02243f72aad58835bd8c35c684e3f4ce2
+                fare_type: Published fare
+                FareBasisCode: LP7J3KES
+                BookingCode: L
+                cabin_class: Economic Standard
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Toronto, ON, Canada (YYZ)
+                Destination: YYZ
+                DepartureTime: '2024-08-30T15:15:00-07:00'
+                DepartureTimestamp: 1725056100
+                ArrivalTime: '2024-08-30T22:49:00-04:00'
+                ArrivalTimestamp: 1725072540
+                FlightNumber: '718'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 274
+                Key: 650cd1859c2b64e3d687588be51cbd96b89a43fb
+                fare_type: Published fare
+                FareBasisCode: LCUD0ZEJ
+                BookingCode: L
+                cabin_class: Economic Standard
+          d2b6f9169359603544872cc5b164b61f9bdb399d:
+          - pricing_solution_id: b931713ca37719cb0c1b40387cebf3bfc5522c9b
+            total_price: 1849.2
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T11:00:00.000+01:00'
+                departure_timestamp: 1724148000
+                arrival_time: '2024-06-20T13:46:00.000-03:00'
+                arrival_timestamp: 1724172360
+                flight_number: '25'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: LGW
+                to_iata: YHZ
+            - - departure_time: '2024-06-25T07:15:00.000-03:00'
+                departure_timestamp: 1724580900
+                arrival_time: '2024-06-25T09:46:00.000-07:00'
+                arrival_timestamp: 1724604360
+                flight_number: '385'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LGW)
+                Origin: LGW
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T11:00:00.000+01:00'
+                DepartureTimestamp: 1724148000
+                ArrivalTime: '2024-06-20T13:46:00.000-03:00'
+                ArrivalTimestamp: 1724172360
+                FlightNumber: '25'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 406
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKAHuZFOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T07:15:00.000-03:00'
+                DepartureTimestamp: 1724580900
+                ArrivalTime: '2024-06-25T09:46:00.000-07:00'
+                ArrivalTimestamp: 1724604360
+                FlightNumber: '385'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 391
+                AircraftType: 73W
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKAJuZFOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+          - pricing_solution_id: 83c9886bd7dcbc301b11671f4dbb18567a58ad25
+            total_price: 1849.2
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-20T11:00:00.000+01:00'
+                departure_timestamp: 1724148000
+                arrival_time: '2024-06-20T13:46:00.000-03:00'
+                arrival_timestamp: 1724172360
+                flight_number: '25'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: LGW
+                to_iata: YHZ
+            - - departure_time: '2024-06-25T18:05:00.000-03:00'
+                departure_timestamp: 1724619900
+                arrival_time: '2024-06-25T20:40:00.000-06:00'
+                arrival_timestamp: 1724640000
+                flight_number: '233'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YYC
+              - departure_time: '2024-06-25T21:25:00.000-06:00'
+                departure_timestamp: 1724642700
+                arrival_time: '2024-06-25T21:59:00.000-07:00'
+                arrival_timestamp: 1724648340
+                flight_number: '131'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YVR
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: London, United Kingdom (LGW)
+                Origin: LGW
+                DestinationName: Halifax, NS, Canada (YHZ)
+                Destination: YHZ
+                DepartureTime: '2024-06-20T11:00:00.000+01:00'
+                DepartureTimestamp: 1724148000
+                ArrivalTime: '2024-06-20T13:46:00.000-03:00'
+                ArrivalTimestamp: 1724172360
+                FlightNumber: '25'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 406
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKAHuZFOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-25T18:05:00.000-03:00'
+                DepartureTimestamp: 1724619900
+                ArrivalTime: '2024-06-25T20:40:00.000-06:00'
+                ArrivalTimestamp: 1724640000
+                FlightNumber: '233'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 335
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKA6uZFOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T21:25:00.000-06:00'
+                DepartureTimestamp: 1724642700
+                ArrivalTime: '2024-06-25T21:59:00.000-07:00'
+                ArrivalTimestamp: 1724648340
+                FlightNumber: '131'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 94
+                AircraftType: 73H
+                AvailabilitySource: P
+                Key: lbzAnAVqWDKA8uZFOAAAAA==
+                BookingCode: L
+                cabin_class: Economy
+          5ae6a98c563fdce700b09ba3437394e91ec7c1e2:
+          - pricing_solution_id: 8dcf639c40501a1ace3a24bde358d412b3b54980
+            total_price: 1934.25
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-25T18:05:00.000-03:00'
+                departure_timestamp: 1724619900
+                arrival_time: '2024-06-25T20:40:00.000-06:00'
+                arrival_timestamp: 1724640000
+                flight_number: '233'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YYC
+              - departure_time: '2024-06-25T21:25:00.000-06:00'
+                departure_timestamp: 1724642700
+                arrival_time: '2024-06-25T21:59:00.000-07:00'
+                arrival_timestamp: 1724648340
+                flight_number: '131'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YVR
+            - - departure_time: '2024-06-30T15:30:00.000-07:00'
+                departure_timestamp: 1725057000
+                arrival_time: '2024-06-30T17:57:00.000-06:00'
+                arrival_timestamp: 1725062220
+                flight_number: '118'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YYC
+              - departure_time: '2024-06-30T19:15:00.000-06:00'
+                departure_timestamp: 1725066900
+                arrival_time: '2024-07-01T00:52:00.000-04:00'
+                arrival_timestamp: 1725079920
+                flight_number: '568'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YKF
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-25T18:05:00.000-03:00'
+                DepartureTimestamp: 1724619900
+                ArrivalTime: '2024-06-25T20:40:00.000-06:00'
+                ArrivalTimestamp: 1724640000
+                FlightNumber: '233'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 335
+                AircraftType: 7M8
+                AvailabilitySource: P
+                Key: eAo/mASqWDKAxHSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T21:25:00.000-06:00'
+                DepartureTimestamp: 1724642700
+                ArrivalTime: '2024-06-25T21:59:00.000-07:00'
+                ArrivalTimestamp: 1724648340
+                FlightNumber: '131'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 94
+                AircraftType: 73H
+                AvailabilitySource: P
+                Key: eAo/mASqWDKAzHSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-30T15:30:00.000-07:00'
+                DepartureTimestamp: 1725057000
+                ArrivalTime: '2024-06-30T17:57:00.000-06:00'
+                ArrivalTimestamp: 1725062220
+                FlightNumber: '118'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 87
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: eAo/mASqWDKA1HSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Kitchener, ON, Canada (YKF)
+                Destination: YKF
+                DepartureTime: '2024-06-30T19:15:00.000-06:00'
+                DepartureTimestamp: 1725066900
+                ArrivalTime: '2024-07-01T00:52:00.000-04:00'
+                ArrivalTimestamp: 1725079920
+                FlightNumber: '568'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 217
+                AircraftType: 73W
+                AvailabilitySource: S
+                Key: eAo/mASqWDKA3HSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+          - pricing_solution_id: 10207cceab4ff0bcc6be384fb2f19f3535cc0734
+            total_price: 1934.25
+            segment_source: travelport
+            is_private_fare: false
+            refundable: false
+            baggage: 2pc
+            segments:
+            - - departure_time: '2024-06-25T08:00:00.000-03:00'
+                departure_timestamp: 1724583600
+                arrival_time: '2024-06-25T10:32:00.000-06:00'
+                arrival_timestamp: 1724603520
+                flight_number: '229'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YHZ
+                to_iata: YYC
+              - departure_time: '2024-06-25T12:00:00.000-06:00'
+                departure_timestamp: 1724608800
+                arrival_time: '2024-06-25T12:35:00.000-07:00'
+                arrival_timestamp: 1724614500
+                flight_number: '113'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YVR
+            - - departure_time: '2024-06-30T15:30:00.000-07:00'
+                departure_timestamp: 1725057000
+                arrival_time: '2024-06-30T17:57:00.000-06:00'
+                arrival_timestamp: 1725062220
+                flight_number: '118'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YVR
+                to_iata: YYC
+              - departure_time: '2024-06-30T19:15:00.000-06:00'
+                departure_timestamp: 1725066900
+                arrival_time: '2024-07-01T00:52:00.000-04:00'
+                arrival_timestamp: 1725079920
+                flight_number: '568'
+                operating_carrier: WS
+                transportation_type: flight
+                fare_type: PublicFare
+                cabin_class: E
+                from_iata: YYC
+                to_iata: YKF
+            metadata:
+              segment_source: travelport
+              legs:
+              - OriginName: Halifax, NS, Canada (YHZ)
+                Origin: YHZ
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-25T08:00:00.000-03:00'
+                DepartureTimestamp: 1724583600
+                ArrivalTime: '2024-06-25T10:32:00.000-06:00'
+                ArrivalTimestamp: 1724603520
+                FlightNumber: '229'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 332
+                AircraftType: 73H
+                AvailabilitySource: P
+                Key: eAo/mASqWDKAWJSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Vancouver, BC, Canada (YVR)
+                Destination: YVR
+                DepartureTime: '2024-06-25T12:00:00.000-06:00'
+                DepartureTimestamp: 1724608800
+                ArrivalTime: '2024-06-25T12:35:00.000-07:00'
+                ArrivalTimestamp: 1724614500
+                FlightNumber: '113'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 95
+                AircraftType: 73W
+                AvailabilitySource: P
+                Key: eAo/mASqWDKAYJSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Vancouver, BC, Canada (YVR)
+                Origin: YVR
+                DestinationName: Calgary, AB, Canada (YYC)
+                Destination: YYC
+                DepartureTime: '2024-06-30T15:30:00.000-07:00'
+                DepartureTimestamp: 1725057000
+                ArrivalTime: '2024-06-30T17:57:00.000-06:00'
+                ArrivalTimestamp: 1725062220
+                FlightNumber: '118'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 87
+                AircraftType: 7M8
+                AvailabilitySource: S
+                Key: eAo/mASqWDKA1HSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+              - OriginName: Calgary, AB, Canada (YYC)
+                Origin: YYC
+                DestinationName: Kitchener, ON, Canada (YKF)
+                Destination: YKF
+                DepartureTime: '2024-06-30T19:15:00.000-06:00'
+                DepartureTimestamp: 1725066900
+                ArrivalTime: '2024-07-01T00:52:00.000-04:00'
+                ArrivalTimestamp: 1725079920
+                FlightNumber: '568'
+                Carrier: WS
+                CarrierFullName: Westjet
+                FlightTime: 217
+                AircraftType: 73W
+                AvailabilitySource: S
+                Key: eAo/mASqWDKA3HSEOAAAAA==
+                BookingCode: E
+                cabin_class: Economy
+    ThreeWayGenerateSolutionResponse:
+      summary: Three Way Generate Solution Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        currency: USD
+        itineraries:
+        - itinerary_id: d8997bee5c8b53d21a85987d1fc05b959e789b42
+          total_price: 2247.71
+          weight: 2247.71
+          transportation_time: 1047
+          refundable: false
+          is_virtual_interline: false
+          structure: '[(0, 1), 2]'
+          flight_numbers:
+          - F81204
+          - WS25
+          - WS385
+          segments:
+          - pricing_solution_id: b931713ca37719cb0c1b40387cebf3bfc5522c9b
+            is_vi_segment: false
+            price: 1849.2
+            weight: 1849.2
+            segment_position:
+            - 0
+            - 1
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-20T11:00:00.000+01:00'
+              departure_timestamp: 1724148000
+              arrival_time: '2024-08-20T13:46:00.000-03:00'
+              arrival_timestamp: 1724172360
+              flight_number: '25'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: LGW
+              to_iata: YHZ
+              segment_leg_position: 0
+            - departure_time: '2024-08-25T07:15:00.000-03:00'
+              departure_timestamp: 1724580900
+              arrival_time: '2024-08-25T09:46:00.000-07:00'
+              arrival_timestamp: 1724604360
+              flight_number: '385'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YHZ
+              to_iata: YVR
+              segment_leg_position: 1
+          - pricing_solution_id: 1c3ac84c0b9a811ad9165fcf2ae24834c15e1e5a
+            is_vi_segment: false
+            price: 398.51
+            weight: 398.51
+            segment_position: 2
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-30T23:55:00.000-07:00'
+              departure_timestamp: 1725087300
+              arrival_time: '2024-08-31T07:05:00.000-04:00'
+              arrival_timestamp: 1725102300
+              flight_number: '1204'
+              operating_carrier: F8
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YXX
+              to_iata: YKF
+              segment_leg_position: 2
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LGW)
+              Origin: LGW
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-08-20T11:00:00.000+01:00'
+              DepartureTimestamp: 1724148000
+              ArrivalTime: '2024-08-20T13:46:00.000-03:00'
+              ArrivalTimestamp: 1724172360
+              FlightNumber: '25'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 406
+              AircraftType: 7M8
+              AvailabilitySource: P
+              Key: lbzAnAVqWDKAHuZFOAAAAA==
+              BookingCode: L
+              cabin_class: Economy
+              fare_info_ref: lbzAnAVqWDKAUuZFOAAAAA==
+              fare_rule_key: gws-eJxNjsEKgzAQRD9G5j67MdreIlErKqFQi9hD//8zuoktdCE7s7zNJCEEpdZstA7/VeFd7Q+kZwQS1M4xveAcFZIHkI3Hem9ntwwLSsZFaSgVfKqUxeijM8HIUU6UC0fp6203xpJsKsgvI1u7gZ/pNrOp67chUoRCT+2vX8gW9tUP0W8r4g==
+              fare_type: PublicFare
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-08-25T07:15:00.000-03:00'
+              DepartureTimestamp: 1724580900
+              ArrivalTime: '2024-08-25T09:46:00.000-07:00'
+              ArrivalTimestamp: 1724604360
+              FlightNumber: '385'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 391
+              AircraftType: 73W
+              AvailabilitySource: P
+              Key: lbzAnAVqWDKAJuZFOAAAAA==
+              BookingCode: L
+              cabin_class: Economy
+              fare_info_ref: lbzAnAVqWDKAcuZFOAAAAA==
+              fare_rule_key: gws-eJxNj80OAiEMhB+GzL3Uri43NuxGD4bEvzV48P0fw6FqdICGMtMvIeesoiZbtfyvgGe4X1BvBahQnraeoTtNo3cVQuFY1llOyx4OGXVw67cimgcZ9c3SutH1qe3woPEm048I2NikU892hIn5OLyb5quT+IaY0he+FA5SThQbeOUPXiEnL1w=
+              fare_type: PublicFare
+          - segment_source: travelport
+            legs:
+            - OriginName: Abbotsford, BC, Canada (YXX)
+              Origin: YXX
+              DestinationName: Kitchener, ON, Canada (YKF)
+              Destination: YKF
+              DepartureTime: '2024-08-30T23:55:00.000-07:00'
+              DepartureTimestamp: 1725087300
+              ArrivalTime: '2024-08-31T07:05:00.000-04:00'
+              ArrivalTimestamp: 1725102300
+              FlightNumber: '1204'
+              Carrier: W1
+              CarrierFullName: W1
+              FlightTime: 250
+              AircraftType: 7M8
+              AvailabilitySource: A
+              Key: FywAnATqWDKAsi9IOAAAAA==
+              BookingCode: M
+              cabin_class: Economy
+              fare_info_ref: FywAnATqWDKAzi9IOAAAAA==
+              fare_rule_key: gws-eJxNj8EOwiAQRD+GzH0XV0JvYLEXYy+aWDz4/5/hsNXoABsmM7yEUkqUaJKilX8FvMJDMdcGrIg8/bJAY1KD0q0QCte25Oep3uCQfBCPfkvRvciqb44+gqHP7NvGYCczVwTInPSsssNMzJ/DXW33QdJR1Gn6wpdMTzlR7Mgrf/AG2w0u9A==
+              fare_type: PublicFare
+              OperatingCarrier: F8
+              OperatingCarrierFullName: Freedom Airlines d/b/a HP Expr
+          markup: 323
+        - itinerary_id: bd309a5305032c1d94b403aba8a52da20712fa94
+          total_price: 2294.25
+          weight: 2294.25
+          transportation_time: 1139
+          refundable: false
+          is_virtual_interline: false
+          structure: '[0, 1, 2]'
+          flight_numbers:
+          - F81204
+          - PD244
+          - PD267
+          - WS25
+          segments:
+          - pricing_solution_id: 6f97d49268a6dad7fded97f617bac71f17d992ba
+            is_vi_segment: false
+            price: 836.2
+            weight: 836.2
+            segment_position: 0
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-20T11:00:00.000+01:00'
+              departure_timestamp: 1724148000
+              arrival_time: '2024-08-20T13:46:00.000-03:00'
+              arrival_timestamp: 1724172360
+              flight_number: '25'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: LGW
+              to_iata: YHZ
+              segment_leg_position: 0
+          - pricing_solution_id: 8a167f4755dafcfae6c79ebd05897ec3b56e2b52
+            is_vi_segment: false
+            price: 1059.54
+            weight: 1059.54
+            segment_position: 1
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-25T17:05:00.000-03:00'
+              departure_timestamp: 1724616300
+              arrival_time: '2024-08-25T17:54:00.000-04:00'
+              arrival_timestamp: 1724622840
+              flight_number: '244'
+              operating_carrier: PD
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YHZ
+              to_iata: YOW
+              segment_leg_position: 1
+            - departure_time: '2024-08-25T18:45:00.000-04:00'
+              departure_timestamp: 1724625900
+              arrival_time: '2024-08-25T21:08:00.000-07:00'
+              arrival_timestamp: 1724645280
+              flight_number: '267'
+              operating_carrier: PD
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YOW
+              to_iata: YVR
+              segment_leg_position: 1
+          - pricing_solution_id: 1c3ac84c0b9a811ad9165fcf2ae24834c15e1e5a
+            is_vi_segment: false
+            price: 398.51
+            weight: 398.51
+            segment_position: 2
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-30T23:55:00.000-07:00'
+              departure_timestamp: 1725087300
+              arrival_time: '2024-08-31T07:05:00.000-04:00'
+              arrival_timestamp: 1725102300
+              flight_number: '1204'
+              operating_carrier: F8
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YXX
+              to_iata: YKF
+              segment_leg_position: 2
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LGW)
+              Origin: LGW
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-08-20T11:00:00.000+01:00'
+              DepartureTimestamp: 1724148000
+              ArrivalTime: '2024-08-20T13:46:00.000-03:00'
+              ArrivalTimestamp: 1724172360
+              FlightNumber: '25'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 406
+              AircraftType: 7M8
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKAZYZFOAAAAA==
+              BookingCode: E
+              cabin_class: Economy
+              fare_info_ref: lbzAnAVqWDKAgYZFOAAAAA==
+              fare_rule_key: gws-eJxNjtEKwjAMRT9m3PfbbF31rXN1iitFcDK2B///M0yqgoHkXnJCkhijUDr20sX/aPBq1gfKcwQKRHO77nAS4MyD7D3yPdza+TSjrjgIFZWKP+rq4OhTq4KJkzUUWmCrNV9WZaRtNoEdRm0R+JlhUVuGtJwznaOjp6TjFzJAP30Drn8ryA==
+              fare_type: PublicFare
+          - segment_source: travelport
+            legs:
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Ottawa, ON, Canada (YOW)
+              Destination: YOW
+              DepartureTime: '2024-08-25T17:05:00.000-03:00'
+              DepartureTimestamp: 1724616300
+              ArrivalTime: '2024-08-25T17:54:00.000-04:00'
+              ArrivalTimestamp: 1724622840
+              FlightNumber: '244'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 109
+              AircraftType: '295'
+              AvailabilitySource: A
+              Key: lbzAnAVqWDKANGZFOAAAAA==
+              BookingCode: W
+              cabin_class: Economy
+              fare_info_ref: lbzAnAVqWDKAWGZFOAAAAA==
+              fare_rule_key: gws-eJxNj8EKwyAQRD9G5r6aNSQ3rR56KBJCaTGH/v9ndNymtLO6uMzsA1NKQYLKHDT9y+HltoqSK9AQePtjx6RRBJ5Tg1B4zkWOfbvBIEuIZv3Ko1uQUTtsndWGzt6vB40Pmb6Hw1SyzyM7ECpq67Ap1/tJWuDX9Qu/ZC5SRhSNfPIHb/zeLzE=
+              fare_type: PublicFare
+            - OriginName: Ottawa, ON, Canada (YOW)
+              Origin: YOW
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-08-25T18:45:00.000-04:00'
+              DepartureTimestamp: 1724625900
+              ArrivalTime: '2024-08-25T21:08:00.000-07:00'
+              ArrivalTimestamp: 1724645280
+              FlightNumber: '267'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 323
+              AircraftType: '295'
+              AvailabilitySource: A
+              Key: lbzAnAVqWDKAPGZFOAAAAA==
+              BookingCode: W
+              cabin_class: Economy
+              fare_info_ref: lbzAnAVqWDKAWGZFOAAAAA==
+              fare_rule_key: gws-eJxNj8EKwyAQRD9G5r6aNSQ3rR56KBJCaTGH/v9ndNymtLO6uMzsA1NKQYLKHDT9y+HltoqSK9AQePtjx6RRBJ5Tg1B4zkWOfbvBIEuIZv3Ko1uQUTtsndWGzt6vB40Pmb6Hw1SyzyM7ECpq67Ap1/tJWuDX9Qu/ZC5SRhSNfPIHb/zeLzE=
+              fare_type: PublicFare
+          - segment_source: travelport
+            legs:
+            - OriginName: Abbotsford, BC, Canada (YXX)
+              Origin: YXX
+              DestinationName: Kitchener, ON, Canada (YKF)
+              Destination: YKF
+              DepartureTime: '2024-08-30T23:55:00.000-07:00'
+              DepartureTimestamp: 1725087300
+              ArrivalTime: '2024-08-31T07:05:00.000-04:00'
+              ArrivalTimestamp: 1725102300
+              FlightNumber: '1204'
+              Carrier: W1
+              CarrierFullName: W1
+              FlightTime: 250
+              AircraftType: 7M8
+              AvailabilitySource: A
+              Key: FywAnATqWDKAsi9IOAAAAA==
+              BookingCode: M
+              cabin_class: Economy
+              fare_info_ref: FywAnATqWDKAzi9IOAAAAA==
+              fare_rule_key: gws-eJxNj8EOwiAQRD+GzH0XV0JvYLEXYy+aWDz4/5/hsNXoABsmM7yEUkqUaJKilX8FvMJDMdcGrIg8/bJAY1KD0q0QCte25Oep3uCQfBCPfkvRvciqb44+gqHP7NvGYCczVwTInPSsssNMzJ/DXW33QdJR1Gn6wpdMTzlR7Mgrf/AG2w0u9A==
+              fare_type: PublicFare
+              OperatingCarrier: F8
+              OperatingCarrierFullName: Freedom Airlines d/b/a HP Expr
+          markup: 188
+        - itinerary_id: ac236d9a9e90aa0b416649d8b9130f2b4a1c8309
+          total_price: 2770.45
+          weight: 2770.45
+          transportation_time: 1262
+          refundable: false
+          is_virtual_interline: false
+          structure: '[0, (1, 2)]'
+          flight_numbers:
+          - WS118
+          - WS131
+          - WS233
+          - WS25
+          - WS568
+          segments:
+          - pricing_solution_id: 6f97d49268a6dad7fded97f617bac71f17d992ba
+            is_vi_segment: false
+            price: 836.2
+            weight: 836.2
+            segment_position: 0
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-20T11:00:00.000+01:00'
+              departure_timestamp: 1724148000
+              arrival_time: '2024-06-20T13:46:00.000-03:00'
+              arrival_timestamp: 1724172360
+              flight_number: '25'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: LGW
+              to_iata: YHZ
+              segment_leg_position: 0
+          - pricing_solution_id: 8dcf639c40501a1ace3a24bde358d412b3b54980
+            is_vi_segment: false
+            price: 1934.25
+            weight: 1934.25
+            segment_position:
+            - 1
+            - 2
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-06-25T18:05:00.000-03:00'
+              departure_timestamp: 1724619900
+              arrival_time: '2024-06-25T20:40:00.000-06:00'
+              arrival_timestamp: 1724640000
+              flight_number: '233'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YHZ
+              to_iata: YYC
+              segment_leg_position: 1
+            - departure_time: '2024-06-25T21:25:00.000-06:00'
+              departure_timestamp: 1724642700
+              arrival_time: '2024-06-25T21:59:00.000-07:00'
+              arrival_timestamp: 1724648340
+              flight_number: '131'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YYC
+              to_iata: YVR
+              segment_leg_position: 1
+            - departure_time: '2024-06-30T15:30:00.000-07:00'
+              departure_timestamp: 1725057000
+              arrival_time: '2024-06-30T17:57:00.000-06:00'
+              arrival_timestamp: 1725062220
+              flight_number: '118'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YVR
+              to_iata: YYC
+              segment_leg_position: 2
+            - departure_time: '2024-06-30T19:15:00.000-06:00'
+              departure_timestamp: 1725066900
+              arrival_time: '2024-07-01T00:52:00.000-04:00'
+              arrival_timestamp: 1725079920
+              flight_number: '568'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: PublicFare
+              cabin_class: E
+              from_iata: YYC
+              to_iata: YKF
+              segment_leg_position: 2
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LGW)
+              Origin: LGW
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-06-20T11:00:00.000+01:00'
+              DepartureTimestamp: 1724148000
+              ArrivalTime: '2024-06-20T13:46:00.000-03:00'
+              ArrivalTimestamp: 1724172360
+              FlightNumber: '25'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 406
+              AircraftType: 7M8
+              AvailabilitySource: S
+              Key: lbzAnAVqWDKAZYZFOAAAAA==
+              BookingCode: E
+              cabin_class: Economy
+          - segment_source: travelport
+            legs:
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Calgary, AB, Canada (YYC)
+              Destination: YYC
+              DepartureTime: '2024-06-25T18:05:00.000-03:00'
+              DepartureTimestamp: 1724619900
+              ArrivalTime: '2024-06-25T20:40:00.000-06:00'
+              ArrivalTimestamp: 1724640000
+              FlightNumber: '233'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 335
+              AircraftType: 7M8
+              AvailabilitySource: P
+              Key: eAo/mASqWDKAxHSEOAAAAA==
+              BookingCode: E
+              cabin_class: Economy
+            - OriginName: Calgary, AB, Canada (YYC)
+              Origin: YYC
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-06-25T21:25:00.000-06:00'
+              DepartureTimestamp: 1724642700
+              ArrivalTime: '2024-06-25T21:59:00.000-07:00'
+              ArrivalTimestamp: 1724648340
+              FlightNumber: '131'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 94
+              AircraftType: 73H
+              AvailabilitySource: P
+              Key: eAo/mASqWDKAzHSEOAAAAA==
+              BookingCode: E
+              cabin_class: Economy
+            - OriginName: Vancouver, BC, Canada (YVR)
+              Origin: YVR
+              DestinationName: Calgary, AB, Canada (YYC)
+              Destination: YYC
+              DepartureTime: '2024-06-30T15:30:00.000-07:00'
+              DepartureTimestamp: 1725057000
+              ArrivalTime: '2024-06-30T17:57:00.000-06:00'
+              ArrivalTimestamp: 1725062220
+              FlightNumber: '118'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 87
+              AircraftType: 7M8
+              AvailabilitySource: S
+              Key: eAo/mASqWDKA1HSEOAAAAA==
+              BookingCode: E
+              cabin_class: Economy
+            - OriginName: Calgary, AB, Canada (YYC)
+              Origin: YYC
+              DestinationName: Kitchener, ON, Canada (YKF)
+              Destination: YKF
+              DepartureTime: '2024-06-30T19:15:00.000-06:00'
+              DepartureTimestamp: 1725066900
+              ArrivalTime: '2024-07-01T00:52:00.000-04:00'
+              ArrivalTimestamp: 1725079920
+              FlightNumber: '568'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 217
+              AircraftType: 73W
+              AvailabilitySource: S
+              Key: eAo/mASqWDKA3HSEOAAAAA==
+              BookingCode: E
+              cabin_class: Economy
+          markup: 210
+        - itinerary_id: 456c8f9da33b7dbd284949be27b35370803a69c9
+          total_price: 2105.05
+          weight: 2105.05
+          transportation_time: 1245
+          refundable: false
+          is_virtual_interline: false
+          structure: '[(0, 2), 1]'
+          flight_numbers:
+          - PD256
+          - TS7772
+          - WS25
+          - WS718
+          segments:
+          - pricing_solution_id: c7168b7f775eaf7eccddaacd50f2b08055871274
+            is_vi_segment: false
+            price: 495.09
+            weight: 495.09
+            segment_position: 1
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-25T17:50:00-03:00'
+              departure_timestamp: 1724619000
+              arrival_time: '2024-08-25T18:20:00-04:00'
+              arrival_timestamp: 1724624400
+              flight_number: '256'
+              operating_carrier: PD
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YHZ
+              to_iata: YUL
+              segment_leg_position: 1
+            - departure_time: '2024-08-25T20:30:00-04:00'
+              departure_timestamp: 1724632200
+              arrival_time: '2024-08-25T23:15:00-07:00'
+              arrival_timestamp: 1724652900
+              flight_number: '7772'
+              operating_carrier: TS
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YUL
+              to_iata: YVR
+              segment_leg_position: 1
+          - pricing_solution_id: ff787dc1d6ef2d82fdea93268ee9167c87222d0f
+            is_vi_segment: false
+            price: 1609.96
+            weight: 1609.96
+            segment_position:
+            - 0
+            - 2
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-20T11:00:00+01:00'
+              departure_timestamp: 1724148000
+              arrival_time: '2024-08-20T13:46:00-03:00'
+              arrival_timestamp: 1724172360
+              flight_number: '25'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: LGW
+              to_iata: YHZ
+              segment_leg_position: 0
+            - departure_time: '2024-08-30T15:15:00-07:00'
+              departure_timestamp: 1725056100
+              arrival_time: '2024-08-30T22:49:00-04:00'
+              arrival_timestamp: 1725072540
+              flight_number: '718'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YVR
+              to_iata: YYZ
+              segment_leg_position: 2
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Montreal, PQ, Canada (YUL)
+              Destination: YUL
+              DepartureTime: '2024-08-25T17:50:00-03:00'
+              DepartureTimestamp: 1724619000
+              ArrivalTime: '2024-08-25T18:20:00-04:00'
+              ArrivalTimestamp: 1724624400
+              FlightNumber: '256'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 90
+              Key: dabc73bcbec56e68344b712fc60d00a2f35138ef
+              fare_type: Published fare
+              FareBasisCode: L0N3ZOZS
+              BookingCode: L
+              cabin_class: Economic Standard
+            - OriginName: Montreal, PQ, Canada (YUL)
+              Origin: YUL
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-08-25T20:30:00-04:00'
+              DepartureTimestamp: 1724632200
+              ArrivalTime: '2024-08-25T23:15:00-07:00'
+              ArrivalTimestamp: 1724652900
+              FlightNumber: '7772'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 345
+              Key: e1ed2a29f953c40d8620293c97ff888a58602406
+              fare_type: Published fare
+              OperatingCarrier: TS
+              OperatingCarrierFullName: Air Transat
+              FareBasisCode: L0N3ZOZS
+              BookingCode: L
+              cabin_class: Economic Standard
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LGW)
+              Origin: LGW
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-08-20T11:00:00+01:00'
+              DepartureTimestamp: 1724148000
+              ArrivalTime: '2024-08-20T13:46:00-03:00'
+              ArrivalTimestamp: 1724172360
+              FlightNumber: '25'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 406
+              Key: 010935c02243f72aad58835bd8c35c684e3f4ce2
+              fare_type: Published fare
+              FareBasisCode: LP7J3KES
+              BookingCode: L
+              cabin_class: Economic Standard
+            - OriginName: Vancouver, BC, Canada (YVR)
+              Origin: YVR
+              DestinationName: Toronto, ON, Canada (YYZ)
+              Destination: YYZ
+              DepartureTime: '2024-08-30T15:15:00-07:00'
+              DepartureTimestamp: 1725056100
+              ArrivalTime: '2024-08-30T22:49:00-04:00'
+              ArrivalTimestamp: 1725072540
+              FlightNumber: '718'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 274
+              Key: 650cd1859c2b64e3d687588be51cbd96b89a43fb
+              fare_type: Published fare
+              FareBasisCode: LCUD0ZEJ
+              BookingCode: L
+              cabin_class: Economic Standard
+          markup: 212
+        - itinerary_id: e3020294c2aeb6718301c69e3533be63984b2cd8
+          total_price: 2986.41
+          weight: 2986.41
+          transportation_time: 2694
+          refundable: null
+          is_virtual_interline: false
+          structure: '[(0, 1, 2)]'
+          flight_numbers:
+          - PD256
+          - PD318
+          - TS7772
+          - WS19
+          - WS230
+          segments:
+          - pricing_solution_id: 9bc85999afbc9c30c0562f1943ae43ac44352c7a
+            is_vi_segment: false
+            price: 2986.41
+            weight: 2986.41
+            segment_position:
+            - 0
+            - 1
+            - 2
+            segment_source: travelport
+            is_private_fare: false
+            baggage: 2pc
+            legs:
+            - departure_time: '2024-08-20T14:10:00+01:00'
+              departure_timestamp: 1724159400
+              arrival_time: '2024-08-20T15:53:00-06:00'
+              arrival_timestamp: 1724190780
+              flight_number: '19'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: LHR
+              to_iata: YYC
+              segment_leg_position: 0
+            - departure_time: '2024-08-21T09:15:00-06:00'
+              departure_timestamp: 1724253300
+              arrival_time: '2024-08-21T17:09:00-03:00'
+              arrival_timestamp: 1724270940
+              flight_number: '230'
+              operating_carrier: WS
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YYC
+              to_iata: YHZ
+              segment_leg_position: 0
+            - departure_time: '2024-08-25T17:50:00-03:00'
+              departure_timestamp: 1724619000
+              arrival_time: '2024-08-25T18:20:00-04:00'
+              arrival_timestamp: 1724624400
+              flight_number: '256'
+              operating_carrier: PD
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YHZ
+              to_iata: YUL
+              segment_leg_position: 1
+            - departure_time: '2024-08-25T20:30:00-04:00'
+              departure_timestamp: 1724632200
+              arrival_time: '2024-08-25T23:15:00-07:00'
+              arrival_timestamp: 1724652900
+              flight_number: '7772'
+              operating_carrier: TS
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YUL
+              to_iata: YVR
+              segment_leg_position: 1
+            - departure_time: '2024-08-30T22:09:00-07:00'
+              departure_timestamp: 1725080940
+              arrival_time: '2024-08-31T05:39:00-04:00'
+              arrival_timestamp: 1725097140
+              flight_number: '318'
+              operating_carrier: PD
+              transportation_type: flight
+              fare_type: Published fare
+              cabin_class: E
+              from_iata: YVR
+              to_iata: YYZ
+              segment_leg_position: 2
+          metadata:
+          - segment_source: travelport
+            legs:
+            - OriginName: London, United Kingdom (LHR)
+              Origin: LHR
+              DestinationName: Calgary, AB, Canada (YYC)
+              Destination: YYC
+              DepartureTime: '2024-08-20T14:10:00+01:00'
+              DepartureTimestamp: 1724159400
+              ArrivalTime: '2024-08-20T15:53:00-06:00'
+              ArrivalTimestamp: 1724190780
+              FlightNumber: '19'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 523
+              Key: e596caf1f578b06a36aff8285489f6c7ff4facf6
+              fare_type: Published fare
+              FareBasisCode: LP7J3KEK
+              BookingCode: L
+              cabin_class: Economic Standard
+            - OriginName: Calgary, AB, Canada (YYC)
+              Origin: YYC
+              DestinationName: Halifax, NS, Canada (YHZ)
+              Destination: YHZ
+              DepartureTime: '2024-08-21T09:15:00-06:00'
+              DepartureTimestamp: 1724253300
+              ArrivalTime: '2024-08-21T17:09:00-03:00'
+              ArrivalTimestamp: 1724270940
+              FlightNumber: '230'
+              Carrier: WS
+              CarrierFullName: Westjet
+              FlightTime: 294
+              Key: c417e87f96e3941cf1590cbbdcca866cfcdab166
+              fare_type: Published fare
+              FareBasisCode: LCUD0QEK
+              BookingCode: L
+              cabin_class: Economic Standard
+            - OriginName: Halifax, NS, Canada (YHZ)
+              Origin: YHZ
+              DestinationName: Montreal, PQ, Canada (YUL)
+              Destination: YUL
+              DepartureTime: '2024-08-25T17:50:00-03:00'
+              DepartureTimestamp: 1724619000
+              ArrivalTime: '2024-08-25T18:20:00-04:00'
+              ArrivalTimestamp: 1724624400
+              FlightNumber: '256'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 90
+              Key: dabc73bcbec56e68344b712fc60d00a2f35138ef
+              fare_type: Published fare
+              FareBasisCode: L0N3ZOZS
+              BookingCode: L
+              cabin_class: Economic Standard
+            - OriginName: Montreal, PQ, Canada (YUL)
+              Origin: YUL
+              DestinationName: Vancouver, BC, Canada (YVR)
+              Destination: YVR
+              DepartureTime: '2024-08-25T20:30:00-04:00'
+              DepartureTimestamp: 1724632200
+              ArrivalTime: '2024-08-25T23:15:00-07:00'
+              ArrivalTimestamp: 1724652900
+              FlightNumber: '7772'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 345
+              Key: e1ed2a29f953c40d8620293c97ff888a58602406
+              fare_type: Published fare
+              OperatingCarrier: TS
+              OperatingCarrierFullName: Air Transat
+              FareBasisCode: L0N3ZOZS
+              BookingCode: L
+              cabin_class: Economic Standard
+            - OriginName: Vancouver, BC, Canada (YVR)
+              Origin: YVR
+              DestinationName: Toronto, ON, Canada (YYZ)
+              Destination: YYZ
+              DepartureTime: '2024-08-30T22:09:00-07:00'
+              DepartureTimestamp: 1725080940
+              ArrivalTime: '2024-08-31T05:39:00-04:00'
+              ArrivalTimestamp: 1725097140
+              FlightNumber: '318'
+              Carrier: PD
+              CarrierFullName: Porter Airlines, Inc.
+              FlightTime: 270
+              Key: c6756033ad1bfe7b4471681367e0bdd74299934e
+              fare_type: Published fare
+              FareBasisCode: V2N0ZRZL
+              BookingCode: V
+              cabin_class: Economic Standard
+          markup: 295
+    IE52ErrorCode:
+      summary: Trip Id Validation Error
+      value:
+        status: IE52
+        message: Trip Id not found
+    IE08ErrorCode:
+      summary: Request Decompress Error
+      value:
+        status: IE08
+        message: Please send a compressed request using zlib, more details can be found here:/generate-solutions/

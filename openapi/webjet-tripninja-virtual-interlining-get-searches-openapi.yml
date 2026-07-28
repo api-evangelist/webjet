@@ -1,0 +1,979 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Trip Ninja API Documentation
+  description: '<h2>Get Searches</h2>
+
+    The <code>/get-searches/</code> endpoint is responsible for taking a traveller search request from
+    your platform and applying our FareStructure logic to determine the optimal queries predicted.
+
+
+    <b>The general flow is as follows:</b>
+
+    A traveller makes a search request on your platform for an itinerary and you send this request from
+    your platform to Trip Ninja using the                               endpoint.
+
+    Trip Ninja reviews this search request, builds a set of optimal content search queries for you to
+    send to your content provider(s), and returns this set of content search queries to you.
+
+
+    !
+
+    '
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server for development and testing
+paths:
+  /v2/get-searches/:
+    post:
+      summary: Get Searches
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetSearchesRequest'
+            examples:
+              one-way-vi-request:
+                $ref: '#/components/examples/OneWayVIRequest'
+              two-way-vi-request:
+                $ref: '#/components/examples/TwoWayVIRequest'
+              three-way-vi-request:
+                $ref: '#/components/examples/ThreeWayVIRequest'
+              two-way-oj-vi-request:
+                $ref: '#/components/examples/TwoWayOJVIRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSearchesResponse'
+              examples:
+                one-way-vi-response:
+                  $ref: '#/components/examples/OneWayVIResponse'
+                two-way-vi-response:
+                  $ref: '#/components/examples/TwoWayVIResponse'
+                three-way-vi-response:
+                  $ref: '#/components/examples/ThreeWayVIResponse'
+                two-way-oj-vi-response:
+                  $ref: '#/components/examples/TwoWayOJVIResponse'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE23
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: Not a valid search
+              examples:
+                IE16ErrorCode:
+                  $ref: '#/components/examples/IE16ErrorCode'
+                IE62ErrorCode:
+                  $ref: '#/components/examples/IE62ErrorCode'
+                IE18ErrorCode:
+                  $ref: '#/components/examples/IE18ErrorCode'
+                IE27ErrorCode:
+                  $ref: '#/components/examples/IE27ErrorCode'
+                IE20ErrorCode:
+                  $ref: '#/components/examples/IE20ErrorCode'
+                IE12ErrorCode:
+                  $ref: '#/components/examples/IE12ErrorCode'
+                IE63ErrorCode:
+                  $ref: '#/components/examples/IE63ErrorCode'
+                IE11ErrorCode:
+                  $ref: '#/components/examples/IE11ErrorCode'
+                IE09ErrorCode:
+                  $ref: '#/components/examples/IE09ErrorCode'
+                IE10ErrorCode:
+                  $ref: '#/components/examples/IE10ErrorCode'
+                IE58ErrorCode:
+                  $ref: '#/components/examples/IE58ErrorCode'
+                IE59ErrorCode:
+                  $ref: '#/components/examples/IE59ErrorCode'
+                IE60ErrorCode:
+                  $ref: '#/components/examples/IE60ErrorCode'
+                IE61ErrorCode:
+                  $ref: '#/components/examples/IE61ErrorCode'
+                IE28ErrorCode:
+                  $ref: '#/components/examples/IE28ErrorCode'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE44
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: User is not authorized
+        '500':
+          description: Server Error
+components:
+  schemas:
+    GetSearchesRequest:
+      title: Request
+      type: object
+      required:
+      - segments
+      properties:
+        segments:
+          description: Array of flight legs input.
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - from_iata
+            - to_iata
+            - departure_date
+            properties:
+              id:
+                type: integer
+                description: Flight leg ID, must be unique and in order from 1 to n.
+                example: 1
+              from_iata:
+                type: string
+                description: Start city/airport IATA code of leg.
+                example: YHZ
+              from_type:
+                default: C
+                type: string
+                description: Upper-case letter “C” for city or “A” for airport. Doing a city search may
+                  return multiple airports nearby.
+                example: C
+              to_iata:
+                type: string
+                description: End city/airport IATA code of leg.
+                example: LON
+              to_type:
+                default: C
+                type: string
+                description: Upper-case letter “C” for city or “A” for airport. Doing a city search may
+                  return multiple airports nearby.
+                example: C
+              departure_date:
+                type: string
+                description: 'Departure date for this leg, format: YYYY-MM-DD. Any trailing characters
+                  after do not affect the API’s functionality.'
+                example: '2023-06-20'
+              cabin_class:
+                default: E
+                type: string
+                description: A unique cabin class can be set for each segment of the trip, otherwise it
+                  can be set at the root level.
+                example: BC
+                enum:
+                - E
+                - PE
+                - BC
+                - FC
+                - PFC
+        num_results:
+          default: 50
+          description: Parameter sets the number of segments in the response. If single_pnr = true, this
+            parameter refers to the number of constructed itineraries in the response. All single_pnr
+            itineraries are passed through if that parameter is set to true. If num_results is not defined,
+            it defaults to 50.
+          type: integer
+          minimum: 50
+          maximum: 5000
+        markup_source:
+          description: 'Segment to be used for markup models - typically by source (ex: onsite, skyscanner,
+            kayak, mobile, etc). Ensure this is known by your Trip Ninja account manager so the markup
+            models for that source can be created.'
+          example: onsite
+          type: string
+        travellers:
+          default:
+          - ADT
+          description: Array of passenger types, values include ‘ADT’ - Adult, ’MIL’ - Military, ’CHD’
+            - Child and ‘INF’ - Infant
+          type: array
+          items:
+            type: string
+          example:
+          - ADT
+          - ADT
+          - CHD
+        currency:
+          default: USD
+          description: Currency to be used for provider query requests in three digit code and any price
+            computation.
+          example: USD
+          type: string
+        country_code:
+          description: 'Country code where search came from (For example: CA, US). This works with the
+            source field to determine the markup model to use.'
+          example: CA
+          type: string
+        cabin_class:
+          default: E
+          description: "Parameter toggles the permitted cabin class for your query. Alternatively, it\
+            \ can be set for each segment. \n Accepted values are E - Economy, PE - Premium Economy, BC\
+            \ - Business Class, FC - First Class, PFC - Premium First Class."
+          example: BC
+          enum:
+          - E
+          - PE
+          - BC
+          - FC
+          - PFC
+          type: string
+        time_value:
+          default: 0
+          description: 'This parameter helps set the value of a passenger’s time, in
+
+            terms of the currency selected. It is used to trade off flight
+
+            prices versus flight durations. The parameter is in units of
+
+            [currency]/hour. Flight durations are calculated as the difference
+
+            in minutes from the arrival time of the last flight in a leg to
+
+            the departure time of the first flight in the leg.
+
+
+            True Cost of Flight = [Flight Price] + ([time_value] / 60) * [Flight Duration]
+
+
+            The itinerary which provides the lowest True Cost of Flight is
+
+            what is returned in the response. If you provide a time_value
+
+            of 0 or do not provide the parameter, it will sort by price.
+
+            '
+          type: integer
+        single_pnr:
+          description: "All single-pnr itineraries will be passed through in addition to the results returned,\
+            \ regardless of the num_results parameter. This will help Trip Ninja provide more optimized\
+            \ markups and more accurate results. \n\nIf set to false, only constructed itineraries will\
+            \ be returned."
+          default: true
+          type: boolean
+        virtual_interlining:
+          description: Add virtual interlining to the search so that the results are a mix of standard
+            search results and virtual interlining results.
+          default: false
+          example: true
+          type: boolean
+        num_vi_locations_returned:
+          description: 'Maximum number of virtual interlining locations to return. We will return a range
+            of 0 to `num_vi_locations_returned` VI locations depending on how many good VI locations are
+            found. If field is missing, 1 VI location will be returned by default. There is a constraint
+            of min 1 and max 4. We will always return a max of 1 VI location for an open jaw virtual interlining
+            request. '
+          default: 1
+          example: 1
+          type: integer
+        risk_profile_name:
+          description: The name of the risk profile to be used for this search. Omitting this optional
+            parameter will use the default risk profile. Please note that this parameter is configured
+            in the Admin Panel.
+          default: default
+          example: low-risk-UK
+          type: string
+        return_single_pnr_itineraries:
+          description: Removes non-constructed itineraries in generate-solutions response if the value
+            is false and `single_pnr` is true. However, some single PNR itineraries may still be returned.
+          default: true
+          type: boolean
+    GetSearchesResponse:
+      type: object
+      properties:
+        trip_id:
+          description: The trip id of the search. This will be used in all future requests relating to
+            this search.
+          type: string
+          example: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_requests:
+          description: The list of datasource requests to be carried out by the OTA.
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasourceRequest'
+    DatasourceRequest:
+      properties:
+        datasource_request_id:
+          description: The id of the datasource request.
+          type: string
+          example: 4f499298b303c55a1ee522118afce28abe2f68e4
+        num_results:
+          description: The number of results requested.
+          type: integer
+          example: 50
+        oj_request_id:
+          description: The concatenation of the datasource_request_id fields in an open jaw VI itinerary,
+            indicating which segments comprise the open jaw VI itinerary.
+          type: string
+          example: d0378432c2bdba6c66b8488f68c09d4b5b8fd173__bf5654f8ec76c09f634bfc88de0ae6120023919b__3ff7c09dc0590bdbb08f2a346a2863588dd396f0
+        datasource_segments:
+          description: The list of datasource segments.
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasourceSegments'
+    DatasourceSegments:
+      type: object
+      properties:
+        id:
+          description: The id of the datasource segment. Most will be in sequence and an integer [1...n],
+            some may include a decimal point, , e.g. (1.1, 1.2), (1.3, 1.4), (1.5, 1.6), (1.7, 1.8). Each
+            decimal pair is a virtual interlining solution. The round brackets indicate each pairing.
+            Each pair must be searched together, is optional and the mixing of ids will not work. e.g.
+            if only (1.1, 1.4) are searched no VI itineraries will be found. For an open jaw VI itinerary,
+            1.1 and 1.2 represent the first and second leg of the first segment and 2.1 and 2.2 represent
+            the first and second leg of the second segment.
+          type: number
+          example: 1
+        from_iata:
+          description: The IATA code of the origin airport or city.
+          type: string
+          example: YHZ
+        from_type:
+          description: The type of the origin, "C" for City or "A" for Airport.
+          type: string
+          enum:
+          - C
+          - A
+          example: C
+        to_iata:
+          description: The IATA code of the destination airport or city.
+          type: string
+          example: YVR
+        to_type:
+          description: The type of the destination, "C" for City or "A" for Airport.
+          type: string
+          enum:
+          - C
+          - A
+          example: C
+        departure_date:
+          description: The departure date of the segment, format = YYYY-MM-DD.
+          type: string
+          example: '2023-06-30'
+        cabin_class:
+          description: The cabin class of the segment. Accepted values are E - Economy, PE - Premium Economy,
+            BC - Business Class, FC - First Class, PFC - Premium First Class.
+          type: string
+          enum:
+          - E
+          - PE
+          - BC
+          - FC
+          - PFC
+          example: E
+        content_source:
+          description: The content source of the VI segment returned in the response. This suggests a
+            GDS content source that could be used for searching the particular segment. The supported
+            list of content sources is available on the Admin Panel.
+          type: string
+          example: travelport
+        is_international:
+          description: Denotes whether the segment flies to/from different countries. The value could
+            be `null` in case of a parsing error.
+          type: boolean
+          example: false
+  examples:
+    OneWayVIRequest:
+      summary: One Way VI Request
+      value:
+        segments:
+        - id: 1
+          departure_date: '2024-08-15'
+          cabin_class: E
+          from_iata: EWR
+          to_iata: LHR
+          from_type: A
+          to_type: A
+        num_results: 50
+        markup_source: onsite
+        travellers:
+        - ADT
+        currency: CAD
+        country_code: CA
+        cabin_class: E
+        time_value: 0
+        single_pnr: false
+        virtual_interlining: true
+        num_vi_locations_returned: 1
+        risk_profile_name: low-risk-CA
+        return_single_pnr_itineraries: true
+    TwoWayVIRequest:
+      summary: Two Way VI Request
+      value:
+        segments:
+        - id: 1
+          from_iata: ATL
+          from_type: A
+          to_iata: DFW
+          to_type: A
+          departure_date: '2024-08-15'
+          cabin_class: E
+        - id: 2
+          from_iata: DFW
+          from_type: A
+          to_iata: YHZ
+          to_type: A
+          departure_date: '2024-08-20'
+          cabin_class: E
+        travellers:
+        - ADT
+        currency: CAD
+        country_code: CA
+        time_value: 30
+        num_results: 200
+        single_pnr: false
+        virtual_interlining: true
+        cabin_class: E
+        risk_profile_name: low-risk-CA
+        return_single_pnr_itineraries: true
+    ThreeWayVIRequest:
+      summary: Three Way VI Request
+      value:
+        segments:
+        - id: 1
+          departure_date: '2024-08-15'
+          from_iata: MCO
+          to_iata: MEX
+          from_type: A
+          to_type: A
+        - id: 2
+          departure_date: '2024-08-20'
+          from_iata: MEX
+          to_iata: YVR
+          from_type: A
+          to_type: A
+        - id: 3
+          departure_date: '2024-08-25'
+          from_iata: YVR
+          to_iata: JFK
+          from_type: A
+          to_type: A
+        travellers:
+        - ADT
+        currency: CAD
+        country_code: CA
+        time_value: 30
+        num_results: 200
+        single_pnr: true
+        virtual_interlining: true
+        cabin_class: E
+        risk_profile_name: low-risk-CA
+        return_single_pnr_itineraries: true
+    ThreeWayVIResponse:
+      summary: Three Way VI Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_requests:
+        - datasource_request_id: 6140c27f0678625ac606db2b43219fd0f514c563
+          num_results: 1000
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: MCO
+            to_iata: MEX
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+          - id: 2
+            departure_date: '2024-08-20'
+            from_iata: MEX
+            to_iata: YVR
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+          - id: 3
+            departure_date: '2024-08-25'
+            from_iata: YVR
+            to_iata: JFK
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: ba7a5c30488d7ec278306c187686705a364edfa5
+          num_results: 200
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: MCO
+            to_iata: MEX
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: 2f48926ff0e47cd0aab98fce707edd82f7779e02
+          num_results: 200
+          datasource_segments:
+          - id: 2
+            departure_date: '2024-08-20'
+            from_iata: MEX
+            to_iata: YVR
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: d7e254301a8e37715520244f17dab722e6b7eeb2
+          num_results: 200
+          datasource_segments:
+          - id: 3
+            departure_date: '2024-08-25'
+            from_iata: YVR
+            to_iata: JFK
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: 78a8cf6357ff6756030dace0248c147bbe0754dc
+          num_results: 200
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: MCO
+            to_iata: MEX
+            cabin_class: E
+            from_type: A
+            to_type: A
+          - id: 3
+            departure_date: '2024-08-25'
+            from_iata: YVR
+            to_iata: JFK
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: 7658b45e4ccc2bd8518a40aa0a842117a3923497
+          num_results: 200
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: MCO
+            to_iata: MEX
+            cabin_class: E
+            from_type: A
+            to_type: A
+          - id: 2
+            departure_date: '2024-08-20'
+            from_iata: MEX
+            to_iata: YVR
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: 39b8495c475309094eaa43f423c653d563874c79
+          num_results: 200
+          datasource_segments:
+          - id: 2
+            departure_date: '2024-08-20'
+            from_iata: MEX
+            to_iata: YVR
+            cabin_class: E
+            from_type: A
+            to_type: A
+          - id: 3
+            departure_date: '2024-08-25'
+            from_iata: YVR
+            to_iata: JFK
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: a6b9080923d10a395833f5814e98513b5ced7710
+          num_results: 200
+          datasource_segments:
+          - id: 1.1
+            from_iata: MCO
+            from_type: A
+            to_iata: GUA
+            to_type: A
+            departure_date: '2024-08-15'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: cc0b28d3c97edc5ac90d96a905c7dd0efefd1ac3
+          num_results: 200
+          datasource_segments:
+          - id: 1.2
+            from_iata: GUA
+            from_type: A
+            to_iata: MEX
+            to_type: A
+            departure_date: '2024-08-15'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: b89b3bf0c0f3d31a98b04c322e3bd4096df0afd0
+          num_results: 200
+          datasource_segments:
+          - id: 2.1
+            from_iata: MEX
+            from_type: A
+            to_iata: PVR
+            to_type: A
+            departure_date: '2024-08-20'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: 74cda8017cb1f9cb866d28e2ac9f7e47a46c8a4d
+          num_results: 200
+          datasource_segments:
+          - id: 2.2
+            from_iata: PVR
+            from_type: A
+            to_iata: YVR
+            to_type: A
+            departure_date: '2024-08-20'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: 101946ed56122a3ee50e53ae098a95dd174d1aa7
+          num_results: 200
+          datasource_segments:
+          - id: 3.1
+            from_iata: YVR
+            from_type: A
+            to_iata: BOS
+            to_type: A
+            departure_date: '2024-08-25'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: 73e85ecda772a1f7b36b15a635a8413cdc5e7ab2
+          num_results: 200
+          datasource_segments:
+          - id: 3.2
+            from_iata: BOS
+            from_type: A
+            to_iata: JFK
+            to_type: A
+            departure_date: '2024-08-26'
+            cabin_class: E
+            content_source: travelport
+    TwoWayVIResponse:
+      summary: Two Way VI Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_requests:
+        - datasource_request_id: d8aaf7973d68ad6822463df65e9911745ceacbd4
+          num_results: 200
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: ATL
+            to_iata: DFW
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: 7481a5c50efd1733253a829e2689ca8a553b1a16
+          num_results: 200
+          datasource_segments:
+          - id: 2
+            departure_date: '2024-08-20'
+            from_iata: DFW
+            to_iata: YHZ
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: d86d57ec1b366316918a7ceb7a4c66d5cdbb1088
+          num_results: 200
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: ATL
+            to_iata: DFW
+            cabin_class: E
+            from_type: A
+            to_type: A
+          - id: 2
+            departure_date: '2024-08-20'
+            from_iata: DFW
+            to_iata: YHZ
+            cabin_class: E
+            from_type: A
+            to_type: A
+        - datasource_request_id: 55cb8b35e01d9af0d8985dbc8e5be0a4ad39bd4e
+          num_results: 200
+          datasource_segments:
+          - id: 1.1
+            from_iata: ATL
+            from_type: A
+            to_iata: MDW
+            to_type: A
+            departure_date: '2024-08-15'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: 038a44c5a33242b40e1d7a7fbe2457741e46c056
+          num_results: 200
+          datasource_segments:
+          - id: 1.2
+            from_iata: MDW
+            from_type: A
+            to_iata: DFW
+            to_type: A
+            departure_date: '2024-08-15'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: 332b75ffc09b255cbbaaa5516ba56e445ba90765
+          num_results: 200
+          datasource_segments:
+          - id: 2.1
+            from_iata: DFW
+            from_type: A
+            to_iata: BOS
+            to_type: A
+            departure_date: '2024-08-20'
+            cabin_class: E
+            content_source: travelport
+        - datasource_request_id: 184d8564262a1548983fe8ee687f4759c3b31868
+          num_results: 200
+          datasource_segments:
+          - id: 2.2
+            from_iata: BOS
+            from_type: A
+            to_iata: YHZ
+            to_type: A
+            departure_date: '2024-08-20'
+            cabin_class: E
+            content_source: travelport
+    OneWayVIResponse:
+      summary: One Way VI Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_requests:
+        - datasource_request_id: 045ce44555be2c68819bc889a9e50d1fc5d5bf80
+          num_results: 200
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-08-15'
+            from_iata: EWR
+            to_iata: LHR
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: df90edc75d6eb7e5159be9b03162312a708c64b2
+          num_results: 200
+          datasource_segments:
+          - id: 1.1
+            from_iata: EWR
+            from_type: A
+            to_iata: IAD
+            to_type: A
+            departure_date: '2024-08-15'
+            cabin_class: E
+            content_source: travelport
+            is_international: false
+        - datasource_request_id: aed2e648f78be1a1566f859262bf7da65a59c6ef
+          num_results: 200
+          datasource_segments:
+          - id: 1.2
+            from_iata: IAD
+            from_type: A
+            to_iata: LHR
+            to_type: A
+            departure_date: '2024-08-15'
+            cabin_class: E
+            content_source: travelport
+            is_international: true
+    TwoWayOJVIRequest:
+      summary: Two Way Open Jaw VI Request
+      value:
+        segments:
+        - id: 1
+          from_iata: YWG
+          to_iata: YHZ
+          to_type: A
+          from_type: A
+          departure_date: '2024-10-15'
+          cabin_class: E
+        - id: 2
+          from_iata: YHZ
+          to_iata: YWG
+          to_type: A
+          from_type: A
+          departure_date: '2024-10-20'
+          cabin_class: E
+        travellers:
+        - ADT
+        num_results: 50
+        markup_source: markup_test
+        content_source:
+        - amadeus
+        - atlas
+        - travelport
+        currency: USD
+        country_code: CA
+        cabin_class: E
+        time_value: 0
+        single_pnr: true
+        virtual_interlining: true
+        markup_by_itinerary: true
+    TwoWayOJVIResponse:
+      summary: Two Way Open Jaw VI Response
+      value:
+        trip_id: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+        datasource_requests:
+        - datasource_request_id: 2d58a3d01a06226b7e857fc4e64edca0cbf6de27
+          num_results: 50
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-10-15'
+            from_iata: YWG
+            to_iata: YHZ
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: 39a4cacc1c8f5c89e2fc9dc8a622998f12b4f781
+          num_results: 50
+          datasource_segments:
+          - id: 2
+            departure_date: '2024-10-20'
+            from_iata: YHZ
+            to_iata: YWG
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: 4ded8303829b55d176894103025b0888d266fd7f
+          num_results: 50
+          datasource_segments:
+          - id: 1
+            departure_date: '2024-10-15'
+            from_iata: YWG
+            to_iata: YHZ
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+          - id: 2
+            departure_date: '2024-10-20'
+            from_iata: YHZ
+            to_iata: YWG
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: d0378432c2bdba6c66b8488f68c09d4b5b8fd173
+          num_results: 50
+          oj_request_id: d0378432c2bdba6c66b8488f68c09d4b5b8fd173__637886eb8a0dd715b99da18c507b1263824a0a84__bf5654f8ec76c09f634bfc88de0ae6120023919b
+          datasource_segments:
+          - id: 1.1
+            departure_date: '2024-10-15'
+            from_iata: YWG
+            to_iata: YYZ
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+          - id: 2.2
+            departure_date: '2024-10-20'
+            from_iata: YUL
+            to_iata: YWG
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: 637886eb8a0dd715b99da18c507b1263824a0a84
+          num_results: 50
+          oj_request_id: d0378432c2bdba6c66b8488f68c09d4b5b8fd173__637886eb8a0dd715b99da18c507b1263824a0a84__bf5654f8ec76c09f634bfc88de0ae6120023919b
+          datasource_segments:
+          - id: 1.2
+            departure_date: '2024-10-15'
+            from_iata: YYZ
+            to_iata: YHZ
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+        - datasource_request_id: bf5654f8ec76c09f634bfc88de0ae6120023919b
+          num_results: 50
+          oj_request_id: d0378432c2bdba6c66b8488f68c09d4b5b8fd173__637886eb8a0dd715b99da18c507b1263824a0a84__bf5654f8ec76c09f634bfc88de0ae6120023919b
+          datasource_segments:
+          - id: 2.1
+            departure_date: '2024-10-20'
+            from_iata: YHZ
+            to_iata: YUL
+            cabin_class: E
+            from_type: A
+            to_type: A
+            is_international: false
+    IE16ErrorCode:
+      summary: Segment Id Validation Error
+      value:
+        status: IE16
+        message: Segment ID is invalid.
+    IE62ErrorCode:
+      summary: Cabin Class Validation Error
+      value:
+        status: IE62
+        message: cabin_class is invalid, it must be one of ["E", "PE", "BC", "FC", "PFC"]
+    IE18ErrorCode:
+      summary: Time Value Validation Error
+      value:
+        status: IE18
+        message: Time Value outside of expected range [$0,$200]/hr
+    IE27ErrorCode:
+      summary: Number Results Validation Error
+      value:
+        status: IE27
+        message: num_results should be an integer between 50 and 5000
+    IE20ErrorCode:
+      summary: Data Source Validation Error
+      value:
+        status: IE20
+        message: Source is invalid.
+    IE12ErrorCode:
+      summary: Currency Validation Error
+      value:
+        status: IE12
+        message: Currency is invalid.
+    IE63ErrorCode:
+      summary: Traveller Validation Error
+      value:
+        status: IE63
+        message: travellers' is invalid, it must be one of ["ADT", "MIL", "CHD", "INF"]
+    IE11ErrorCode:
+      summary: Departure Date Validation Error
+      value:
+        status: IE11
+        message: Departure date format is invalid
+    IE09ErrorCode:
+      summary: Date Validation Error
+      value:
+        status: IE09
+        message: Can't run any queries for flight dates in the past
+    IE10ErrorCode:
+      summary: Departure Date Order Validation Error
+      value:
+        status: IE10
+        message: Departure date must be greater than the previous departure_date
+    IE58ErrorCode:
+      summary: '`from_iata` Validation Error'
+      value:
+        status: IE58
+        message: '`from_iata` length is invalid, it cannot be > 3 characters.'
+    IE59ErrorCode:
+      summary: '`to_iata` Validation Error'
+      value:
+        status: IE59
+        message: '`to_iata` length is invalid, it cannot be > 3 characters.'
+    IE60ErrorCode:
+      summary: '`from_type` Validation Error'
+      value:
+        status: IE60
+        message: '`from_type` is invalid, it must be one of ["A", "C"]'
+    IE61ErrorCode:
+      summary: '`to_type` Validation Error'
+      value:
+        status: IE61
+        message: '`to_type` is invalid, it must be one of ["A", "C"]'
+    IE28ErrorCode:
+      summary: Number VI Return Validation Error
+      value:
+        status: IE28
+        message: num_vi_locations_returned should be an integer between 1 and 4

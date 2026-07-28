@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  version: 4.15.0
+  title: Trip Ninja API Documentation
+  description: ''
+servers:
+- url: https://sandbox.tripninja.io
+  description: Sandbox server
+paths:
+  /v2/report/cancel/:
+    post:
+      summary: Cancel Booking Report
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: Trip has been cancelled.
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code; value is 0 for success response
+                    example: IE23
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: Not a valid search
+              examples:
+                IE52ErrorCode:
+                  $ref: '#/components/examples/IE52ErrorCode'
+                IE41ErrorCode:
+                  $ref: '#/components/examples/IE41ErrorCode'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code; value is 0 for success response
+                    example: IE44
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: User is not authorized
+components:
+  schemas:
+    CancelRequest:
+      title: Request
+      type: object
+      required:
+      - trip_id
+      properties:
+        trip_id:
+          type: string
+          description: Trip ID returned in search response
+          example: gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=
+  examples:
+    IE52ErrorCode:
+      summary: Trip ID Validation Error
+      value:
+        status: IE52
+        message: Trip ID not found
+    IE41ErrorCode:
+      summary: Invalid Itinerary Status Validation Error
+      value:
+        status: IE41
+        message: Invalid itinerary status, you cannot set a cancelled itinerary to a cancelled itinerary.
+          Make sure you are following the workflow stated in documentation. If error continues to occur,
+          please contact support@tripninja.io
