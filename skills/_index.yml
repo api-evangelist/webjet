@@ -1,0 +1,40 @@
+generated: '2026-07-28'
+method: generated
+source: >-
+  openapi/webjet-tripninja-*.yml + https://devhub.tripninja.io/ +
+  https://github.com/trip-ninja-inc/trip_ninja_api_docs
+note: >-
+  Authored by API Evangelist. Trip Ninja publishes no AGENTS.md and no skill files (probed:
+  devhub.tripninja.io/AGENTS.md, /llms.txt, and the three public repos in
+  github.com/trip-ninja-inc). Every step is grounded in a published operation. The four current
+  SmartFlights documents carry operationId: "" so those skills anchor on METHOD + PATH; the
+  GitHub-published documents carry real operationIds and those are used verbatim.
+provider_published_skills: none
+skills:
+- file: webjet-tripninja-search-and-construct.md
+  name: Trip Ninja SmartFlights — search and construct itineraries
+  api: openapi/webjet-tripninja-smartflights-get-searches-openapi.yml
+  operations: ['POST /v3/get-searches/', 'POST /v3/generate-solutions/']
+- file: webjet-tripninja-report-booking-and-cancellation.md
+  name: Trip Ninja SmartFlights — report a booking and a cancellation
+  api: openapi/webjet-tripninja-smartflights-report-book-openapi.yml
+  operations: ['POST /v3/report/book/', 'POST /v3/report/cancel/']
+- file: webjet-tripninja-rotate-access-token.md
+  name: Trip Ninja — rotate the 90-day access token
+  api: openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml
+  operations: ['POST /adminpanel/refresh-token/']
+- file: webjet-tripninja-price-book-and-ticket.md
+  name: Trip Ninja — price, book, queue and ticket (GitHub-published surface)
+  api: openapi/webjet-tripninja-pricing-booking-openapi.yml
+  operations: [PriceConfirm, CreateBooking, BookingDetail, ListBooking, AddBookingToTicketingQueue, Ticket, CancelBooking, FlightSearch, PriceConfirmationReport, BookingReport, TicketingReport, CancelBookingReport]
+not_covered:
+- surface: Hotels (openapi/webjet-tripninja-hotels-openapi.yml)
+  reason: GitHub-published only; not documented on the developer hub and current availability unverified.
+- surface: MSDP / dynamic packaging (openapi/webjet-tripninja-msdp-openapi.yml)
+  reason: Same. The developer hub has a /dynamic-packaging/ route with no page behind it.
+- surface: DataStream
+  reason: Documented in prose only — no OpenAPI, no base URL, nothing to ground a skill in.
+- surface: FareStructure v2 / Virtual Interlining v2
+  reason: Deprecated by the provider; superseded by the SmartFlights v3 skills above.
+- surface: Webjet OTA, Airport Rentals, Motorhome Republic
+  reason: No public API of any kind.

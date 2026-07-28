@@ -1,0 +1,48 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Trip Ninja API Documentation
+  version: 1.0.0
+  x-generated: '2026-07-28'
+  x-method: generated
+  x-note: Captures API Evangelist enhancements only. The harvested document in openapi/ is never mutated. Nothing
+    here is a Trip Ninja claim.
+extends: openapi/webjet-tripninja-virtual-interlining-generate-solutions-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-28'
+    x-apievangelist-provider: webjet
+    x-apievangelist-business: 'Trip Ninja (Webjet Group Limited, ASX: WJL)'
+    x-apievangelist-source: https://devhub.tripninja.io/
+    x-apievangelist-access: commercial-agreement; Trip Ninja-issued Admin Panel credentials, IP allow-listing and
+      a certification pass are required. No self-serve signup.
+    x-apievangelist-error-catalog: errors/webjet-error-codes.yml
+    x-apievangelist-conventions: conventions/webjet-conventions.yml
+- target: $.components
+  update:
+    securitySchemes:
+      TokenAuth:
+        type: http
+        scheme: Token
+        description: 'Authorization: Token <access_token>. Access tokens expire 90 days after created_date and are
+          minted in the Trip Ninja Admin Panel. Documented at https://devhub.tripninja.io/smartflights/authentication/
+          but declared in no published OpenAPI document.'
+      BasicAuth:
+        type: http
+        scheme: basic
+        description: base64(USERNAME:PASSWORD) in the Authorization header. Used by accounts not created through
+          the Admin Panel.
+- target: $.paths['/v2/generate-solutions/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Shopping
+    operationId: postV2GenerateSolutions
+    x-apievangelist-operationid-note: 'The published document carries operationId: "" (empty string). This id is
+      assigned by API Evangelist for tooling; it is NOT a Trip Ninja identifier.'
+- target: $
+  update:
+    tags:
+    - name: Shopping

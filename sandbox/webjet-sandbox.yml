@@ -1,0 +1,89 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  https://devhub.tripninja.io/smartflights/setup/,
+  https://devhub.tripninja.io/smartflights/authentication/,
+  https://devhub.tripninja.io/smartflights/certification/,
+  https://github.com/trip-ninja-inc/tn-sdk-python
+docs: https://devhub.tripninja.io/smartflights/setup/
+summary: >-
+  Trip Ninja publishes a real pre-production (sandbox) environment, but it is NOT self-serve and there
+  are no magic test values. Access requires Trip Ninja-issued Admin Panel credentials, IP
+  allow-listing, and a certification pass before a production URL is issued. Because Trip Ninja carries
+  no air content of its own, the "test data" a developer needs is their OWN content-source responses —
+  the sandbox has nothing to simulate.
+environments:
+- name: sandbox / pre-production
+  base_url: https://sandbox.tripninja.io
+  token_flag: is_production_token = false
+  token_key: sandbox_token
+  self_serve: false
+  request_cap: 5,000 requests per day
+  status_when_not_allowlisted: '403 {"message":"Forbidden"}'
+- name: pre-production (legacy GitHub-published specs)
+  base_url: https://preprodapi.tripninja.io
+  source: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  status_when_not_allowlisted: '403 {"message":"Missing Authentication Token"}'
+- name: production
+  base_url: https://api.tripninja.io
+  token_flag: is_production_token = true
+  token_key: prod_token
+  published_in: >-
+    Not published on the developer hub — the hub says only "Once you are ready to go live, we will
+    provide you access to the production servers." The URL is published in the first-party SDK source
+    as PRODUCTION_API_URL.
+  source: https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/src/tn_sdk/utils/constants.py
+- name: DataStream
+  token_flag: is_datastream_token = true
+  token_key: data_stream_token
+  base_url: not published
+test_vs_live_separation:
+  mechanism: >-
+    Separate tokens per environment rather than key prefixes. The Admin Panel refresh-token response
+    carries is_production_token and is_datastream_token booleans that identify which environment and
+    which product a credential belongs to. The SDK models the same split as a TokenType enum
+    (sandbox_token / prod_token / data_stream_token).
+  key_prefixes: none — tokens are undecorated 40-character hex strings
+test_credentials:
+  self_serve_signup: false
+  how_to_obtain: >-
+    "You have been provided with an admin panel username and password by Trip Ninja." Generate a
+    sandbox token in the Admin Panel's Developer Resources section at https://app.tripninja.io.
+  contact: support@tripninja.io
+  ip_allowlisting_required: true
+  ip_allowlist_quote: >-
+    For security, Trip Ninja's servers are only accessible from whitelisted IPs. Please contact your
+    account manager to whitelist the IPs you will be using.
+test_values:
+  published: false
+  note: >-
+    No test card numbers, test PNRs, magic IATA codes, test carriers or simulated decline values are
+    published. Trip Ninja supplies no content, so a sandbox search still requires the consumer's own
+    GDS/NDC/aggregator responses to be posted to /generate-solutions/. The only published sample data
+    is the request/response examples embedded in the OpenAPI documents (one-way, two-way, three-way,
+    four-way and minimal request examples) and the compressed sample payload in the SDK README.
+  example_sources:
+  - openapi/webjet-tripninja-smartflights-get-searches-openapi.yml#/components/examples
+  - openapi/webjet-tripninja-smartflights-generate-solutions-openapi.yml#/components/examples
+  - https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/README.md
+time_simulation:
+  supported: false
+  note: >-
+    No test clock or time-travel facility. The opposite is enforced — IE09 rejects any query for a
+    flight date in the past.
+fixtures_and_triggers:
+  published: false
+certification:
+  required: true
+  quote: >-
+    Once core development and integration for SmartFlights is complete, execute the required test
+    cases to pass the certification process.
+  automated: >-
+    "Simplify the integration process and automate certification validation via the Admin Panel,
+    providing users with clear instructions and intuitive progress tracking."
+  docs: https://devhub.tripninja.io/smartflights/certification/
+  gate: A production base URL is issued only after certification passes.
+pilot:
+  term: 14 days, starting the date that Company delivers the account administrator credentials
+  fee: $0 USD
+  source: https://www.tripninja.io/legal/qt-tc

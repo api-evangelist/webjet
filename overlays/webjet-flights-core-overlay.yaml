@@ -1,0 +1,76 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Trip Ninja API Documentation
+  version: 1.0.0
+  x-generated: '2026-07-28'
+  x-method: generated
+  x-note: Captures API Evangelist enhancements only. The harvested document in openapi/ is never mutated. Nothing
+    here is a Trip Ninja claim.
+extends: openapi/webjet-tripninja-flights-core-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-28'
+    x-apievangelist-provider: webjet
+    x-apievangelist-business: 'Trip Ninja (Webjet Group Limited, ASX: WJL)'
+    x-apievangelist-source: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+    x-apievangelist-access: commercial-agreement; Trip Ninja-issued Admin Panel credentials, IP allow-listing and
+      a certification pass are required. No self-serve signup.
+    x-apievangelist-error-catalog: errors/webjet-error-codes.yml
+    x-apievangelist-conventions: conventions/webjet-conventions.yml
+- target: $.components
+  update:
+    securitySchemes:
+      TokenAuth:
+        type: http
+        scheme: Token
+        description: 'Authorization: Token <access_token>. Access tokens expire 90 days after created_date and are
+          minted in the Trip Ninja Admin Panel. Documented at https://devhub.tripninja.io/smartflights/authentication/
+          but declared in no published OpenAPI document.'
+      BasicAuth:
+        type: http
+        scheme: basic
+        description: base64(USERNAME:PASSWORD) in the Authorization header. Used by accounts not created through
+          the Admin Panel.
+- target: $.paths['/search/flights/{endpoint}/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Shopping
+- target: $.paths['/pre-booking/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Pricing
+- target: $.paths['/booking/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Booking
+- target: $.paths['/ticketing/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Ticketing
+- target: $.paths['/cancel/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Booking
+- target: $
+  update:
+    tags:
+    - name: Booking
+    - name: Pricing
+    - name: Shopping
+    - name: Ticketing

@@ -1,0 +1,64 @@
+generated: '2026-07-28'
+method: derived
+status: candidate
+source: openapi/webjet-tripninja-*.yml
+search_result:
+  official_server: none
+  probes:
+  - {url: 'https://mcp.tripninja.io', status: '000', note: DNS does not resolve}
+  - {url: 'https://sandbox.tripninja.io/mcp', status: 403, note: IP allow-listed API host}
+  - {registry: npm, query: '@modelcontextprotocol / tripninja / webjet', result: no first-party package}
+  - {registry: 'github.com/trip-ninja-inc', result: 'three public repos (api docs, python sdk, csharp sdk) — no MCP server'}
+  note: >-
+    Neither Webjet Group nor Trip Ninja publishes an MCP server. The tools below are a CANDIDATE
+    manifest derived from the published OpenAPI operations so an integrator can stand one up; it is
+    not a Trip Ninja product and no endpoint exists.
+server:
+  name: webjet-tripninja
+  transport: http
+  url: null
+  auth: >-
+    Any implementation must carry a Trip Ninja access token (Authorization: Token <access_token>) and
+    run from an IP address Trip Ninja has allow-listed. There is no anonymous or self-serve access.
+tools:
+- name: get_searches
+  description: Submit a traveller search and receive the optimised set of content-source queries to run.
+  source_operation: openapi/webjet-tripninja-smartflights-get-searches-openapi.yml#POST /v3/get-searches/
+  action_class: acting
+  consequence: read
+- name: generate_solutions
+  description: Post zlib+Base64-compressed content-source responses and receive constructed itineraries with markups.
+  source_operation: openapi/webjet-tripninja-smartflights-generate-solutions-openapi.yml#POST /v3/generate-solutions/
+  action_class: acting
+  consequence: write
+  note: Request body must be zlib-deflated then Base64-encoded or the call fails with IE08.
+- name: report_booking
+  description: Report a booked itinerary back to Trip Ninja.
+  source_operation: openapi/webjet-tripninja-smartflights-report-book-openapi.yml#POST /v3/report/book/
+  action_class: acting
+  consequence: physical
+  note: Reports a real, already-made airline booking. Not idempotent — no idempotency key exists.
+- name: report_cancellation
+  description: Report a cancelled itinerary back to Trip Ninja.
+  source_operation: openapi/webjet-tripninja-smartflights-report-cancel-openapi.yml#POST /v3/report/cancel/
+  action_class: acting
+  consequence: physical
+  note: Re-cancelling an already-cancelled itinerary returns IE41 rather than succeeding idempotently.
+- name: refresh_token
+  description: Exchange a refresh token for a new 90-day access token.
+  source_operation: openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml#POST /adminpanel/refresh-token/
+  action_class: acting
+  consequence: safety-critical
+  note: Credential rotation. Should not be exposed to an autonomous agent without human approval.
+tools_not_derived:
+  reason: >-
+    The six GitHub-published documents (flights core, pricing & booking, hotels, MSDP, v2 booking,
+    v2 core) describe surfaces the current developer hub no longer documents. Their operations —
+    FlightSearch, PriceConfirm, CreateBooking, CancelBooking, Ticket, AddBookingToTicketingQueue,
+    ListBooking, BookingDetail, the hotel Search/Details/Rules/PriceConfirm set and the nine MSDP
+    operations — are NOT derived into candidate tools here because their current availability is
+    unverified. They are catalogued in mcp/webjet-tool-crosswalk.yml under rest_only.
+caveats:
+- Every operationId in the four devhub SmartFlights documents is an empty string, so tools are bound by METHOD + PATH, not by operationId.
+- No operation is read-only; there is no safe GET on the v3 surface for an agent to explore with.
+- No rate-limit headers and no 429 response are declared, so an agent has no backpressure signal.

@@ -1,0 +1,62 @@
+generated: '2026-07-28'
+method: probed
+source: live HTTP probes, 2026-07-28
+summary: >-
+  No /.well-known/ discovery document is published anywhere in the Webjet Group estate. The corporate
+  and consumer hosts 404 or 301. The Trip Ninja API hosts (sandbox.tripninja.io,
+  preprodapi.tripninja.io, api.tripninja.io) sit behind AWS API Gateway with IP allow-listing and
+  return 403 / {"message":"Forbidden"} or {"message":"Missing Authentication Token"} for every path,
+  including /.well-known/*. The devhub.tripninja.io and app.tripninja.io hosts are S3-backed Vite/React
+  SPAs whose catch-all returns HTTP 200 with content-type text/html for ANY path — the 200s recorded
+  below are the SPA index shell (identical 2,628 / 2,321 byte documents), NOT well-known documents.
+  No security.txt, no OIDC/OAuth metadata, no api-catalog, no ai-plugin.json. Absence is the finding.
+hosts:
+- host: https://www.tripninja.io
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://devhub.tripninja.io
+  note: Vite/React SPA on S3 — 200 responses are the HTML index shell, not a well-known document.
+  documents:
+  - {path: /.well-known/security.txt, status: 302, note: redirects to /index.html}
+  - {path: /.well-known/openid-configuration, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/oauth-protected-resource, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/api-catalog, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/ai-plugin.json, status: 302, note: redirects to /index.html}
+- host: https://app.tripninja.io
+  note: Admin Panel SPA on S3 — same catch-all behaviour.
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/oauth-protected-resource, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/api-catalog, status: 200, content_type: text/html, real_document: false}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://sandbox.tripninja.io
+  note: 'Real API host. Every path returns 403 {"message":"Forbidden"} — IP allow-listed.'
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/oauth-protected-resource, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+  - {path: /.well-known/ai-plugin.json, status: 403}
+- host: https://www.webjetgroup.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 301}
+  - {path: /.well-known/oauth-authorization-server, status: 301}
+  - {path: /.well-known/oauth-protected-resource, status: 301}
+  - {path: /.well-known/api-catalog, status: 301}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://www.webjet.com.au
+  documents:
+  - {path: /.well-known/security.txt, status: 404, note: 'Azure Blob BlobNotFound error document (recorded 2026-07-28, round 1).'}
+security_txt: null
+api_catalog: null
+openid_configuration: null

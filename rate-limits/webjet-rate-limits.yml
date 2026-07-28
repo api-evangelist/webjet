@@ -1,0 +1,41 @@
+generated: '2026-07-28'
+method: searched
+source: https://devhub.tripninja.io/smartflights/setup/
+docs: https://devhub.tripninja.io/smartflights/setup/
+summary: >-
+  Trip Ninja publishes exactly one quantified rate limit — a sandbox daily request cap. No production
+  limit, no burst/QPS limit, no per-endpoint limit and no rate-limit response headers are published.
+  The only evidence that 429 occurs at all is the first-party SDK's retry list.
+headers_published: false
+rate_limit_headers: []
+retry_after_header: false
+rate_limits:
+- name: Sandbox daily request cap
+  environment: sandbox
+  limit_count: 5000
+  interval: day
+  scope: account
+  applies_to: https://sandbox.tripninja.io
+  quote: Users in the sandbox environment are given a maximum amount of 5,000 requests per day.
+  source: https://devhub.tripninja.io/smartflights/setup/
+production:
+  published: false
+  note: >-
+    No production rate limit is published. Production access is granted only after a commercial
+    agreement, IP allow-listing and a certification pass, so limits are presumed to be set per
+    contract; nothing is asserted here.
+related_bounds:
+  note: >-
+    These are payload bounds, not rate limits, but they cap the work per request and are published.
+  bounds:
+  - {field: num_results, min: 50, max: 5000, meaning: constructed itineraries returned per search, error: IE27}
+  - {field: searched_segments, min: 1, max: 6, meaning: segments per search, error: IE75}
+  - {field: num_vi_locations_returned, min: 1, max: 4, product: Virtual Interlining, error: IE28}
+  - {field: customer_booking_reference_id, max_length: 255, error: IE45}
+client_retry_policy:
+  source: https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/src/tn_sdk/core/tn_api.py
+  status_forcelist: [429, 500, 502, 503, 504]
+  total_retries: 3
+  backoff_factor: 0.5
+  allowed_methods: [GET, POST]
+  timeout_seconds: 30

@@ -1,0 +1,80 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  https://devhub.tripninja.io/ (route table + deprecated section),
+  https://devhub.tripninja.io/resources/integration-lifecycle,
+  https://www.tripninja.io/legal/qt-tc, live probes 2026-07-28
+versioning:
+  scheme: uri-path
+  current: v3
+  previous: v2
+  docs: https://devhub.tripninja.io/smartflights/overview/
+  note: >-
+    The URI version and the OpenAPI info.version disagree across documents describing the same
+    product (1.0.0, 2.0.0 and 4.15.0 all appear). No version header or negotiation is published.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  signal: >-
+    Deprecation is signalled by documentation placement only — deprecated products are moved under
+    devhub.tripninja.io/deprecated/ and labelled "deprecated" in the navigation. No sunset date, no
+    RFC 8594 Sunset/Deprecation header, no migration guide and no support-window commitment is
+    published. No OpenAPI operation carries deprecated: true.
+  deprecated_products:
+  - name: FareStructure (v2)
+    docs: https://devhub.tripninja.io/deprecated/farestructure/overview
+    superseded_by: SmartFlights (v3)
+    operations: [POST /v2/get-searches/, POST /v2/generate-solutions/, POST /v2/report/book/, POST /v2/report/cancel/]
+  - name: Virtual Interlining (v2)
+    docs: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+    superseded_by: SmartFlights (v3) — the capability is folded in
+    operations: [POST /v2/get-searches/, POST /v2/generate-solutions/]
+  superseded_documentation:
+    repo: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+    last_push: '2023-12-14'
+    note: >-
+      Six OpenAPI 3.0.0 documents (flights core, pricing & booking, hotels, MSDP/dynamic packaging,
+      v2 booking, v2 core) remain publicly published in Trip Ninja's own GitHub organisation. They
+      describe product surfaces — hotels, pricing/booking/ticketing/queueing, dynamic packaging —
+      that the current developer hub does not document. They are not marked deprecated anywhere; they
+      are simply no longer linked. Harvested verbatim to openapi/.
+deprecated_operations: []
+status_page:
+  url: null
+  published: false
+  probes:
+  - {url: 'https://status.tripninja.io', status: '000', note: DNS does not resolve}
+  - {url: 'https://status.webjetgroup.com', status: '000', note: DNS does not resolve}
+  - {url: 'https://tripninja.statuspage.io', status: 200, note: redirects to the Atlassian Statuspage marketing site — no Trip Ninja status page exists}
+changelog:
+  url: null
+  published: false
+  probes:
+  - {url: 'https://devhub.tripninja.io/changelog', status: 200, note: SPA catch-all — byte-identical to the index shell, not a changelog}
+  - {url: 'https://devhub.tripninja.io/resources/release-notes', status: 200, note: SPA catch-all}
+  note: >-
+    The developer hub route table contains no changelog or release-notes route. No dated changelog is
+    published anywhere for Trip Ninja or Webjet Group. The only version signal is info.version 4.15.0
+    in the OpenAPI documents.
+roadmap:
+  url: null
+  published: false
+  probe: {url: 'https://www.tripninja.io/roadmap', status: 404}
+sla:
+  url: null
+  uptime_target: null
+  published: false
+  note: >-
+    No SLA or uptime commitment is published. The SaaS agreement instead reserves the vendor's right
+    to "terminate or suspend your access to the Services ... at any time, with or without cause, and
+    without notice".
+integration_lifecycle:
+  docs: https://devhub.tripninja.io/resources/integration-lifecycle
+  stages: [scoping, admin panel credentials issued, IP allow-listing, sandbox development, certification, production access]
+  pilot_period: 14 days at $0 USD from delivery of account administrator credentials
+  initial_term: 1 month, commencing the day the Pilot Period expires
+  renewal: automatic, for additional periods of the same duration
+  termination_notice: 30 days prior to the end of the then-current term
+  source: https://www.tripninja.io/legal/qt-tc

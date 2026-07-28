@@ -1,0 +1,103 @@
+generated: '2026-07-28'
+method: derived
+source: mcp/webjet-mcp.yml + openapi/webjet-tripninja-*.yml
+status: candidate
+note: >-
+  Trip Ninja publishes no MCP server and no GraphQL surface, so this crosswalk binds the CANDIDATE
+  tool set in mcp/webjet-mcp.yml to the real REST operations that back it, and records everything on
+  the REST side that no tool covers. Nothing here is a Trip Ninja claim.
+surfaces:
+  openapi:
+    files: 17
+    directory: openapi/
+    devhub_documents: 11
+    github_documents: 6
+    gated: >-
+      Specs are public. The APIs themselves are not — sandbox.tripninja.io, preprodapi.tripninja.io
+      and api.tripninja.io return 403 to any non-allow-listed IP even with a valid token.
+    operationid_quality: >-
+      The eleven devhub documents all carry operationId: '' (empty string). Only the six
+      GitHub-published documents carry real operationIds. Bindings below use METHOD + PATH for the
+      devhub surface and operationId for the GitHub surface.
+  graphql:
+    endpoint: null
+    gated: n/a — no GraphQL surface exists (POST /graphql returns 403 with no GraphQL body)
+  mcp:
+    url: null
+    gated: n/a — no MCP server exists
+crosswalk:
+- tool: get_searches
+  category: shopping
+  rest: ['POST /v3/get-searches/']
+  spec: openapi/webjet-tripninja-smartflights-get-searches-openapi.yml
+  binding: rest
+  confidence: high
+  note: 1:1. Input schema is GetSearchesRequest (segments[] required); output is GetSearchesResponse (trip_id + datasource_requests[]).
+- tool: generate_solutions
+  category: shopping
+  rest: ['POST /v3/generate-solutions/']
+  spec: openapi/webjet-tripninja-smartflights-generate-solutions-openapi.yml
+  binding: rest
+  confidence: high
+  note: 1:1, but the request body is not plain JSON — it must be zlib-deflated and Base64-encoded (IE08 otherwise), which a naive OpenAPI-to-MCP generator will get wrong.
+- tool: report_booking
+  category: reporting
+  rest: ['POST /v3/report/book/']
+  spec: openapi/webjet-tripninja-smartflights-report-book-openapi.yml
+  binding: rest
+  confidence: high
+- tool: report_cancellation
+  category: reporting
+  rest: ['POST /v3/report/cancel/']
+  spec: openapi/webjet-tripninja-smartflights-report-cancel-openapi.yml
+  binding: rest
+  confidence: high
+- tool: refresh_token
+  category: auth
+  rest: ['POST /adminpanel/refresh-token/']
+  spec: openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml
+  binding: rest
+  confidence: high
+mcp_only: []
+rest_only:
+- capability: Deprecated v2 flight construction (FareStructure / Virtual Interlining)
+  spec: [openapi/webjet-tripninja-farestructure-*.yml, openapi/webjet-tripninja-virtual-interlining-*.yml]
+  operations: ['POST /v2/get-searches/', 'POST /v2/generate-solutions/', 'POST /v2/report/book/', 'POST /v2/report/cancel/']
+  reason: Superseded by v3; no candidate tool derived.
+- capability: Flights core search and reporting (GitHub-published)
+  spec: openapi/webjet-tripninja-flights-core-openapi.yml
+  operations: [FlightSearch, PriceConfirmationReport, BookingReport, TicketingReport, CancelBookingReport]
+  reason: Published in Trip Ninja's own GitHub docs repo but not on the current developer hub; current availability unverified.
+- capability: Pricing, booking, ticketing and queueing
+  spec: openapi/webjet-tripninja-pricing-booking-openapi.yml
+  operations: [PriceConfirm, ListBooking, BookingDetail, CreateBooking, CancelBooking, AddBookingToTicketingQueue, Ticket]
+  reason: Same. This is the only surface with read operations (GET /book/list/, GET /book/trip/{super_trip_id}/) and the only one with pagination.
+- capability: Hotel shopping
+  spec: openapi/webjet-tripninja-hotels-openapi.yml
+  operations: [Search, Details, Rules, PriceConfirm]
+  reason: Same. Not documented on the developer hub at all.
+- capability: MSDP / dynamic packaging
+  spec: openapi/webjet-tripninja-msdp-openapi.yml
+  operations: [MSDPSearch, MSDPGetFlightResults, MSDPGetHotelResults, MSDPRemoveHotelResult, MSDPGetHotelDetails, MSDPPriceConfirmationReport, MSDPBookingReport, MSDPTicketingReport, MSDPCancelBookingReport]
+  reason: >-
+    A /dynamic-packaging/ route exists in the developer hub route table with no page behind it; the
+    only machine-readable description of the product is this GitHub-published spec.
+- capability: Legacy v2 booking and super-trip management
+  spec: openapi/webjet-tripninja-v2-booking-openapi.yml
+  operations: [Search, PriceConfirm, CreateBooking, CancelBooking, AddBookingToTicketingQueue, Ticket, SuperTrip, SuperTripPartDeletion]
+  reason: Superseded.
+- capability: SDK credential exchange
+  operations: ['POST /sdk/auth/']
+  reason: >-
+    Real and current — implemented by the first-party SDKs with X-Client-ID / X-Client-Secret headers
+    — but described in NO published OpenAPI document. A spec gap, not a tool gap.
+coverage:
+  tools_named: 5
+  tools_bound: 5
+  mcp_only: 0
+  rest_operations_total: 47
+  rest_operations_total_breakdown:
+    devhub_specs: 11
+    github_specs: 36
+  rest_operations_with_a_tool: 5
+  rest_operations_undocumented_in_spec: 1

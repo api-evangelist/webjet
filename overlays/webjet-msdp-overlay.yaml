@@ -1,0 +1,102 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Trip Ninja MSDP API Documentation
+  version: 1.0.0
+  x-generated: '2026-07-28'
+  x-method: generated
+  x-note: Captures API Evangelist enhancements only. The harvested document in openapi/ is never mutated. Nothing
+    here is a Trip Ninja claim.
+extends: openapi/webjet-tripninja-msdp-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-28'
+    x-apievangelist-provider: webjet
+    x-apievangelist-business: 'Trip Ninja (Webjet Group Limited, ASX: WJL)'
+    x-apievangelist-source: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+    x-apievangelist-access: commercial-agreement; Trip Ninja-issued Admin Panel credentials, IP allow-listing and
+      a certification pass are required. No self-serve signup.
+    x-apievangelist-error-catalog: errors/webjet-error-codes.yml
+    x-apievangelist-conventions: conventions/webjet-conventions.yml
+- target: $.components
+  update:
+    securitySchemes:
+      TokenAuth:
+        type: http
+        scheme: Token
+        description: 'Authorization: Token <access_token>. Access tokens expire 90 days after created_date and are
+          minted in the Trip Ninja Admin Panel. Documented at https://devhub.tripninja.io/smartflights/authentication/
+          but declared in no published OpenAPI document.'
+      BasicAuth:
+        type: http
+        scheme: basic
+        description: base64(USERNAME:PASSWORD) in the Authorization header. Used by accounts not created through
+          the Admin Panel.
+- target: $.paths['/msdp/search/prod'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Dynamic Packaging
+- target: $.paths['/msdp/results/flights/?trip_id={trip_id}'].get
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Dynamic Packaging
+- target: $.paths['/results/hotels/?hotel_trace_id={hotel_trace_id}&rating={rating}&area={area}&min_price={min_price}&max_price={max_price}&min_distance={min_distance}&max_distance={max_distance}&hotel_chain={hotel_chain}&amenities={amenities}&sort_by={sort_by}'].get
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Hotels
+- target: $.paths['/msdp/search/removehotel/'].patch
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Hotels
+- target: $.paths['/msdp/detail/hotel/prod'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Hotels
+- target: $.paths['/msdp/pre-booking/prod'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Dynamic Packaging
+- target: $.paths['/msdp/booking/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Dynamic Packaging
+- target: $.paths['/msdp/ticketing/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Dynamic Packaging
+- target: $.paths['/msdp/cancel/'].post
+  update:
+    security:
+    - TokenAuth: []
+    - BasicAuth: []
+    tags:
+    - Dynamic Packaging
+- target: $
+  update:
+    tags:
+    - name: Dynamic Packaging
+    - name: Hotels

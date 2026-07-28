@@ -1,0 +1,82 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  https://devhub.tripninja.io/smartflights/troubleshooting/ (error-code reference rendered from
+  devhub.tripninja.io/assets/index-8odYpnZf.js) enriched with the components.examples error payloads in
+  openapi/webjet-tripninja-*.yml
+docs: https://devhub.tripninja.io/smartflights/troubleshooting/
+format: proprietary
+rfc9457: false
+envelope:
+  media_type: application/json
+  fields:
+    status: >-
+      On errors this carries the Trip Ninja error CODE as a string (e.g. "IE52"), not an HTTP status
+      number. On 200 responses the same field carries the numeric HTTP status (e.g. 200). The type of
+      this field therefore changes between success and failure.
+    message: Human-readable description of the failure.
+  example_error: {status: IE52, message: Trip ID not found}
+  example_success: {status: 200, message: success}
+http_statuses:
+  '400': Invalid Input — carries an IExx validation code.
+  '401': Unauthorized — "User is not authorized" (IE44 in the spec examples).
+  '500': Server Error — no body schema published.
+notes:
+- >-
+  IE44 is published with two different meanings. The OpenAPI 401 response examples use it for
+  "User is not authorized"; the troubleshooting reference documents it as a data_source_list format
+  error. Both are recorded below as the provider publishes them.
+- No Retry-After, rate-limit or request-id header is documented on any error response.
+- The prefix IE is used consistently but never expanded in the documentation.
+error_codes:
+- {code: IE08, http: 400, title: Request Decompress Error, description: 'The request must be compressed using zlib. Refer to the documentation at /generate-solutions/ for implementation details.', message: 'Please send a compressed request using zlib, more details can be found here:/generate-solutions/'}
+- {code: IE09, http: 400, title: Date Validation Error, description: Queries for flight dates in the past are not allowed. Ensure all flight dates are set in the future., message: Can't run any queries for flight dates in the past}
+- {code: IE10, http: 400, title: Departure Date Order Validation Error, description: The departure date must be later than the previous segment's departure date. Ensure dates are in chronological order., message: Departure date must be greater than the previous departure_date}
+- {code: IE11, http: 400, title: Departure Date Validation Error, description: The departure date format is invalid. Use the YYYY-MM-DD format., message: Departure date format is invalid}
+- {code: IE12, http: 400, title: Currency Validation Error, description: The specified currency code is invalid. Use a valid ISO 4217 currency code., message: Currency is invalid.}
+- {code: IE13, http: 400, title: Currency Missing Validation Error, description: Currency is required., message: Currency is required.}
+- {code: IE16, http: 400, title: Segment Id Validation Error, description: The provided segment ID is invalid. Ensure it matches the format and range specified in the documentation., message: Segment ID is invalid.}
+- {code: IE18, http: 400, title: Time Value Validation Error, description: 'Time Value outside of expected range: 0 < Time Value < 200', message: 'Time Value outside of expected range [$0,$200]/hr'}
+- {code: IE19, http: 400, title: Segment Source Missing, description: The 'segment_source' field is required. Include a valid source identifier in your request (e.g. travelport).}
+- {code: IE20, http: 400, title: Data Source Validation Error, description: The 'segment_source' field contains an invalid value. Refer to the documentation for accepted values., message: Source is invalid.}
+- {code: IE21, http: 400, title: Invalid IATA Code Validation Error, description: 'Invalid IATA code.', message: 'Invalid IATA code: ''...'''}
+- {code: IE22, http: 400, title: Cabin Option Invalid, description: 'The cabin option is invalid. Use one of the following: ''E'', ''PE'', ''SE'', ''BC'', ''FC'', ''PFC''.'}
+- {code: IE27, http: 400, title: Number Results Validation Error, description: The 'num_results' value should be an integer between 50 and 5000. Adjust the value accordingly., message: num_results should be an integer between 50 and 5000}
+- {code: IE28, http: 400, title: Number VI Return Validation Error, description: num_vi_locations_returned should be an integer between 1 and 4, product: Virtual Interlining}
+- {code: IE38, http: 400, title: Itinerary Not Found, description: Could not locate the itinerary with the given itinerary_id. Please verify that the itinerary_id is correct.}
+- {code: IE40, http: 400, title: Datasource Response Structure Missing, description: The datasource response structure is missing in the request. Ensure you include all required fields as specified in the API documentation.}
+- {code: IE41, http: 400, title: Invalid Trip ID / Invalid Itinerary Status, description: Invalid trip_id. Please ensure that you are sending the unmodified trip_id returned from get-searches., message: Invalid itinerary status, you cannot set a cancelled itinerary to a cancelled itinerary. Make sure you are following the workflow stated in documentation. If error continues to occur, please contact support@tripninja.io}
+- {code: IE42, http: 400, title: Pricing Solution IDs Format, description: 'pricing_solution_ids'' is not in the right format. Please check the docs for more details.'}
+- {code: IE44, http: 401, title: Unauthorized, description: 'Spec examples: "User is not authorized". Troubleshooting reference: the data_source_list format is incorrect — refer to the report-booking documentation for the correct structure and formatting guidelines.', message: User is not authorized}
+- {code: IE45, http: 400, title: customer_booking_reference_id Validation Error, description: customer_booking_reference_id length is invalid (must be less than 255 characters)., message: '`customer_booking_reference_id` length is invalid (must be less than 255 characters)'}
+- {code: IE47, http: 400, title: data_source_list Missing, description: The data_source_list is missing in the request. Include the data_source_list as specified in the documentation.}
+- {code: IE48, http: 400, title: data_source_list Length Mismatch, description: The number of items in data_source_list should match the number of items in pricing_solution_ids. Ensure both lists have the same number of items.}
+- {code: IE51, http: 400, title: cabin_class Missing, description: The 'cabin_class' field is missing. Include this field to specify the cabin class (e.g., E, BC).}
+- {code: IE52, http: 400, title: Trip ID Validation Error, description: The specified Trip ID was not found. Verify that the Trip ID is correct., message: Trip ID not found}
+- {code: IE53, http: 400, title: Get Searches Response Not Found, description: Get Searches Response not found.}
+- {code: IE55, http: 400, title: Reporting Data Validation Error, description: Either pricing_solution_ids or itinerary_id is required. Include one of these fields in your request., message: One of pricing_solution_ids or itinerary_id is required.}
+- {code: IE58, http: 400, title: from_iata Validation Error, description: The from_iata length is invalid. It must be exactly 3 characters long., message: '`from_iata` length is invalid, it cannot be > 3 characters.'}
+- {code: IE59, http: 400, title: to_iata Validation Error, description: The to_iata length is invalid. It must be exactly 3 characters long., message: '`to_iata` length is invalid, it cannot be > 3 characters.'}
+- {code: IE60, http: 400, title: from_type Validation Error, description: The 'from_type' field is invalid. It must be either 'A' (airport) or 'C' (city)., message: '`from_type` is invalid, it must be one of ["A", "C"]'}
+- {code: IE61, http: 400, title: to_type Validation Error, description: The 'to_type' field is invalid. It must be either 'A' (airport) or 'C' (city)., message: '`to_type` is invalid, it must be one of ["A", "C"]'}
+- {code: IE62, http: 400, title: Cabin Class Validation Error, description: 'The ''cabin_class'' field is invalid. Use one of the following: "E" (Economy), "PE" (Premium Economy), "BC" (Business Class), "FC" (First Class), or "PFC" (Premium First Class).', message: 'cabin_class is invalid, it must be one of ["E", "PE", "BC", "FC", "PFC"]'}
+- {code: IE63, http: 400, title: Traveller Validation Error, description: 'The ''travellers'' field is invalid. It must be one of the following: "ADT" (Adult), "MIL" (Military), "CHD" (Child), "INF" (Infant).', message: 'travellers'' is invalid, it must be one of ["ADT", "MIL", "CHD", "INF"]'}
+- {code: IE66, http: 400, title: Invalid Feature, description: The feature specified is invalid. It must be either 'FareStructure' or 'Virtual Interlining'.}
+- {code: IE67, http: 400, title: Feature Not Enabled, description: This feature is not enabled. Verify your permissions and ensure the feature is activated in your account settings.}
+- {code: IE68, http: 400, title: carrier_code Length Invalid, description: The carrier_code length is invalid. It cannot be > 2 characters}
+- {code: IE69, http: 400, title: Itinerary Not Found For pricing_solution_ids, description: Could not locate the itinerary with the provided pricing_solution_ids. Verify that the pricing_solution_ids are correct and match those returned by the get-searches response.}
+- {code: IE70, http: 400, title: datasource_responses Type Invalid, description: datasource_responses type is invalid, should be a dictionary of items}
+- {code: IE71, http: 400, title: Empty Segments In datasource_responses, description: one or more segments is empty in the datasource_responses, it must not be empty}
+- {code: IE72, http: 400, title: segments Missing In pricing_solutions, description: segments field is missing in the pricing_solutions. Please verify the pricing_solutions structure is correct}
+- {code: IE73, http: 400, title: datasource_responses Segments Unstructured, description: 'segments in datasource_responses is not structured, more details can be found here: /generate-solutions/'}
+- {code: IE74, http: 400, title: Segment Count Mismatch, description: Number of segments in searched_segments and data segments must be equal.}
+- {code: IE75, http: 400, title: searched_segments Count Out Of Range, description: Number of items in searched_segments should be between 1 and 6}
+- {code: IE89, http: 400, title: baggage Field Invalid, description: Incorrect value for baggage field in pricing_solution. Must be a string value or null.}
+sdk_error_codes:
+  source: https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/src/tn_sdk/exceptions/exceptions.py
+  note: Client-side exception codes raised by the first-party SDKs, distinct from the API IExx codes.
+  codes:
+  - {code: SDK_ERROR, exception: TnApiException, meaning: Base Trip Ninja SDK exception.}
+  - {code: INVALID_DATA, exception: InvalidDataException, meaning: Invalid or malformed data passed to an SDK function.}
+  - {code: AUTH_FAILED, exception: TnAuthenticationFailedException, meaning: Authentication failed.}
+support_contact: support@tripninja.io

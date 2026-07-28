@@ -1,0 +1,125 @@
+generated: '2026-07-28'
+method: derived
+source: >-
+  the seventeen OpenAPI documents in openapi/, https://devhub.tripninja.io/,
+  https://www.tripninja.io/legal/gdpr, https://www.tripninja.io/legal/data-processing
+scope: >-
+  Trip Ninja's published API surface. Webjet Group's consumer brands publish no API and are therefore
+  outside every assertion below.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: All seventeen harvested documents declare openapi 3.0.0 with info/servers/paths/components.
+- id: openapi-3.1
+  conforms: false
+  evidence: No 3.1 document published.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No securitySchemes block exists in any published document. The docs describe a proprietary
+    "Authorization: Token <access_token>" scheme and HTTP Basic. The SDK's /sdk/auth/ exchange uses
+    X-Client-ID / X-Client-Secret headers, not an RFC 6749 token endpoint.
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any host (all probes 404 / 403 / SPA shell).
+- id: rfc6750-bearer
+  conforms: false
+  evidence: 'Uses the non-standard "Token" auth-scheme keyword rather than "Bearer".'
+- id: rfc7617-http-basic
+  conforms: true
+  evidence: 'Documented Basic Authentication — base64(USERNAME:PASSWORD) in the Authorization header.'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are application/json with a proprietary {status, message} envelope carrying IExx codes.
+    No application/problem+json, no type/title/detail/instance members.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: No /.well-known/security.txt published on any host.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header, and no deprecation policy, is published.
+- id: rfc9110-conditional-requests
+  conforms: false
+  evidence: No ETag / If-Match / If-None-Match usage documented.
+- id: idempotency-key
+  conforms: false
+  evidence: >-
+    No idempotency key of any kind. The is_retry boolean on the booking report flags a retry but
+    provides no at-most-once guarantee; re-cancelling returns IE41.
+- id: pagination
+  conforms: partial
+  evidence: >-
+    The v3 flight-construction surface is unpaged (bounded by num_results 50..5000). Only the
+    GitHub-published pricing & booking spec pages, via offset/limit query parameters on
+    GET /book/list/.
+- id: json-api
+  conforms: false
+  evidence: No JSON:API media type or document structure.
+- id: odata
+  conforms: false
+- id: scim2
+  conforms: false
+- id: fhir-r4
+  conforms: false
+- id: fapi
+  conforms: false
+- id: psd2
+  conforms: false
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface is published. DataStream is documented in prose only, with no spec and no base URL.
+- id: graphql
+  conforms: false
+  evidence: 'POST /graphql on sandbox.tripninja.io and api.tripninja.io returns 403 with no GraphQL error body; no GraphQL surface is documented.'
+- id: grpc
+  conforms: false
+- id: mcp
+  conforms: false
+  evidence: No hosted MCP server; mcp.tripninja.io does not resolve.
+travel_domain_standards:
+- id: iata-ndc
+  conforms: false
+  evidence: >-
+    NDC appears exactly once in the whole harvested surface — as one acceptable UPSTREAM content
+    source the customer must already hold ("a Global Distribution System (GDS), New Distribution
+    Capability (NDC), or other flight aggregator"). Trip Ninja publishes no NDC endpoint, claims no
+    NDC certification level, and its own interface is not an NDC message set.
+- id: iata-one-order
+  conforms: false
+- id: opentravel-ota
+  conforms: false
+  evidence: No OpenTravel message names, namespaces or schemas appear in any document.
+- id: htng
+  conforms: false
+- id: resfinity-hotelx
+  conforms: false
+- id: arazzo
+  conforms: false
+  evidence: No provider-published Arazzo workflow. API Evangelist-authored workflows live in arazzo/.
+data_standards_used:
+- {id: iata-location-codes, used: true, evidence: from_iata/to_iata 3-letter city and airport codes with an explicit C/A qualifier}
+- {id: iata-carrier-codes, used: true, evidence: operating_carrier / marketing_carrier 2-letter codes; carrier_code capped at 2 characters (IE68)}
+- {id: iata-passenger-type-codes, used: true, evidence: 'travellers enum ADT / MIL / CHD / INF (IE63)'}
+- {id: iso-4217, used: true, evidence: 'currency field — IE12 says "Use a valid ISO 4217 currency code"'}
+- {id: iso-3166-1-alpha-2, used: true, evidence: country_code two-letter search origin}
+- {id: iso-8601, used: true, evidence: 'YYYY-MM-DD departure dates; YYYY-MM-DDThh:mm:ss.SSSSSSZ token timestamps'}
+- {id: rfc1950-zlib, used: true, evidence: '/generate-solutions/ request bodies must be zlib-deflated then Base64-encoded (IE08)'}
+- {id: rfc4648-base64, used: true, evidence: same}
+compliance_program:
+  published: partial
+  certifications_named: []
+  note: >-
+    Trip Ninja publishes GDPR data-processing terms and a DPA, but names NO security certification —
+    no SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP claim appears anywhere, and no trust centre exists
+    (probed: trust./security./compliance. subdomains and paths all miss). The existing apis.yml
+    Compliance pointer targets the published GDPR page, which is the only compliance artefact.
+  documents:
+  - {name: GDPR terms, url: 'https://www.tripninja.io/legal/gdpr'}
+  - {name: Data Processing Agreement, url: 'https://www.tripninja.io/legal/data-processing'}
+  - {name: Privacy Policy, url: 'https://www.tripninja.io/legal/privacy-policy'}
+industry_accreditation:
+  note: Corporate-level, not API-level.
+  items:
+  - {id: ATIA/ATAS, value: A17325, holder: Webjet}
+  - {id: IATA accredited agent, holder: Webjet Marketing}

@@ -1,0 +1,24 @@
+generated: '2026-07-28'
+method: derived
+source: arazzo/*.yml
+note: >-
+  Authored by API Evangelist — Trip Ninja publishes no Arazzo. Both workflows are grounded in the
+  GitHub-published specifications, which are the only Trip Ninja documents carrying real
+  operationIds; the current developer-hub documents publish operationId: "" and cannot be wired into
+  Arazzo without inventing identifiers.
+workflows:
+- file: webjet-tripninja-search-price-book-ticket.yml
+  workflowId: search-price-book-ticket
+  title: Search, confirm price, book, queue and ticket
+  summary: >-
+    Full retailing flow across the flights-core and pricing-booking specs. CreateBooking and Ticket
+    are irreversible and money-moving; the API publishes no idempotency key, so neither may be
+    retried automatically.
+- file: webjet-tripninja-report-and-cancel.yml
+  workflowId: report-price-book-ticket
+  title: Report price confirmation, booking and ticketing
+  summary: The outbound reporting loop that drives Trip Ninja billing and its markup models.
+- file: webjet-tripninja-report-and-cancel.yml
+  workflowId: report-cancellation
+  title: Report a cancellation
+  summary: Not idempotent — a repeat cancellation returns IE41.

@@ -1,0 +1,119 @@
+generated: '2026-07-28'
+method: derived
+source: >-
+  openapi/webjet-tripninja-*.yml — schema $ref graph and id-reference fields across all seventeen
+  harvested OpenAPI 3.0.0 documents
+docs: https://devhub.tripninja.io/smartflights/get-searches/
+scope: >-
+  Trip Ninja. Webjet Group's consumer brands publish no API and therefore no data model. Trip Ninja
+  holds no inventory — every entity below is derived from the consuming platform's own content-source
+  data plus Trip Ninja's optimisation output.
+identifier_conventions:
+  trip_id:
+    issued_by: POST /v3/get-searches/
+    shape: opaque Fernet-style token (long, base64url, "gAAAAAB..." prefix in every published example)
+    lifetime: one search session
+    rule: must be echoed back unmodified — IE41 if altered, IE52 if unknown
+  itinerary_id: {issued_by: 'POST /v3/generate-solutions/', shape: 40-character hex}
+  datasource_request_id: {issued_by: 'POST /v3/get-searches/', shape: 40-character hex, role: key of the datasource_responses map posted back to generate-solutions}
+  pricing_solution_id: {shape: 40-character hex, role: identifies one priced option from a content source}
+  customer_booking_reference_id: {issued_by: the consuming platform, max_length: 255, role: the customer's OWN booking reference}
+  super_trip_id: {surface: 'GitHub-published pricing & booking spec', role: groups the multiple PNRs of one split-ticket journey}
+entities:
+- name: Trip
+  key: trip_id
+  schemas: [GetSearchesResponse]
+  description: One traveller search. The root of every subsequent call.
+- name: Segment
+  key: id (1..n, sequential)
+  schemas: [GetSearchesRequest.segments, DatasourceSegments, SegmentInfo, segment]
+  fields: [from_iata, from_type, to_iata, to_type, departure_date, cabin_class]
+  description: One requested origin-destination leg of the traveller's journey.
+- name: DatasourceRequest
+  key: datasource_request_id
+  schemas: [DatasourceRequest, BasicGenerateDatasourceRequest, FullGenerateDatasourceRequest]
+  description: An optimised content-source query Trip Ninja tells the platform to run against its own GDS/NDC/aggregator.
+- name: DatasourceResponse
+  schemas: [FullDatasourceResponse, MinimalDatasourceResponse]
+  description: The platform's content-source results, zlib+Base64 compressed and posted to generate-solutions.
+- name: PricingSolution
+  key: pricing_solution_id
+  schemas: [DatasourceItineraryInfo, DatasourceItineraryInfoWithMarkup]
+  fields: [total_price, segment_source, is_private_fare, refundable, baggage, segments]
+  description: One priced option returned by a content source.
+- name: Itinerary
+  key: itinerary_id
+  schemas: [GenerateSolutionsResponseTwo, DatasourceItineraryInfoWithMarkup, Itineraries, itinerary]
+  description: A constructed (possibly split-ticket / virtual-interlined) sellable itinerary with a machine-learned markup.
+- name: Markup
+  schemas: [DatasourceItineraryInfoWithMarkup.markup]
+  keyed_by: markup_source (model configured in the Admin Panel)
+  description: The Trip Ninja-computed uplift applied to an itinerary. The trained models are the vendor's retained derived data.
+- name: Leg
+  schemas: [DatasourceLegDetailsResponse, MinimalDatasourceLegDetails, LegDetails, flight_details]
+  fields: [departure_time, arrival_time, flight_number, operating_carrier, marketing_carrier, cabin_class, from_iata, to_iata, is_international]
+- name: PriceBreakdown
+  schemas: [DatasourcePriceBreakdownDetails, DatasourceTaxBreakdownDetails, segment_pricing_breakdown, trip_pricing_breakdown, PriceBreakdownWithPassengerTypeCode]
+- name: BrandFare
+  schemas: [BrandFareInfo, DatasourceBrandDetails, FareInfoBrandDetails, brand]
+- name: Penalty
+  schemas: [CancelPenaltyWithExtraInfo, ChangePenaltyWithExtraInfo, PercentageWithExtraInfo]
+- name: Metadata
+  schemas: [MetaDataDetails, MinimalMetadataRequest]
+  description: Free-form platform pass-through echoed back on the matching itinerary.
+- name: BookingReport
+  key: trip_id + itinerary_id
+  schemas: [BookingReportRequest]
+  fields: [trip_id, itinerary_id, customer_booking_reference_id, is_retry, final_price]
+- name: CancelReport
+  key: trip_id
+  schemas: [CancelRequest]
+- name: Credentials
+  schemas: [RefreshTokenRequest, RefreshTokenResponse, CredentialInfo, credentials, credential_info]
+  fields: [access_token, refresh_token, expiry_date, created_date, is_production_token, is_datastream_token]
+- name: Booking
+  surface: GitHub-published pricing & booking spec
+  schemas: [CreateBookingRequest, GetBookingDetailsResponse, ListBookingResponse, booked_flights, pnr_info]
+  key: super_trip_id
+- name: Passenger
+  surface: GitHub-published pricing & booking spec
+  schemas: [passenger, passenger_detail, frequent_flyer_cards]
+- name: Hotel
+  surface: GitHub-published hotels spec
+  schemas: [HotelSearchResponse, HotelDetailsResponse, HotelPriceConfirmResponse, webbeds_room_obj, BookedHotelResponse]
+  key: hotel_trace_id
+- name: PackageTrip
+  surface: GitHub-published MSDP (dynamic packaging) spec
+  schemas: [SearchComponents, ReportComponents, Requests, Responses]
+relationships:
+- {from: Trip, to: DatasourceRequest, type: has_many, via: datasource_requests}
+- {from: DatasourceRequest, to: Segment, type: has_many, via: datasource_segments}
+- {from: DatasourceRequest, to: DatasourceResponse, type: has_one, via: 'datasource_responses[datasource_request_id]'}
+- {from: DatasourceResponse, to: PricingSolution, type: has_many, via: pricing_solution_id}
+- {from: PricingSolution, to: Leg, type: has_many, via: segments}
+- {from: Trip, to: Itinerary, type: has_many, via: generate-solutions response}
+- {from: Itinerary, to: PricingSolution, type: has_many, via: pricing_solution_ids}
+- {from: Itinerary, to: Markup, type: has_one, via: markup}
+- {from: Itinerary, to: PriceBreakdown, type: has_many, via: price_breakdown}
+- {from: Itinerary, to: BrandFare, type: has_many, via: brand}
+- {from: Itinerary, to: Penalty, type: has_many, via: cancel_penalty / change_penalty}
+- {from: Itinerary, to: Metadata, type: has_many, via: metadata}
+- {from: BookingReport, to: Trip, type: belongs_to, via: trip_id}
+- {from: BookingReport, to: Itinerary, type: belongs_to, via: itinerary_id}
+- {from: CancelReport, to: Trip, type: belongs_to, via: trip_id}
+- {from: Booking, to: Passenger, type: has_many, via: passengers}
+- {from: Booking, to: Itinerary, type: has_many, via: itinerary_response_list}
+- {from: Booking, to: Hotel, type: has_many, via: booked_hotels}
+- {from: PackageTrip, to: Itinerary, type: has_many, via: flights}
+- {from: PackageTrip, to: Hotel, type: has_many, via: hotels}
+lifecycle:
+  happy_path: >-
+    get-searches (Trip created) -> platform queries its own content sources -> generate-solutions
+    (Itineraries + Markup created) -> platform books via its own GDS/NDC -> report/book -> optionally
+    report/cancel.
+  note: >-
+    No READ operation exists for any entity. Nothing can be listed, fetched by id, or exported on the
+    current v3 surface — the only read-shaped operations in the whole harvested corpus are
+    GET /book/list/ and GET /book/trip/{super_trip_id}/ on the superseded GitHub-published
+    pricing & booking spec.
+render: null

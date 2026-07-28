@@ -1,0 +1,115 @@
+arazzo: 1.0.1
+info:
+  title: Trip Ninja — search, confirm price, book and ticket
+  version: 1.0.0
+  description: >-
+    End-to-end flight retailing against the Trip Ninja surface published in Trip Ninja's own GitHub
+    documentation repository (https://github.com/trip-ninja-inc/trip_ninja_api_docs, last updated
+    2023-12-14). Authored by API Evangelist on 2026-07-28; every operationId below exists verbatim in
+    the referenced specification. This surface is NOT documented on the current developer hub — treat
+    availability as unverified and confirm with Trip Ninja before building against it. Access
+    requires a commercial agreement, Trip Ninja-issued credentials and an allow-listed source IP.
+sourceDescriptions:
+- name: flightsCore
+  url: ../openapi/webjet-tripninja-flights-core-openapi.yml
+  type: openapi
+- name: pricingBooking
+  url: ../openapi/webjet-tripninja-pricing-booking-openapi.yml
+  type: openapi
+workflows:
+- workflowId: search-price-book-ticket
+  summary: Search flights, confirm the price, create the booking, queue it and issue the ticket.
+  description: >-
+    The four money-relevant steps are separated deliberately. CreateBooking and Ticket are
+    irreversible and cost real money; there is no idempotency key anywhere in this API, so neither
+    step may be retried automatically.
+  inputs:
+    type: object
+    required: [endpoint, searchRequest, priceConfirmRequest, bookingRequest]
+    properties:
+      endpoint:
+        type: string
+        description: The content-source endpoint path segment configured for your account (e.g. travelport).
+      agency:
+        type: string
+      searchRequest:
+        type: object
+        description: FlightSearchRequest body — segments with IATA codes, dates, cabin class and travellers.
+      priceConfirmRequest:
+        type: object
+        description: PriceConfirmRequest body built from the selected itinerary.
+      bookingRequest:
+        type: object
+        description: CreateBookingRequest body — passengers, itinerary, credentials.
+      ticketingRequest:
+        type: object
+        description: TicketingRequest body.
+      queueRequest:
+        type: object
+        description: AddBookingToTicketingQueueRequest body.
+  steps:
+  - stepId: search
+    description: Shop for itineraries.
+    operationId: $sourceDescriptions.flightsCore.FlightSearch
+    parameters:
+    - name: endpoint
+      in: path
+      value: $inputs.endpoint
+    requestBody:
+      contentType: application/json
+      payload: $inputs.searchRequest
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      searchResponse: $response.body
+  - stepId: confirm-price
+    description: Re-price the selected itinerary. Air prices move between shopping and booking — never skip this.
+    operationId: $sourceDescriptions.pricingBooking.PriceConfirm
+    parameters:
+    - name: endpoint
+      in: path
+      value: $inputs.endpoint
+    requestBody:
+      contentType: application/json
+      payload: $inputs.priceConfirmRequest
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      priceConfirmResponse: $response.body
+  - stepId: create-booking
+    description: >-
+      Consequential and irreversible. Requires explicit human approval. Do NOT retry on an ambiguous
+      response — this API publishes no idempotency key.
+    operationId: $sourceDescriptions.pricingBooking.CreateBooking
+    parameters:
+    - name: endpoint
+      in: path
+      value: $inputs.endpoint
+    requestBody:
+      contentType: application/json
+      payload: $inputs.bookingRequest
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      bookingResponse: $response.body
+  - stepId: queue-for-ticketing
+    description: Place the booking on the ticketing queue.
+    operationId: $sourceDescriptions.pricingBooking.AddBookingToTicketingQueue
+    requestBody:
+      contentType: application/json
+      payload: $inputs.queueRequest
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: ticket
+    description: Issue the ticket. Irreversible and chargeable. Requires explicit human approval.
+    operationId: $sourceDescriptions.pricingBooking.Ticket
+    requestBody:
+      contentType: application/json
+      payload: $inputs.ticketingRequest
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ticketResponse: $response.body
+  outputs:
+    booking: $steps.create-booking.outputs.bookingResponse
+    ticket: $steps.ticket.outputs.ticketResponse

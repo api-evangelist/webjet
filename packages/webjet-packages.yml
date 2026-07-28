@@ -1,0 +1,65 @@
+generated: '2026-07-28'
+method: searched
+source: https://pypi.org/pypi/tn-sdk/json + https://api.nuget.org/v3/registration5-semver1/tripninja.sdk/index.json + https://github.com/trip-ninja-inc
+note: >-
+  Webjet Group's consumer brands (Webjet OTA, Airport Rentals, Motorhome Republic) publish no client
+  libraries. Every package below is published by the group's Trip Ninja subsidiary. Both libraries are
+  narrow "SDK Compression" helpers documented at https://devhub.tripninja.io/sdk/installation/ — they
+  wrap authentication (POST /sdk/auth/ with X-Client-ID / X-Client-Secret, then Authorization: Token)
+  and the mandatory zlib + Base64 request compression required by /generate-solutions/. They do not
+  wrap the full SmartFlights operation surface. Registries probed with no first-party result: npm,
+  Maven Central, pkg.go.dev, RubyGems, Packagist, crates.io.
+packages:
+- language: python
+  registry: pypi
+  name: tn-sdk
+  version: 0.0.4
+  url: https://pypi.org/project/tn-sdk/
+  install: python3 -m pip install -U tn_sdk
+  install_windows: py -3 -m pip install -U tn_sdk
+  source: https://github.com/trip-ninja-inc/tn-sdk-python
+  license: Apache-2.0
+  copyright: Copyright 2025 Trip Ninja
+  requires: Python 3.10 or higher
+  official: true
+  docs: https://devhub.tripninja.io/sdk/installation/
+- language: csharp
+  registry: nuget
+  name: TripNinja.SDK
+  version: 0.0.3
+  url: https://www.nuget.org/packages/TripNinja.SDK
+  install: dotnet add package TripNinja.SDK
+  install_alternate: NuGet\Install-Package TripNinja.SDK
+  source: https://github.com/trip-ninja-inc/tn-sdk-csharp
+  license: Apache-2.0
+  authors: Trip Ninja
+  description: The official Trip Ninja SDK for interacting with the Trip Ninja API.
+  official: true
+  docs: https://devhub.tripninja.io/sdk/installation/
+source_repositories:
+- name: trip-ninja-inc/tn-sdk-python
+  url: https://github.com/trip-ninja-inc/tn-sdk-python
+  language: Python
+  license: Apache-2.0
+  last_push: '2026-07-23'
+- name: trip-ninja-inc/tn-sdk-csharp
+  url: https://github.com/trip-ninja-inc/tn-sdk-csharp
+  language: C#
+  license: Apache-2.0
+  last_push: '2026-02-05'
+- name: trip-ninja-inc/trip_ninja_api_docs
+  url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  language: HTML
+  note: >-
+    API documentation repository. Source of six additional OpenAPI 3.0.0 documents harvested to
+    openapi/ (flights core, pricing & booking, hotels, MSDP, v2 booking, v2 core). Last push
+    2023-12-14.
+registries_probed:
+- {registry: npm, result: no first-party package}
+- {registry: pypi, result: tn-sdk}
+- {registry: nuget, result: TripNinja.SDK}
+- {registry: maven-central, result: no first-party package}
+- {registry: pkg.go.dev, result: no first-party package}
+- {registry: rubygems, result: no first-party package}
+- {registry: packagist, result: no first-party package}
+- {registry: crates.io, result: no first-party package}

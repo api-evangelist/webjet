@@ -1,0 +1,85 @@
+arazzo: 1.0.1
+info:
+  title: Trip Ninja — report price confirmation, booking, ticketing and cancellation
+  version: 1.0.0
+  description: >-
+    The Trip Ninja reporting loop. These operations do not book or cancel anything with an airline —
+    they report to Trip Ninja what your platform already did, which is what drives billing and the
+    machine-learned markup models. Grounded in
+    openapi/webjet-tripninja-flights-core-openapi.yml, published by Trip Ninja at
+    https://github.com/trip-ninja-inc/trip_ninja_api_docs. Every operationId exists verbatim in that
+    specification. Authored by API Evangelist on 2026-07-28.
+sourceDescriptions:
+- name: flightsCore
+  url: ../openapi/webjet-tripninja-flights-core-openapi.yml
+  type: openapi
+workflows:
+- workflowId: report-price-book-ticket
+  summary: Report a price confirmation, then a booking, then a ticketing event.
+  inputs:
+    type: object
+    required: [priceConfirmationReport, bookingReport]
+    properties:
+      priceConfirmationReport:
+        type: object
+        description: PriceConfirmationReportRequest body.
+      bookingReport:
+        type: object
+        description: BookingReportRequest body — trip_id, itinerary_id, optional customer_booking_reference_id and final_price.
+      ticketingReport:
+        type: object
+        description: TicketingReportRequest body.
+  steps:
+  - stepId: report-price-confirmation
+    operationId: $sourceDescriptions.flightsCore.PriceConfirmationReport
+    requestBody:
+      contentType: application/json
+      payload: $inputs.priceConfirmationReport
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: report-booking
+    description: >-
+      Report a booking that already exists in your own PNR estate. No idempotency key exists — do not
+      auto-retry on an ambiguous outcome.
+    operationId: $sourceDescriptions.flightsCore.BookingReport
+    requestBody:
+      contentType: application/json
+      payload: $inputs.bookingReport
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      bookingReportResponse: $response.body
+  - stepId: report-ticketing
+    operationId: $sourceDescriptions.flightsCore.TicketingReport
+    requestBody:
+      contentType: application/json
+      payload: $inputs.ticketingReport
+    successCriteria:
+    - condition: $statusCode == 200
+  outputs:
+    bookingReport: $steps.report-booking.outputs.bookingReportResponse
+- workflowId: report-cancellation
+  summary: Report that a previously reported trip was cancelled.
+  description: >-
+    Not idempotent. Reporting a cancellation for an itinerary already marked cancelled returns IE41
+    ("you cannot set a cancelled itinerary to a cancelled itinerary"). Treat IE41 as "already in the
+    target state", not as a transient failure.
+  inputs:
+    type: object
+    required: [cancelReport]
+    properties:
+      cancelReport:
+        type: object
+        description: CancelRequest body — trip_id.
+  steps:
+  - stepId: report-cancel
+    operationId: $sourceDescriptions.flightsCore.CancelBookingReport
+    requestBody:
+      contentType: application/json
+      payload: $inputs.cancelReport
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      cancelResponse: $response.body
+  outputs:
+    cancellation: $steps.report-cancel.outputs.cancelResponse

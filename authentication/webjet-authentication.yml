@@ -1,0 +1,93 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  https://devhub.tripninja.io/smartflights/authentication/ (rendered from
+  devhub.tripninja.io/assets/index-8odYpnZf.js),
+  openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml,
+  https://github.com/trip-ninja-inc/tn-sdk-python (src/tn_sdk/core/tn_api.py, utils/constants.py)
+docs: https://devhub.tripninja.io/smartflights/authentication/
+summary:
+  types: [http, apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+  openid_connect: false
+  mutual_tls: false
+  note: >-
+    Trip Ninja publishes NO OAuth 2.0 and NO OpenID Connect. Nothing in the seventeen harvested
+    OpenAPI documents declares a components.securitySchemes block at all — the auth contract lives
+    only in the prose docs and in the first-party SDK source. There are consequently no OAuth scopes
+    and no scopes/ artifact for this provider.
+schemes:
+- name: TokenAuthentication
+  type: http
+  scheme: Token
+  in: header
+  header: Authorization
+  format: 'Authorization: Token <access_token>'
+  example: 'headers = {"Authorization": "Token " + api_key}'
+  applies_to:
+  - SmartFlights (v3)
+  - FareStructure (v2, deprecated)
+  - Virtual Interlining (v2, deprecated)
+  - DataStream
+  token_lifetime: 90 days from created_date
+  issuance: >-
+    Minted by a human in the Trip Ninja Admin Panel (app.tripninja.io) under Developer Resources.
+    There is no self-serve signup; an admin panel username and password is issued by Trip Ninja.
+  refresh:
+    operation: POST /adminpanel/refresh-token/
+    spec: openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml
+    request: {access_token: required, refresh_token: required}
+    response_fields: [access_token, refresh_token, expiry_date, created_date, is_production_token, is_datastream_token]
+    refresh_token_lifetime: indefinite until regenerated; using one issues a new refresh_token
+  environment_flags:
+    is_production_token: false = sandbox-only credentials
+    is_datastream_token: false = SmartFlights credentials (true = DataStream)
+  docs: https://devhub.tripninja.io/smartflights/authentication/
+  sources: [https://devhub.tripninja.io/smartflights/authentication/, openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml]
+- name: BasicAuthentication
+  type: http
+  scheme: basic
+  in: header
+  header: Authorization
+  format: 'Authorization: Basic base64(USERNAME:PASSWORD)'
+  example: 'auth = base64.b64encode("USERNAME:PASSWORD"); headers = {"authorization": "Basic "+ auth}'
+  applies_to: [SmartFlights, FareStructure, Virtual Interlining]
+  note: >-
+    Verbatim from the docs — "SmartFlights API uses both Basic Authentication and Token Authentication
+    standards. Depending on how you signed up for your account, you will need to use one or the other.
+    If you signed up through our admin panel please follow the Token Authentication steps. Otherwise,
+    please follow the Basic Authentication steps." Not offered for DataStream.
+  sources: [https://devhub.tripninja.io/smartflights/authentication/]
+- name: SDKClientCredentials
+  type: apiKey
+  in: header
+  header_names: [X-Client-ID, X-Client-Secret]
+  token_endpoint: POST /sdk/auth/
+  base_urls:
+    production: https://api.tripninja.io
+    sandbox: https://sandbox.tripninja.io
+  returns: >-
+    A credentials document keyed by token type — sandbox_token, prod_token, data_stream_token — which
+    the SDK then presents as "Authorization: Token <token>" on every subsequent call. On a 401 the SDK
+    re-fetches credentials and retries once.
+  env_vars: [TN_SDK_CLIENT_ID, TN_SDK_CLIENT_SECRET]
+  credential_cache: credentials.json on local disk (atomic write)
+  status: >-
+    Undocumented on the developer hub — discovered in the first-party SDK source. /sdk/auth/ appears in
+    no published OpenAPI document.
+  sources:
+  - https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/src/tn_sdk/utils/constants.py
+  - https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/src/tn_sdk/core/tn_api.py
+network_gate:
+  ip_allowlisting: true
+  quote: >-
+    "For security, Trip Ninja's servers are only accessible from whitelisted IPs. Please contact your
+    account manager to whitelist the IPs you will be using."
+  effect: >-
+    A valid token is not sufficient. Every API host (sandbox.tripninja.io, preprodapi.tripninja.io,
+    api.tripninja.io) returns 403 to any source IP that has not been allow-listed by Trip Ninja.
+consumer_brands:
+  webjet_ota: No public API and no published authentication surface.
+  gosee_airport_rentals: No public API.
+  gosee_motorhome_republic: No public API.

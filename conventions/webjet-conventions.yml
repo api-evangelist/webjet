@@ -1,0 +1,121 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  https://devhub.tripninja.io/ (setup, authentication, get-searches, generate-solutions,
+  report-booking, report-cancellation, troubleshooting, sdk pages),
+  https://github.com/trip-ninja-inc/tn-sdk-python, and the seventeen OpenAPI documents in openapi/
+scope: >-
+  Trip Ninja (the only API-bearing business in Webjet Group). Webjet OTA, Airport Rentals and
+  Motorhome Republic publish no API and therefore no conventions.
+transport:
+  style: REST/JSON
+  quote: SmartFlights uses a REST API with requests and responses in JSON format.
+  methods_used: [POST, GET, PATCH, DELETE]
+  note: >-
+    The current SmartFlights (v3) surface is POST-only — five operations, all POST. The older
+    GitHub-published surfaces (pricing & booking, hotels, MSDP, v2) add GET, PATCH and DELETE.
+authentication:
+  style: opaque token in Authorization header ("Token" scheme), or HTTP Basic
+  artifact: authentication/webjet-authentication.yml
+  network_gate: IP allow-listing on every API host
+versioning:
+  scheme: uri-path
+  current: v3
+  versions_published: [v3 (SmartFlights), v2 (FareStructure / Virtual Interlining, deprecated)]
+  info_versions_seen: ['1.0.0', '2.0.0', '4.15.0']
+  note: >-
+    The URI version (v2/v3) and the OpenAPI info.version (1.0.0 / 4.15.0) are unrelated and both
+    appear across documents describing the same product. No version header, no date-based version,
+    no version negotiation is documented.
+  artifact: lifecycle/webjet-lifecycle.yml
+request_compression:
+  required: true
+  applies_to: [POST /v3/generate-solutions/, POST /v2/generate-solutions/]
+  algorithm: zlib deflate, then Base64 encode the compressed bytes
+  default_compression_level: 6
+  error_when_absent: IE08 — "Please send a compressed request using zlib"
+  helper: >-
+    The first-party SDKs expose prepare_data_for_generate_solutions(json_string) /
+    PrepareDataForGenerateSolutions(json) which does zlib.compress(level=6) + base64. Optional —
+    the docs publish manual .NET, Java, PHP and Python compression snippets, and state
+    "No. You can implement your own zlib + Base64 compression logic."
+  docs: https://devhub.tripninja.io/smartflights/generate-solutions/
+idempotency:
+  supported: false
+  header: null
+  detail: >-
+    No idempotency key, no request-deduplication contract and no Idempotency-Key parameter appears in
+    any of the seventeen OpenAPI documents or anywhere in the developer hub. The closest published
+    construct is the boolean is_retry field on the booking report request body, which merely FLAGS to
+    Trip Ninja that a booking attempt is a retry; it does not guarantee at-most-once semantics and it
+    is not keyed. Re-posting /v3/report/cancel/ for an already-cancelled itinerary returns IE41
+    rather than succeeding idempotently, which is the opposite of an idempotent contract.
+  no_idempotency_pointer_reason: >-
+    Deliberately NOT wired as type Idempotency in apis.yml — the provider publishes no idempotency
+    guarantee and claiming one would be fabrication.
+pagination:
+  supported: partial
+  style: none on the v3 flight-construction surface
+  detail: >-
+    /v3/get-searches/ and /v3/generate-solutions/ return whole result sets bounded by num_results
+    (integer, default 50, minimum 50, maximum 5000) rather than paged. The older GitHub-published
+    pricing & booking spec is the only surface with real paging: GET /book/list/ takes offset and
+    limit query parameters.
+  params: [num_results, offset, limit]
+  response_fields: []
+field_expansion:
+  supported: true
+  mechanism: >-
+    An optional metadata field on each datasource query. When included, Trip Ninja echoes the values
+    back inside the corresponding itinerary so the response is display-ready; when omitted the
+    request/response is much smaller and the platform must re-join its own metadata. The docs frame
+    this explicitly as a size-versus-latency trade-off.
+  toggles: [return_single_pnr_itineraries, single_pnr, markup_source, time_value]
+metadata:
+  supported: true
+  fields:
+  - {field: metadata, scope: per datasource query, note: free-form pass-through (branded fares, tax info, ...)}
+  - {field: customer_booking_reference_id, scope: booking report, max_length: 255, note: reserved for the customer's own booking reference}
+request_tracing:
+  request_id_header: null
+  correlation_ids:
+  - {field: trip_id, issued_by: /get-searches/, scope: one search, note: opaque Fernet-style token; must be echoed unmodified — IE41 if altered}
+  - {field: itinerary_id, issued_by: /generate-solutions/, scope: one itinerary, format: 40-character hex}
+  - {field: datasource_request_id, issued_by: /get-searches/, scope: one content-source query, format: 40-character hex}
+  - {field: pricing_solution_id, issued_by: content source / generate-solutions, format: 40-character hex}
+  note: No X-Request-Id / X-Correlation-Id response header is documented.
+error_envelope:
+  media_type: application/json
+  shape: {status: string error code on failure (IExx) or numeric HTTP status on success, message: human-readable string}
+  rfc9457: false
+  artifact: errors/webjet-error-codes.yml
+rate_limit_signaling:
+  headers: none documented
+  published_limit: 5,000 requests per day in the sandbox environment
+  detail: >-
+    No X-RateLimit-* / RateLimit / Retry-After header is documented and no 429 response is declared in
+    any OpenAPI document. The first-party SDK nevertheless retries 429, 500, 502, 503 and 504 with
+    exponential backoff (total=3, backoff_factor=0.5), which is the only published evidence that 429
+    can occur.
+  artifact: rate-limits/webjet-rate-limits.yml
+retries:
+  client_policy_published: true
+  source: https://github.com/trip-ninja-inc/tn-sdk-python/blob/master/src/tn_sdk/core/tn_api.py
+  detail: >-
+    urllib3 Retry(total=3, backoff_factor=0.5, status_forcelist=[429, 500, 502, 503, 504],
+    allowed_methods=["GET", "POST"]). 401 is handled separately — the SDK re-authenticates against
+    /sdk/auth/ and replays the request once.
+  timeout_default_seconds: 30
+data_conventions:
+  identifiers: IATA 3-letter city/airport codes (with an explicit "C" city vs "A" airport qualifier), IATA 2-letter carrier codes, IATA passenger type codes (ADT/MIL/CHD/INF), ISO 4217 currency codes, ISO 3166 2-letter country codes, PNR record locators
+  dates: 'YYYY-MM-DD for departure dates; YYYY-MM-DDThh:mm:ss.SSSSSSZ (UTC) for token timestamps'
+  cabin_classes: [E, PE, BC, FC, PFC]
+  cabin_classes_note: SE (Premium/Standard Economy) appears only in the IE22 troubleshooting text, not in any spec enum.
+  money: floats with a separate markup field; no minor-unit integer convention
+cross_links:
+  errors: errors/webjet-error-codes.yml
+  lifecycle: lifecycle/webjet-lifecycle.yml
+  authentication: authentication/webjet-authentication.yml
+  rate_limits: rate-limits/webjet-rate-limits.yml
+  sandbox: sandbox/webjet-sandbox.yml
+  data_model: data-model/webjet-data-model.yml
