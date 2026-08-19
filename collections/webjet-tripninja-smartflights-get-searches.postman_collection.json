@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "8424b560-6a97-4c0b-8bc9-987c9a8a1a80",
+      "name": "Get Searches",
+      "request": {
+        "name": "Get Searches",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "v3",
+            "get-searches",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"segments\": [\n    {\n      \"id\": \"<integer>\",\n      \"from_iata\": \"<string>\",\n      \"to_iata\": \"<string>\",\n      \"departure_date\": \"<string>\",\n      \"from_type\": \"C\",\n      \"to_type\": \"C\",\n      \"cabin_class\": \"E\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"from_iata\": \"<string>\",\n      \"to_iata\": \"<string>\",\n      \"departure_date\": \"<string>\",\n      \"from_type\": \"C\",\n      \"to_type\": \"C\",\n      \"cabin_class\": \"E\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"<string>\",\n  \"travellers\": [\n    \"ADT\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"<string>\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"return_single_pnr_itineraries\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "9c487826-b658-4d6c-a5ce-b939b2b47f9f",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v3",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"from_iata\": \"LHR\",\n      \"from_type\": \"C\",\n      \"to_iata\": \"CDG\",\n      \"to_type\": \"C\",\n      \"departure_date\": \"2026-07-15\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"BC\",\n  \"time_value\": 0,\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"trip_id\": \"gAAAAABoPaUGNlknuEEJZ0K3dfY5aKMqzVh6IXF3KKGF5Acky_ShkKUl1lH0Or5pyoa_rpJ8vquFo59-4RsNX9F-Hez0glRSANpGUz_1CTrIsX1WvueV8tRrj9nstrxcvgDBp9CMRIpXIB5gUdmF047z57_t3gpJcvRyIHiV_28Fi_UcWyRlp4wTDgL6H-89XmGO--r6PvBe_P_Gon2EJ9O9u1UI6FFsh29FFp3CqZ7q94QoB1Mr-MbXXvj1nkOYe-xL58lyV4gGHOYQ99AcDTQ11xs3R5hyCGyUKmwY6fNFydVV6ynax2yS0Yp6Qi0nT6zu_T-iY6iCTK30mkHsLSASjVUEZXnfEhlbdvVvXUyd3NSefl7ilyWClhMBJXn3zu46b_gLZkobD9-oxytXmo-NRtnBGLa881rU0lQwxYnz4jKqWGrD7Uyu7hdes4G0mR9kW1Rq9Jgxj2__8DRp-RqzzkBEe4YQMNN4zdHRpXpAiHX8qZB_FW2ar4jz_sH1Fgoa4AI7J1ZTuw6CeivBYy3nxeDb959MfXvjUei4PmxdgQIlq2o6tXty1Pn7oXFvL69MpnbNhCfjYkfOqPa1xKhm8SWNUX83JzNw3CPGr-ONfbVFQRUJ0ALFQ9eteqcz-OVDiehtV4CTAAmzdQDmSvjYYdYrgA88LWenxBpS3uAGbG03FDibLTXLsSSXN_znxqbX3Cri8B_6X9IX-qYafkfflf2wVn-nJ4EjaBYOwjsaZEgSgOMaHa1NDQeaGuSqaCaoKDA6sLBojb1ax6mQFGyUp33eCE1xg5QznorbOW3AG7S_KhLManFE0qZNpXLgMSYRulC-Z0gngC3CPdxWY6Zgji6olqLZXFqx9VsIrrfAkAxJumfsMXEjkt2D1X6lH1SYfILI-94OfhZ1H8O1TzvPmzH9ayoaYW9OojOjssnVZTfyxaLYj2ukG-WQYzXZuzbTSCIHQgBhWL1Z2A1oINDOu_VZywmjQxCcqPR1pJQIrYbTNZ303MMESaQWlh5xUHD_gDLrgC_eG93daNKfOwKeG9RduzvFIlHQXGUPA-WPI_z9W8MkomfMSqJtTPMJOiEPf35zCJAGEY1DwQmWzQRgp1W8KcapkKuh-SRtpQ1E_lJiwFigsKX-P_5gNKT8T8R7YrlF_lj3zn74CaijHNlrFc_sr1zKkIbjfLJSNn4513C1aXK7qo_5aVgxnQChRty4nkMUtdwvFczmAmfkaoPRltdEIZB97X7jBzn81aSgr76s_MDvSvM55M4x60PwET1r2zI-5MfKzdvCUnj0B5DnkaEqxTQYZsqQIVIE32sSg1Hs8ac4y8BfTzb8Skn5zRU6aFHLqOHB_WNmtUOt_cCYCZdfgcZzlMGQBayvYCAbiPaTf1-cz_eREhsotXuMnpnduuvv8zIkCacPj16hTFUEpRBr7PiEeI2cMZb8vKAoaYu2efTw4gcNQWnmihVc7_XgVvXVKQfMQACOvpLzMK9qI9Pu847Rw0ohbMUtvpN1pFk0-rBgAF5lDuhV8pMlG7kRUX2_RsaX4W6jCSHR_-fJJnCMHxs_PS2lOn8pRNy4g_1YP1IjsB4HTqfuBQtWvPfRMgqgdGwxMJBXRRxbmCWGIdQa7Cj-SM4iKt1u0lnS0M60wrvphFnm0Uq7Cjt1pTMv0kku9cEvkoRGhKFPfxsKW0V1gPf0QA==\",\n  \"datasource_requests\": [\n    {\n      \"datasource_request_id\": \"1578b29999fc8f5cb0008df53679b10ea0856e16\",\n      \"datasource_segments\": [\n        {\n          \"departure_date\": \"2026-07-15\",\n          \"from_iata\": \"LHR\",\n          \"from_type\": \"A\",\n          \"to_iata\": \"CDG\",\n          \"to_type\": \"A\",\n          \"is_international\": true,\n          \"content_source\": [\n            \"travelport\",\n            \"atlas\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "a9772cc9-63bc-4f8b-84ce-43e059bd2e1f",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v3",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"from_iata\": \"LHR\",\n      \"from_type\": \"C\",\n      \"to_iata\": \"CDG\",\n      \"to_type\": \"C\",\n      \"departure_date\": \"2026-07-15\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"BC\",\n  \"time_value\": 0,\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE16\",\n  \"message\": \"Segment ID is invalid.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "23a5ca95-85be-4a93-930f-3f6f642b2c7c",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v3",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"from_iata\": \"LHR\",\n      \"from_type\": \"C\",\n      \"to_iata\": \"CDG\",\n      \"to_type\": \"C\",\n      \"departure_date\": \"2026-07-15\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"BC\",\n  \"time_value\": 0,\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "942baa83-cd6d-448b-8119-ed1a67f4e890",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v3",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"from_iata\": \"LHR\",\n      \"from_type\": \"C\",\n      \"to_iata\": \"CDG\",\n      \"to_type\": \"C\",\n      \"departure_date\": \"2026-07-15\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"BC\",\n  \"time_value\": 0,\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6761a33a-fc2c-445d-a068-2ee64fa2b01d",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Get Searches</h2>\nThe <code>/get-searches/</code> endpoint is responsible for taking a traveller search request from your platform and applying our FareStructure logic to determine the optimal queries predicted.\n\n<b>The general flow is as follows:</b>\nA traveller makes a search request on your platform for an itinerary and you send this request from your platform to Trip Ninja using the                               endpoint.\nTrip Ninja reviews this search request, builds a set of optimal content search queries for you to send to your content provider(s), and returns this set of content search queries to you.\n\n!\n",
+      "type": "text/plain"
+    }
+  }
+}

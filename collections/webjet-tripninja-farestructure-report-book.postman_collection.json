@@ -1,0 +1,210 @@
+{
+  "item": [
+    {
+      "id": "0406a296-b4b8-4a1a-ab5a-c54a3bfe4415",
+      "name": "Booking Report",
+      "request": {
+        "name": "Booking Report",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "v2",
+            "report",
+            "book",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trip_id\": \"<string>\",\n  \"itinerary_id\": \"<string>\",\n  \"customer_booking_reference_id\": \"<string>\",\n  \"is_retry\": false,\n  \"final_price\": \"<float>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "7bae6b6a-7e40-424c-94c3-bef6ff78c7f7",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "report",
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"itinerary_id\": \"f557310419e4c08a6ba40cc2785447970e7aea4c\",\n  \"customer_booking_reference_id\": \"cust-book-1234aa94d\",\n  \"is_retry\": false,\n  \"final_price\": 199.99\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ce95330b-f36e-49e2-9d42-095b86ff9fc7",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "report",
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"itinerary_id\": \"f557310419e4c08a6ba40cc2785447970e7aea4c\",\n  \"customer_booking_reference_id\": \"cust-book-1234aa94d\",\n  \"is_retry\": false,\n  \"final_price\": 199.99\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"`customer_booking_reference_id` length is invalid (must be less than 255 characters)\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3ed68812-8be4-46ad-9192-0c79591a1c57",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "report",
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"itinerary_id\": \"f557310419e4c08a6ba40cc2785447970e7aea4c\",\n  \"customer_booking_reference_id\": \"cust-book-1234aa94d\",\n  \"is_retry\": false,\n  \"final_price\": 199.99\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8dadbbde-fa4e-4d41-b33a-0d9a47b3d423",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

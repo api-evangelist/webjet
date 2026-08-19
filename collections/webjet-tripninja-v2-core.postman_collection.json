@@ -1,0 +1,459 @@
+{
+  "item": [
+    {
+      "id": "aa68f655-5c4f-4778-80c6-c7602c9fc91d",
+      "name": "Get Searches",
+      "request": {
+        "name": "Get Searches",
+        "description": {
+          "content": "This endpoint carries out FareStructure and if applicable Virtual Interlining logic to determine the optimal searches predicted to provide the best flight search results. The response contains a list of searches to be done by the OTA, which are then passed in the next\nendpoint (generate-solutions) to get the results.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "get-searches",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"flights\": [\n    {\n      \"id\": \"<integer>\",\n      \"from_city\": \"<string>\",\n      \"start_type\": \"<string>\",\n      \"to_city\": \"<string>\",\n      \"end_type\": \"<string>\",\n      \"departure_date\": \"<string>\",\n      \"cabin_class\": \"<string>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"from_city\": \"<string>\",\n      \"start_type\": \"<string>\",\n      \"to_city\": \"<string>\",\n      \"end_type\": \"<string>\",\n      \"departure_date\": \"<string>\",\n      \"cabin_class\": \"<string>\"\n    }\n  ],\n  \"travellers\": \"<array>\",\n  \"currency\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"source\": \"<string>\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"num_results\": 50,\n  \"single_pnr\": false,\n  \"virtual_interlining\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "274dbb14-9703-438b-9c0c-bae821876a11",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flights\": [\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    },\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"source\": \"skyscanner\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"num_results\": 50,\n  \"single_pnr\": false,\n  \"virtual_interlining\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"datasource_requests\": [\n    {\n      \"datasource_request_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n      \"num_results\": 50,\n      \"datasource_segment\": [\n        {\n          \"id\": 1,\n          \"from_iata\": \"YHZ\",\n          \"from_type\": \"C\",\n          \"to_iata\": \"YVR\",\n          \"to_type\": \"C\",\n          \"departure_date\": \"2023-06-30\",\n          \"cabin_class\": \"E\"\n        },\n        {\n          \"id\": 1,\n          \"from_iata\": \"YHZ\",\n          \"from_type\": \"C\",\n          \"to_iata\": \"YVR\",\n          \"to_type\": \"C\",\n          \"departure_date\": \"2023-06-30\",\n          \"cabin_class\": \"E\"\n        }\n      ]\n    },\n    {\n      \"datasource_request_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n      \"num_results\": 50,\n      \"datasource_segment\": [\n        {\n          \"id\": 1,\n          \"from_iata\": \"YHZ\",\n          \"from_type\": \"C\",\n          \"to_iata\": \"YVR\",\n          \"to_type\": \"C\",\n          \"departure_date\": \"2023-06-30\",\n          \"cabin_class\": \"E\"\n        },\n        {\n          \"id\": 1,\n          \"from_iata\": \"YHZ\",\n          \"from_type\": \"C\",\n          \"to_iata\": \"YVR\",\n          \"to_type\": \"C\",\n          \"departure_date\": \"2023-06-30\",\n          \"cabin_class\": \"E\"\n        }\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c6c29ca1-fb1d-4a31-b832-bd29aa0b071b",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flights\": [\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    },\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"source\": \"skyscanner\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"num_results\": 50,\n  \"single_pnr\": false,\n  \"virtual_interlining\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"Not a valid search\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "71e407cf-eec8-4343-916a-6d47c103e756",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flights\": [\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    },\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"source\": \"skyscanner\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"num_results\": 50,\n  \"single_pnr\": false,\n  \"virtual_interlining\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "d44a7be6-1db0-4289-bf62-d3b5825f969b",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flights\": [\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    },\n    {\n      \"id\": 1,\n      \"from_city\": \"YHZ\",\n      \"start_type\": \"C\",\n      \"to_city\": \"LON\",\n      \"end_type\": \"C\",\n      \"departure_date\": \"2023-06-20\",\n      \"cabin_class\": \"BC\"\n    }\n  ],\n  \"travellers\": [\n    \"ADT\",\n    \"ADT\",\n    \"CHD\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"CA\",\n  \"source\": \"skyscanner\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"num_results\": 50,\n  \"single_pnr\": false,\n  \"virtual_interlining\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "a358d301-15ea-4745-8f0e-9746474009a5",
+      "name": "Generate Solutions",
+      "request": {
+        "name": "Generate Solutions",
+        "description": {
+          "content": " There are two ways to approach this endpoint. For each search the OTA performed, we have provided a optional metadata field per pricing solution. This allows the customer to pass in any metadata (branded fares, tax info, ect) regarding that specific pricing solution. When we have finished generating the itineraries for the search, we will pass these values in a list inside the corresponding itinerary.<br/> This will allow the response from the generate-solutions endpoint to be totally FE ready, in whatever format the OTA decides. The downside of this approach is this will inflate the request/response size considerably.<br/> An alternative is to simply ignore the metadata field. Using this minimal approach the OTA simply sends all the required fields listed in our docs. This will result in a much smaller request/response, however it will be up to the OTA to process the data on their end and add any additional metadata to the itineraries returned. ",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "generate-solutions",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trip_id\": \"<string>\",\n  \"datasource_responses\": \"<object>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "7ae497ab-5d96-4dab-bad7-5430bc7d16fa",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"itineraries\": [\n    {\n      \"weight\": 239,\n      \"total_price\": 197.1,\n      \"transportation_time\": 425,\n      \"structure\": \"[(0, 1), 2]\",\n      \"metadata\": [\n        {\n          \"metadata_id\": \"c2f59ef0eeec039233d60e694fed09edc4dfa954\"\n        },\n        {\n          \"metadata_id\": \"c2f59ef0eeec039233d60e694fed09edc4dfa954\"\n        }\n      ]\n    },\n    {\n      \"weight\": 239,\n      \"total_price\": 197.1,\n      \"transportation_time\": 425,\n      \"structure\": \"[(0, 1), 2]\",\n      \"metadata\": [\n        {\n          \"metadata_id\": \"c2f59ef0eeec039233d60e694fed09edc4dfa954\"\n        },\n        {\n          \"metadata_id\": \"c2f59ef0eeec039233d60e694fed09edc4dfa954\"\n        }\n      ]\n    }\n  ],\n  \"metadata_details\": [\n    {\n      \"metadata_id\": \"c2f59ef0eeec039233d60e694fed09edc4dfa954\"\n    },\n    {\n      \"metadata_id\": \"c2f59ef0eeec039233d60e694fed09edc4dfa954\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "0702d8ef-801c-4b1c-8de1-f656041fa14f",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "8b06f95e-9241-41fc-925d-1945a7693d66",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f94e79b9-8d6d-495a-8b23-84c23963bcc4",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://preprodapi.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "613686b1-2f24-44ac-b17f-658b049e21ab",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. <br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Workflow</h2>\nThe following diagram shows the typical data flow of API calls to Trip Ninja for a typical OTA integration using our new core non-emulation architecture.\n\n![Workflow diagram](https://s3.amazonaws.com/tn-api-docs/ota_flowchart.png)\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n\n# Error Codes\n<table>\n  <tr><td>IE01</td><td>Need minimum 2 destinations</td></tr>\n  <tr><td>IE02</td><td>Duplicate city in list</td></tr>\n  <tr><td>IE09</td><td>Can't run any queries for flight dates in the past</td></tr>\n  <tr><td>IE10</td><td>Incorrect city_type, expected one of ['C', 'A']</td></tr>\n  <tr><td>IE19</td><td>Incorrect region, expected one of 'emea', 'apac', 'americas'</td></tr>\n  <tr><td>IE21</td><td>Wrong currency</td></tr>\n  <tr><td>IE22</td><td>Not a valid cabin option. expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'</td></tr>\n  <tr><td>IE23</td><td>Not a valid alliance. Expected one of *A, *S, *O</td></tr>\n  <tr><td>IE24</td><td>Travellers Type does not meet expected criteria. Should be a list having between 0 and 10 values</td></tr>\n  <tr><td>IE27</td><td>Num_results should be an integer between 50 and 1000</td></tr>\n  <tr><td>IE29</td><td>Invalid Traveller type</td></tr>\n  <tr><td>IE30</td><td>Incorrect value for single_pnr, must be boolean</td></tr>\n<table>\n",
+      "type": "text/plain"
+    }
+  }
+}

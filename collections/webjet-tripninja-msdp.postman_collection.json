@@ -1,0 +1,2028 @@
+{
+  "item": [
+    {
+      "id": "6a8cecb3-1516-412c-997c-692f3a0270e3",
+      "name": "MSDP Search",
+      "request": {
+        "name": "MSDP Search",
+        "description": {
+          "content": "This endpoint initiates a msdp search for one or more flights and one or more hotels, and returns a list of available flights and hotels options. A separate endpoint needs to be called to obtain information about flight details, hotel room types, etc.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "search",
+            "prod"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currency\": \"<str>\",\n  \"hotel_data\": {\n    \"hotels\": [\n      {\n        \"id\": \"<int>\",\n        \"hotel_location\": {\n          \"type\": \"<string>\",\n          \"IATA\": \"<string>\",\n          \"city_name\": \"<string>\",\n          \"country\": \"<string>\",\n          \"country_name\": \"<string>\",\n          \"name\": \"<string>\",\n          \"region\": \"<string>\"\n        },\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"hotel_itinerary_reference\": \"<string>\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"<string>\",\n            \"provider\": \"<string>\"\n          },\n          {\n            \"reference\": \"<string>\",\n            \"provider\": \"<string>\"\n          }\n        ]\n      },\n      {\n        \"id\": \"<int>\",\n        \"hotel_location\": {\n          \"type\": \"<string>\",\n          \"IATA\": \"<string>\",\n          \"city_name\": \"<string>\",\n          \"country\": \"<string>\",\n          \"country_name\": \"<string>\",\n          \"name\": \"<string>\",\n          \"region\": \"<string>\"\n        },\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"hotel_itinerary_reference\": \"<string>\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"<string>\",\n            \"provider\": \"<string>\"\n          },\n          {\n            \"reference\": \"<string>\",\n            \"provider\": \"<string>\"\n          }\n        ]\n      }\n    ],\n    \"traveller_total\": \"<int>\",\n    \"rooms_total\": \"<int>\",\n    \"rooms\": [\n      {\n        \"num_adults\": \"<int>\",\n        \"num_children\": \"<int>\",\n        \"nationality\": \"<string>\",\n        \"country_of_residence\": \"<string>\",\n        \"children_age_list\": \"<array of ints>\"\n      },\n      {\n        \"num_adults\": \"<int>\",\n        \"num_children\": \"<int>\",\n        \"nationality\": \"<string>\",\n        \"country_of_residence\": \"<string>\",\n        \"children_age_list\": \"<array of ints>\"\n      }\n    ]\n  },\n  \"flight_data\": {\n    \"flights\": [\n      {\n        \"id\": \"<integer>\",\n        \"from_city\": \"<string>\",\n        \"start_type\": \"<string>\",\n        \"to_city\": \"<string>\",\n        \"end_type\": \"<string>\",\n        \"departure_date\": \"<string>\",\n        \"cabin_class\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"from_city\": \"<string>\",\n        \"start_type\": \"<string>\",\n        \"to_city\": \"<string>\",\n        \"end_type\": \"<string>\",\n        \"departure_date\": \"<string>\",\n        \"cabin_class\": \"<string>\"\n      }\n    ],\n    \"travellers\": \"<array>\",\n    \"max_cache\": 24,\n    \"country_code\": \"<string>\",\n    \"cabin_class\": \"E\",\n    \"time_value\": 0,\n    \"alliance\": \"<string>\",\n    \"schema\": 40,\n    \"exclude_carriers\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"permitted_carriers\": \"<array>\",\n    \"no_overnight_layovers\": false,\n    \"stops\": \"any\",\n    \"baggage\": \"any\",\n    \"refundable\": false,\n    \"region\": \"americas\",\n    \"num_results\": 50,\n    \"include_itineraries\": false,\n    \"should_compress_itinerary\": false,\n    \"mix_structures\": false,\n    \"single_pnr\": false,\n    \"multi_pnr_mix\": false,\n    \"markup_by_itinerary\": false\n  },\n  \"credentials\": [\n    {\n      \"data_source\": \"<string>\",\n      \"pcc\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"region\": \"<string>\",\n      \"pcc_currency\": \"<string>\",\n      \"conversion_rate\": \"<float>\"\n    },\n    {\n      \"data_source\": \"<string>\",\n      \"pcc\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"region\": \"<string>\",\n      \"pcc_currency\": \"<string>\",\n      \"conversion_rate\": \"<float>\"\n    }\n  ],\n  \"should_include_hotel_results\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "86002012-1635-46f9-b933-584b91c1dd6c",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"AUD\",\n  \"hotel_data\": {\n    \"hotels\": [\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      },\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      }\n    ],\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      },\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      }\n    ]\n  },\n  \"flight_data\": {\n    \"flights\": [\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      },\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      }\n    ],\n    \"travellers\": [\n      \"ADT\",\n      \"ADT\",\n      \"CHD\"\n    ],\n    \"max_cache\": 24,\n    \"country_code\": \"CA\",\n    \"cabin_class\": \"E\",\n    \"time_value\": 0,\n    \"alliance\": \"*A\",\n    \"schema\": 40,\n    \"exclude_carriers\": [\n      \"AC\"\n    ],\n    \"permitted_carriers\": [\n      \"AC\"\n    ],\n    \"no_overnight_layovers\": false,\n    \"stops\": \"any\",\n    \"baggage\": \"any\",\n    \"refundable\": false,\n    \"region\": \"americas\",\n    \"num_results\": 50,\n    \"include_lcc\": [\n      \"travelport\"\n    ],\n    \"include_itineraries\": false,\n    \"should_compress_itinerary\": false,\n    \"mix_structures\": false,\n    \"single_pnr\": false,\n    \"multi_pnr_mix\": false,\n    \"markup_by_itinerary\": false\n  },\n  \"credentials\": [\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    },\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    }\n  ],\n  \"should_include_hotel_results\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"flight_results\": {\n    \"fare_structure\": {\n      \"currency\": \"CAD\",\n      \"markup\": 25,\n      \"path_sequence\": [\n        \"LON-CDG\",\n        \"CDG-YUL\",\n        \"YUL-LON\"\n      ],\n      \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n      \"itineraries\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    }\n  },\n  \"hotel_results\": [\n    {\n      \"id\": 1,\n      \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n    },\n    {\n      \"id\": 1,\n      \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n    }\n  ],\n  \"total_trip_price\": 123.23,\n  \"msdp_package_id\": \"d8af3a35dd77333f99510ad7373c98cf7fe502bf\",\n  \"msdp_search_details\": {\n    \"currency\": \"AUD\",\n    \"hotel_data\": {\n      \"hotels\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_in_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_out_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_itinerary_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"next_result_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_in_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_out_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_itinerary_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"next_result_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"traveller_total\": 3,\n      \"rooms_total\": 2,\n      \"rooms\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"flight_data\": {\n      \"flights\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"travellers\": [\n        \"ADT\",\n        \"ADT\",\n        \"CHD\"\n      ],\n      \"max_cache\": 24,\n      \"country_code\": \"CA\",\n      \"cabin_class\": \"E\",\n      \"time_value\": 0,\n      \"alliance\": \"*A\",\n      \"schema\": 40,\n      \"exclude_carriers\": [\n        \"AC\"\n      ],\n      \"permitted_carriers\": [\n        \"AC\"\n      ],\n      \"no_overnight_layovers\": false,\n      \"stops\": \"any\",\n      \"baggage\": \"any\",\n      \"refundable\": false,\n      \"region\": \"americas\",\n      \"num_results\": 50,\n      \"include_lcc\": [\n        \"travelport\"\n      ],\n      \"include_itineraries\": false,\n      \"should_compress_itinerary\": false,\n      \"mix_structures\": false,\n      \"single_pnr\": false,\n      \"multi_pnr_mix\": false,\n      \"markup_by_itinerary\": false\n    },\n    \"credentials\": [\n      {\n        \"data_source\": \"travelport\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      {\n        \"data_source\": \"travelport\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      }\n    ],\n    \"should_include_hotel_results\": false\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "16a8f743-7f45-4452-b311-66ff7b4d5dcf",
+          "name": "Partial Content (no Flight/Hotel found)",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"AUD\",\n  \"hotel_data\": {\n    \"hotels\": [\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      },\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      }\n    ],\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      },\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      }\n    ]\n  },\n  \"flight_data\": {\n    \"flights\": [\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      },\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      }\n    ],\n    \"travellers\": [\n      \"ADT\",\n      \"ADT\",\n      \"CHD\"\n    ],\n    \"max_cache\": 24,\n    \"country_code\": \"CA\",\n    \"cabin_class\": \"E\",\n    \"time_value\": 0,\n    \"alliance\": \"*A\",\n    \"schema\": 40,\n    \"exclude_carriers\": [\n      \"AC\"\n    ],\n    \"permitted_carriers\": [\n      \"AC\"\n    ],\n    \"no_overnight_layovers\": false,\n    \"stops\": \"any\",\n    \"baggage\": \"any\",\n    \"refundable\": false,\n    \"region\": \"americas\",\n    \"num_results\": 50,\n    \"include_lcc\": [\n      \"travelport\"\n    ],\n    \"include_itineraries\": false,\n    \"should_compress_itinerary\": false,\n    \"mix_structures\": false,\n    \"single_pnr\": false,\n    \"multi_pnr_mix\": false,\n    \"markup_by_itinerary\": false\n  },\n  \"credentials\": [\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    },\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    }\n  ],\n  \"should_include_hotel_results\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Partial Content",
+          "code": 206,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"No availability found: Try changing dates\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ec0827eb-505c-4c6e-9681-167914caa1e6",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"AUD\",\n  \"hotel_data\": {\n    \"hotels\": [\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      },\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      }\n    ],\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      },\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      }\n    ]\n  },\n  \"flight_data\": {\n    \"flights\": [\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      },\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      }\n    ],\n    \"travellers\": [\n      \"ADT\",\n      \"ADT\",\n      \"CHD\"\n    ],\n    \"max_cache\": 24,\n    \"country_code\": \"CA\",\n    \"cabin_class\": \"E\",\n    \"time_value\": 0,\n    \"alliance\": \"*A\",\n    \"schema\": 40,\n    \"exclude_carriers\": [\n      \"AC\"\n    ],\n    \"permitted_carriers\": [\n      \"AC\"\n    ],\n    \"no_overnight_layovers\": false,\n    \"stops\": \"any\",\n    \"baggage\": \"any\",\n    \"refundable\": false,\n    \"region\": \"americas\",\n    \"num_results\": 50,\n    \"include_lcc\": [\n      \"travelport\"\n    ],\n    \"include_itineraries\": false,\n    \"should_compress_itinerary\": false,\n    \"mix_structures\": false,\n    \"single_pnr\": false,\n    \"multi_pnr_mix\": false,\n    \"markup_by_itinerary\": false\n  },\n  \"credentials\": [\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    },\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    }\n  ],\n  \"should_include_hotel_results\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"field\": \"This field is required.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "9897dd24-1a7a-4c61-a03c-975ed6fe5a20",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"AUD\",\n  \"hotel_data\": {\n    \"hotels\": [\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      },\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      }\n    ],\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      },\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      }\n    ]\n  },\n  \"flight_data\": {\n    \"flights\": [\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      },\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      }\n    ],\n    \"travellers\": [\n      \"ADT\",\n      \"ADT\",\n      \"CHD\"\n    ],\n    \"max_cache\": 24,\n    \"country_code\": \"CA\",\n    \"cabin_class\": \"E\",\n    \"time_value\": 0,\n    \"alliance\": \"*A\",\n    \"schema\": 40,\n    \"exclude_carriers\": [\n      \"AC\"\n    ],\n    \"permitted_carriers\": [\n      \"AC\"\n    ],\n    \"no_overnight_layovers\": false,\n    \"stops\": \"any\",\n    \"baggage\": \"any\",\n    \"refundable\": false,\n    \"region\": \"americas\",\n    \"num_results\": 50,\n    \"include_lcc\": [\n      \"travelport\"\n    ],\n    \"include_itineraries\": false,\n    \"should_compress_itinerary\": false,\n    \"mix_structures\": false,\n    \"single_pnr\": false,\n    \"multi_pnr_mix\": false,\n    \"markup_by_itinerary\": false\n  },\n  \"credentials\": [\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    },\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    }\n  ],\n  \"should_include_hotel_results\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "2d5b0177-5739-4b74-b2e6-a4231334dad1",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"AUD\",\n  \"hotel_data\": {\n    \"hotels\": [\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      },\n      {\n        \"id\": 1,\n        \"hotel_location\": {\n          \"type\": \"R\",\n          \"IATA\": \"PAR\",\n          \"city_name\": \"Ottawa\",\n          \"country\": \"FR\",\n          \"country_name\": \"France\",\n          \"name\": \"Eiffel Tower\",\n          \"region\": \"NS\"\n        },\n        \"check_in_date\": \"2023-06-20\",\n        \"check_out_date\": \"2023-06-25\",\n        \"hotel_itinerary_reference\": \"1\",\n        \"next_result_reference\": [\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          },\n          {\n            \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n            \"provider\": \"1V\"\n          }\n        ]\n      }\n    ],\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      },\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ]\n      }\n    ]\n  },\n  \"flight_data\": {\n    \"flights\": [\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      },\n      {\n        \"id\": 1,\n        \"from_city\": \"YHZ\",\n        \"start_type\": \"C\",\n        \"to_city\": \"LON\",\n        \"end_type\": \"C\",\n        \"departure_date\": \"2023-06-20\",\n        \"cabin_class\": \"BC\"\n      }\n    ],\n    \"travellers\": [\n      \"ADT\",\n      \"ADT\",\n      \"CHD\"\n    ],\n    \"max_cache\": 24,\n    \"country_code\": \"CA\",\n    \"cabin_class\": \"E\",\n    \"time_value\": 0,\n    \"alliance\": \"*A\",\n    \"schema\": 40,\n    \"exclude_carriers\": [\n      \"AC\"\n    ],\n    \"permitted_carriers\": [\n      \"AC\"\n    ],\n    \"no_overnight_layovers\": false,\n    \"stops\": \"any\",\n    \"baggage\": \"any\",\n    \"refundable\": false,\n    \"region\": \"americas\",\n    \"num_results\": 50,\n    \"include_lcc\": [\n      \"travelport\"\n    ],\n    \"include_itineraries\": false,\n    \"should_compress_itinerary\": false,\n    \"mix_structures\": false,\n    \"single_pnr\": false,\n    \"multi_pnr_mix\": false,\n    \"markup_by_itinerary\": false\n  },\n  \"credentials\": [\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    },\n    {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"region\": \"americas\",\n      \"pcc_currency\": \"CAD\",\n      \"conversion_rate\": 0.78\n    }\n  ],\n  \"should_include_hotel_results\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "a9803866-8d73-44fc-ab4a-0fe8fe75908b",
+      "name": "MSDP Get Flight Results",
+      "request": {
+        "name": "MSDP Get Flight Results",
+        "description": {
+          "content": "This endpoint retrieves all the flight results from the prior msdp search\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "results",
+            "flights",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "key": "trip_id",
+              "value": "{{trip_id}}"
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "ec623098-75c1-4e9b-81e8-9f2bc7f5a2de",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "results",
+                "flights",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"fare_structure\": {\n    \"currency\": \"CAD\",\n    \"markup\": 25,\n    \"path_sequence\": [\n      \"LON-CDG\",\n      \"CDG-YUL\",\n      \"YUL-LON\"\n    ],\n    \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n    \"itineraries\": {\n      \"value\": \"<Error: Could not resolve allOf schema\"\n    }\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "53a9679e-61be-4469-82c4-2d040df84e2a",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "results",
+                "flights",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5502ea1b-6642-43bf-95d6-d9bfc657713f",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "results",
+                "flights",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "70d1bc99-33a6-4780-87cd-bfad72dd9826",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "results",
+                "flights",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "e382b5af-9364-451b-b49a-0adcc5932a5a",
+      "name": "MSDP Get Hotel Results",
+      "request": {
+        "name": "MSDP Get Hotel Results",
+        "description": {
+          "content": "This endpoint retrieves a specific MSDP hotel search result from the prior MSDP search\nExample URL: `/results/hotels/?hotel_trace_id=4f499298b303c55a1ee522118afce28abe2f68e4&rating=1,2,3&area=Bedford,Dartmouth&min_price=100&max_price=1000&min_distance=2&max_distance=50&hotel_chain=WA&amenities=Air Conditioning,Wifi&sort_by=closest`\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "results",
+            "hotels",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "key": "hotel_trace_id",
+              "value": "{{hotel_trace_id}}"
+            },
+            {
+              "key": "rating",
+              "value": "{{rating}}"
+            },
+            {
+              "key": "area",
+              "value": "{{area}}"
+            },
+            {
+              "key": "min_price",
+              "value": "{{min_price}}"
+            },
+            {
+              "key": "max_price",
+              "value": "{{max_price}}"
+            },
+            {
+              "key": "min_distance",
+              "value": "{{min_distance}}"
+            },
+            {
+              "key": "max_distance",
+              "value": "{{max_distance}}"
+            },
+            {
+              "key": "hotel_chain",
+              "value": "{{hotel_chain}}"
+            },
+            {
+              "key": "amenities",
+              "value": "{{amenities}}"
+            },
+            {
+              "key": "sort_by",
+              "value": "{{sort_by}}"
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "6b28f849-948b-42f3-96ec-d2c90b944173",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "results",
+                "hotels",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": 1,\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n  \"hotels\": [\n    {\n      \"location_iata\": \"LON\",\n      \"location_full\": \"London, England\",\n      \"rating\": {\n        \"rating\": 4,\n        \"rating_provider\": \"Giata\",\n        \"rating_maximum\": 10,\n        \"rating_minimum\": 0\n      },\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n      \"minimum_charge\": 400.32,\n      \"maximum_charge\": 780.65,\n      \"address\": {\n        \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n        \"longitude\": 44.64511447836071,\n        \"lattitude\": -63.575245615440565,\n        \"distance_from_reference_point_km\": 7.5,\n        \"phone_number\": \"+1 902-420-0555\"\n      },\n      \"ammenities\": [\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        },\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        }\n      ],\n      \"credential_info\": {\n        \"data_source\": \"travelport\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"pcc_currency\": \"CAD\"\n      },\n      \"conversion_rate\": 0.45,\n      \"neighbourhood\": \"Saint Boniface\"\n    },\n    {\n      \"location_iata\": \"LON\",\n      \"location_full\": \"London, England\",\n      \"rating\": {\n        \"rating\": 4,\n        \"rating_provider\": \"Giata\",\n        \"rating_maximum\": 10,\n        \"rating_minimum\": 0\n      },\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n      \"minimum_charge\": 400.32,\n      \"maximum_charge\": 780.65,\n      \"address\": {\n        \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n        \"longitude\": 44.64511447836071,\n        \"lattitude\": -63.575245615440565,\n        \"distance_from_reference_point_km\": 7.5,\n        \"phone_number\": \"+1 902-420-0555\"\n      },\n      \"ammenities\": [\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        },\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        }\n      ],\n      \"credential_info\": {\n        \"data_source\": \"travelport\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"pcc_currency\": \"CAD\"\n      },\n      \"conversion_rate\": 0.45,\n      \"neighbourhood\": \"Saint Boniface\"\n    }\n  ],\n  \"hotel_itinerary_reference\": \"1\",\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"hotels_media\": [\n    {\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_media_items\": [\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        },\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        }\n      ]\n    },\n    {\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_media_items\": [\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        },\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        }\n      ]\n    }\n  ],\n  \"hotel_neighbourhoods\": [\n    \"St. Vital Center\",\n    \"Downtown\",\n    \"River Heights\",\n    \"Saint Boniface\",\n    \"Fort Garry\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ffe0234d-c31d-49fd-931e-dc14d7d3d657",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "results",
+                "hotels",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"hotel_trace_id is not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b1090609-0799-49fa-9bda-4a55766286e1",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "results",
+                "hotels",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6adb8f0f-d9be-4a90-a97a-ddbca9cdbb97",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "results",
+                "hotels",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "b9b44b65-bdcc-44e5-85cc-2f9241c4a27a",
+      "name": "MSDP Remove Hotel Result",
+      "request": {
+        "name": "MSDP Remove Hotel Result",
+        "description": {
+          "content": "This endpoint removes a specific hotel result from the prior msdp search. All msdp packages must have at least 1 hotel. An error will be thrown if you attempt to remove the final hotel from a package.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "search",
+            "removehotel",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "PATCH",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msdp_package_id\": \"<string>\",\n  \"hotel_trace_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "e1d79be7-adf3-484e-8354-7f14433756a1",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "removehotel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"d8af3a35dd77333f99510ad7373c98cf7fe502bf\",\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"flight_results\": {\n    \"fare_structure\": {\n      \"currency\": \"CAD\",\n      \"markup\": 25,\n      \"path_sequence\": [\n        \"LON-CDG\",\n        \"CDG-YUL\",\n        \"YUL-LON\"\n      ],\n      \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n      \"itineraries\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    }\n  },\n  \"hotel_results\": [\n    {\n      \"id\": 1,\n      \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n    },\n    {\n      \"id\": 1,\n      \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n    }\n  ],\n  \"total_trip_price\": 123.23,\n  \"msdp_package_id\": \"d8af3a35dd77333f99510ad7373c98cf7fe502bf\",\n  \"msdp_search_details\": {\n    \"currency\": \"AUD\",\n    \"hotel_data\": {\n      \"hotels\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_in_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_out_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_itinerary_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"next_result_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_in_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"check_out_date\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"hotel_itinerary_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"next_result_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"traveller_total\": 3,\n      \"rooms_total\": 2,\n      \"rooms\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"flight_data\": {\n      \"flights\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"travellers\": [\n        \"ADT\",\n        \"ADT\",\n        \"CHD\"\n      ],\n      \"max_cache\": 24,\n      \"country_code\": \"CA\",\n      \"cabin_class\": \"E\",\n      \"time_value\": 0,\n      \"alliance\": \"*A\",\n      \"schema\": 40,\n      \"exclude_carriers\": [\n        \"AC\"\n      ],\n      \"permitted_carriers\": [\n        \"AC\"\n      ],\n      \"no_overnight_layovers\": false,\n      \"stops\": \"any\",\n      \"baggage\": \"any\",\n      \"refundable\": false,\n      \"region\": \"americas\",\n      \"num_results\": 50,\n      \"include_lcc\": [\n        \"travelport\"\n      ],\n      \"include_itineraries\": false,\n      \"should_compress_itinerary\": false,\n      \"mix_structures\": false,\n      \"single_pnr\": false,\n      \"multi_pnr_mix\": false,\n      \"markup_by_itinerary\": false\n    },\n    \"credentials\": [\n      {\n        \"data_source\": \"travelport\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      {\n        \"data_source\": \"travelport\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      }\n    ],\n    \"should_include_hotel_results\": false\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e3b1aa43-911f-4cf6-88e4-035a2ea0ca02",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "removehotel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"d8af3a35dd77333f99510ad7373c98cf7fe502bf\",\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"400\",\n  \"message\": \"Query parameters are wrong or cached request is expired.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "7be011b9-1b47-471c-a51a-3a701eb32941",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "removehotel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"d8af3a35dd77333f99510ad7373c98cf7fe502bf\",\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "4453a088-0567-493f-a7a2-bd1c64e9e848",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "search",
+                "removehotel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"d8af3a35dd77333f99510ad7373c98cf7fe502bf\",\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "7a60b405-2f04-4ce4-9a51-8c1e0d384a3a",
+      "name": "MSDP Get Hotel Details",
+      "request": {
+        "name": "MSDP Get Hotel Details",
+        "description": {
+          "content": "This endpoint initiates a hotel search to get all the available rooms in a hotel, and returns a list of available hotel rooms options.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "detail",
+            "hotel",
+            "prod"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hotel_trace_id\": \"<string>\",\n  \"hotel_itinerary_reference\": \"<string>\",\n  \"credential_info\": {\n    \"data_source\": \"<string>\",\n    \"pcc\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"pcc_currency\": \"<string>\"\n  },\n  \"hotel_chain\": \"<string>\",\n  \"hotel_code\": \"<string>\",\n  \"traveller_total\": \"<int>\",\n  \"rooms_total\": \"<int>\",\n  \"currency\": \"<string>\",\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_location\": {\n    \"type\": \"<string>\",\n    \"IATA\": \"<string>\",\n    \"name\": \"<string>\",\n    \"region\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"super_trip_id\": \"<string>\",\n  \"room_type\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "81f010f0-871f-43df-8947-65fb86372601",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "detail",
+                "hotel",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"data_source\": \"travelport\",\n    \"pcc\": \"MEL49f839\",\n    \"provider\": \"1A\",\n    \"pcc_currency\": \"CAD\"\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\"\n  },\n  \"super_trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"address\": {\n    \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n    \"longitude\": 44.64511447836071,\n    \"lattitude\": -63.575245615440565,\n    \"distance_from_reference_point_km\": 7.5,\n    \"phone_number\": \"+1 902-420-0555\"\n  },\n  \"location_iata\": \"LON\",\n  \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n  \"check_in_time\": \"3pm\",\n  \"check_out_time\": \"10am\",\n  \"rooms\": [\n    {\n      \"total_price\": 705.1,\n      \"price_per_room_per_night\": 141.02,\n      \"meals\": {\n        \"breakfast\": true,\n        \"lunch\": true,\n        \"dinner\": true\n      },\n      \"bed_types\": {\n        \"Queen bed\": 2,\n        \"King Single\": 1\n      },\n      \"original_total_string\": \"SGD172.00\",\n      \"room_name\": \"Room\",\n      \"guarantee\": \"Guarantee\",\n      \"room_description\": \"Executive Suite Room\",\n      \"rate_descriotion\": \"2 Double Bed Non Smoking Featuring All The Modern-day Essentials Including A Flat Screen\",\n      \"refundable\": true,\n      \"smoking\": false,\n      \"max_occupancy\": 1,\n      \"cancel_deadline\": \"2022-01-06\",\n      \"base_price\": \"SGD172.00\",\n      \"cancellation_policy\": \"non-refundable rate cancellation permitted up to 1days before arrival\",\n      \"guarantee_policy\": \"\",\n      \"deposit\": \"book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only\",\n      \"room_rate_descriptions\": {\n        \"Rate description\": \"Early check in and check out when available.\",\n        \"Room rate\": \"Maximum occupancy - 1\"\n      },\n      \"rule_descriptions\": {\n        \"Guarantee\": \"Accept all guarantee methods\",\n        \"Checkin Checkout\": \"Check in time 15:00, check out time 11:00\"\n      }\n    },\n    {\n      \"total_price\": 705.1,\n      \"price_per_room_per_night\": 141.02,\n      \"meals\": {\n        \"breakfast\": true,\n        \"lunch\": true,\n        \"dinner\": true\n      },\n      \"bed_types\": {\n        \"Queen bed\": 2,\n        \"King Single\": 1\n      },\n      \"original_total_string\": \"SGD172.00\",\n      \"room_name\": \"Room\",\n      \"guarantee\": \"Guarantee\",\n      \"room_description\": \"Executive Suite Room\",\n      \"rate_descriotion\": \"2 Double Bed Non Smoking Featuring All The Modern-day Essentials Including A Flat Screen\",\n      \"refundable\": true,\n      \"smoking\": false,\n      \"max_occupancy\": 1,\n      \"cancel_deadline\": \"2006-09-14\",\n      \"base_price\": \"SGD172.00\",\n      \"cancellation_policy\": \"non-refundable rate cancellation permitted up to 1days before arrival\",\n      \"guarantee_policy\": \"\",\n      \"deposit\": \"book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only\",\n      \"room_rate_descriptions\": {\n        \"Rate description\": \"Early check in and check out when available.\",\n        \"Room rate\": \"Maximum occupancy - 1\"\n      },\n      \"rule_descriptions\": {\n        \"Guarantee\": \"Accept all guarantee methods\",\n        \"Checkin Checkout\": \"Check in time 15:00, check out time 11:00\"\n      }\n    }\n  ],\n  \"hotel_description\": \"PROPERTY DESCRIPTION Midscale Unspecified3 Welcome to Best Western Plus Hawthorne Terrace a oneofakind boutique hotel experience at the center of one of Chicagos most popular neighborhoods Lakeview East.\",\n  \"search_request\": {\n    \"credential_info\": {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"pcc_currency\": \"CAD\"\n    },\n    \"hotel_location\": {\n      \"type\": \"R\",\n      \"IATA\": \"PAR\",\n      \"city_name\": \"Ottawa\",\n      \"country\": \"FR\",\n      \"country_name\": \"France\",\n      \"name\": \"Eiffel Tower\",\n      \"region\": \"NS\"\n    },\n    \"check_in_date\": \"2023-06-20\",\n    \"check_out_date\": \"2023-06-25\",\n    \"next_result_reference\": [\n      {\n        \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n        \"provider\": \"1V\"\n      },\n      {\n        \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n        \"provider\": \"1V\"\n      }\n    ],\n    \"hotel_itinerary_reference\": \"1\",\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ],\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\"\n      },\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"children_age_list\": [\n          5,\n          7,\n          11\n        ],\n        \"nationality\": \"CA\",\n        \"country_of_residence\": \"CA\"\n      }\n    ],\n    \"currency\": \"CAD\",\n    \"endpoint\": \"prod\",\n    \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\"\n  },\n  \"detail_request\": {\n    \"super_trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n    \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n    \"hotel_itinerary_reference\": \"1\",\n    \"credential_info\": {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"pcc_currency\": \"CAD\"\n    },\n    \"hotel_chain\": \"GI\",\n    \"hotel_code\": \"35573\",\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"room_type\": \"Double\",\n    \"currency\": \"CAD\",\n    \"check_in_date\": \"2021-05-10\",\n    \"check_out_date\": \"2021-05-15\",\n    \"hotel_location\": {\n      \"type\": \"R\",\n      \"IATA\": \"PAR\",\n      \"name\": \"Eiffel Tower\",\n      \"region\": \"NS\",\n      \"country\": \"FR\"\n    }\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "70cf65f0-f889-426b-93ee-00c7629b84de",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "detail",
+                "hotel",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"data_source\": \"travelport\",\n    \"pcc\": \"MEL49f839\",\n    \"provider\": \"1A\",\n    \"pcc_currency\": \"CAD\"\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\"\n  },\n  \"super_trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"400\",\n  \"message\": \"Value missing for field traveller_total\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "91f1160f-626a-4e14-ac7b-67b94ae0ff32",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "detail",
+                "hotel",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"data_source\": \"travelport\",\n    \"pcc\": \"MEL49f839\",\n    \"provider\": \"1A\",\n    \"pcc_currency\": \"CAD\"\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\"\n  },\n  \"super_trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "fb82466a-a7b6-410a-b143-561de8fc3fc2",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "detail",
+                "hotel",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"data_source\": \"travelport\",\n    \"pcc\": \"MEL49f839\",\n    \"provider\": \"1A\",\n    \"pcc_currency\": \"CAD\"\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\"\n  },\n  \"super_trip_id\": \"fb3d8eff432a329dc21fad8449c686fa93e5ce24\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "bae2e7c0-c864-42f7-acaf-ad22e6f3fc99",
+      "name": "MSDP Price Confirmation Report",
+      "request": {
+        "name": "MSDP Price Confirmation Report",
+        "description": {
+          "content": "When performing an availability or price confirmation request - when a user has selected their MSDP package or is arriving on the site from metasearch - please send a request to the following endpoint. This provides valuable data to our revenue management system in determining markups for trips.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "pre-booking",
+            "prod"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msdp_package_id\": \"<string>\",\n  \"trip_id\": \"<string>\",\n  \"segment_ids\": \"<Array of strings and/or Array of arrays>\",\n  \"hotel_room_details\": {\n    \"currency\": \"<string>\",\n    \"rooms_total\": \"<int>\",\n    \"traveller_total\": \"<int>\",\n    \"credential_info\": {\n      \"data_source\": \"<string>\",\n      \"pcc\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"pcc_currency\": \"<string>\"\n    },\n    \"rooms\": [\n      {\n        \"id\": \"<int>\",\n        \"hotel_trace_id\": \"<string>\",\n        \"hotel_code\": \"<string>\",\n        \"hotel_name\": \"<string>\",\n        \"hotel_chain\": \"<string>\",\n        \"iata\": \"<string>\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"<string>\",\n        \"check_out_time\": \"<string>\",\n        \"room_type\": \"<string>\",\n        \"rate_plan_type\": \"<string>\",\n        \"rating\": \"<int>\",\n        \"base_price\": \"<string>\",\n        \"original_total_string\": \"<string>\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"<string>\",\n            \"amenity_title\": \"<string>\"\n          },\n          {\n            \"amenity_type\": \"<string>\",\n            \"amenity_title\": \"<string>\"\n          }\n        ],\n        \"converted_total_price\": \"<float>\",\n        \"guarantee\": \"<string>\",\n        \"cancel_deadline\": \"<date>\"\n      },\n      {\n        \"id\": \"<int>\",\n        \"hotel_trace_id\": \"<string>\",\n        \"hotel_code\": \"<string>\",\n        \"hotel_name\": \"<string>\",\n        \"hotel_chain\": \"<string>\",\n        \"iata\": \"<string>\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"<string>\",\n        \"check_out_time\": \"<string>\",\n        \"room_type\": \"<string>\",\n        \"rate_plan_type\": \"<string>\",\n        \"rating\": \"<int>\",\n        \"base_price\": \"<string>\",\n        \"original_total_string\": \"<string>\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"<string>\",\n            \"amenity_title\": \"<string>\"\n          },\n          {\n            \"amenity_type\": \"<string>\",\n            \"amenity_title\": \"<string>\"\n          }\n        ],\n        \"converted_total_price\": \"<float>\",\n        \"guarantee\": \"<string>\",\n        \"cancel_deadline\": \"<date>\"\n      }\n    ]\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "df68a5f3-479f-4873-93a2-e17a2714c5a4",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "pre-booking",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_room_details\": {\n    \"currency\": \"CAD\",\n    \"rooms_total\": 2,\n    \"traveller_total\": 3,\n    \"credential_info\": {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"pcc_currency\": \"CAD\"\n    },\n    \"rooms\": [\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      },\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"hotel_results\": [\n    {\n      \"id\": 1,\n      \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n      \"allocation_details\": [\n        \"1671746519000001B1029B0\"\n      ]\n    },\n    {\n      \"id\": 1,\n      \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n      \"allocation_details\": [\n        \"1671746519000001B1029B0\"\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3eb8dc16-0936-4f02-a85c-71835652f591",
+          "name": "Partial Content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "pre-booking",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_room_details\": {\n    \"currency\": \"CAD\",\n    \"rooms_total\": 2,\n    \"traveller_total\": 3,\n    \"credential_info\": {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"pcc_currency\": \"CAD\"\n    },\n    \"rooms\": [\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      },\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Partial Content",
+          "code": 206,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"No room available\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "9b03ee5f-43e6-4219-8c94-4357eb5872e2",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "pre-booking",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_room_details\": {\n    \"currency\": \"CAD\",\n    \"rooms_total\": 2,\n    \"traveller_total\": 3,\n    \"credential_info\": {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"pcc_currency\": \"CAD\"\n    },\n    \"rooms\": [\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      },\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"400\",\n  \"message\": \"Failed to save pre-booked flight: Data source is not found in the request\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "bf0b8561-146f-4217-bff5-311d30a43dec",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "pre-booking",
+                "prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_room_details\": {\n    \"currency\": \"CAD\",\n    \"rooms_total\": 2,\n    \"traveller_total\": 3,\n    \"credential_info\": {\n      \"data_source\": \"travelport\",\n      \"pcc\": \"MEL49f839\",\n      \"provider\": \"1A\",\n      \"pcc_currency\": \"CAD\"\n    },\n    \"rooms\": [\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      },\n      {\n        \"id\": 1,\n        \"hotel_trace_id\": \"4f499298b303c55a1ee522118afce28abe2f68e4\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Comfort Inn\",\n        \"hotel_chain\": \"GI\",\n        \"iata\": \"LON\",\n        \"check_in_date\": \"<date>\",\n        \"check_out_date\": \"<date>\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"room_type\": \"Double\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"rating\": 4,\n        \"base_price\": \"SGD172.00\",\n        \"original_total_string\": \"SGD172.00\",\n        \"amenities\": [\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          },\n          {\n            \"amenity_type\": \"HA\",\n            \"amenity_title\": \"High speed internet connection\"\n          }\n        ],\n        \"converted_total_price\": 127,\n        \"guarantee\": \"Guarantee\",\n        \"cancel_deadline\": \"<date>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "1e2e00a5-148e-4f84-b52b-ceaf0c493a8f",
+      "name": "MSDP Booking Report",
+      "request": {
+        "name": "MSDP Booking Report",
+        "description": {
+          "content": "When a booking is completed from a trip generated by Trip Ninja, report the booking to Trip Ninja via the booking endpoint.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "booking",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msdp_package_id\": \"<string>\",\n  \"trip_id\": \"<string>\",\n  \"segment_ids\": \"<Array of strings and/or Array of arrays>\",\n  \"hotel_trace_ids\": \"<array of strings>\",\n  \"customer_booking_reference_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "f520e86c-b003-4968-9235-72b597f2d051",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "booking",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_trace_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"customer_booking_reference_id\": \"cust-book-1234aa94d\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6dfde9a7-e287-4f50-9f3f-fdf490b17568",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "booking",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_trace_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"customer_booking_reference_id\": \"cust-book-1234aa94d\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Not booked\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "563e83f3-dd7f-4dc4-bf33-7a47e499d597",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "booking",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_trace_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"customer_booking_reference_id\": \"cust-book-1234aa94d\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "c4c1f7b0-509f-4651-87d5-d8bee35e350f",
+      "name": "MSDP Ticketing Report",
+      "request": {
+        "name": "MSDP Ticketing Report",
+        "description": {
+          "content": "When tickets are issued for a trip, please hit the following endpoint\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "ticketing",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msdp_package_id\": \"<string>\",\n  \"trip_id\": \"<string>\",\n  \"segment_ids\": \"<Array of strings and/or Array of arrays>\",\n  \"hotel_trace_ids\": \"<array of strings>\",\n  \"queue\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "0b33db25-e1ca-4861-9341-6c0b6fa93a7b",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "ticketing",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_trace_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"queue\": \"001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b2058cf5-557e-42a7-bc40-b28d0faf0770",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "ticketing",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_trace_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"queue\": \"001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Not booked\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f8f958a3-6cae-49f8-bf94-ee7acd92c550",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "ticketing",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\",\n  \"trip_id\": \"04187ebd88c965919a2b8d54ca98390a56cd48c5\",\n  \"segment_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"hotel_trace_ids\": [\n    \"18fd1992fd90e6e2cf44d49308a1482b2ecd7f67\",\n    \"59e15240be759a023c950e66379dca775fd8aaf1\"\n  ],\n  \"queue\": \"001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "ff8c6505-fa62-418d-84f0-ea4e12a7991e",
+      "name": "MSDP Cancel Booking Report",
+      "request": {
+        "name": "MSDP Cancel Booking Report",
+        "description": {
+          "content": "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/msdp/cancel/”",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "msdp",
+            "cancel",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"msdp_package_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "6fa2c83e-9085-4d56-9eba-444e2743e153",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "cancel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Trip has been cancelled.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "184ca9c7-7c55-4892-b0b9-6bb7353ddd4a",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "cancel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"400\",\n  \"message\": \"Error while saving ticketing status for d8af3a35dd77333f99510ad7373c98cf7fe502bf: SuperTrip matching query does not exist.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "209e2aea-e950-4731-918e-04c6d0b615a4",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "msdp",
+                "cancel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msdp_package_id\": \"6be6e72c60102bd489ac46434d4ac6c11e047ee8\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://preprodapi.tripninja.io",
+      "key": "baseUrl"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) Parameter to retrieve the flight results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "trip_id"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) Parameter to retrieve the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "hotel_trace_id"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<array of strings or string>",
+      "key": "rating"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<array of strings or string>",
+      "key": "area"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "min_price"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "max_price"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results (in km)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "min_distance"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results (in km)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "max_distance"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<array of strings or string>",
+      "key": "hotel_chain"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<array of strings or string>",
+      "key": "amenities"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "Parameter to filter the hotel results<br />\nAvailable Options:<br />\n    `closest`<br />\n    `price_low_to_high`<br />\n    `price_high_to_low`<br />\n    `rating_high_to_low`<br />\n    `rating_low_to_high`<br />\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "sort_by"
+    }
+  ],
+  "info": {
+    "_postman_id": "5ef2e156-0330-4d9d-8213-b832c8af4127",
+    "name": "Trip Ninja MSDP API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>MSDP</h2>\nMulti Stop Dynamic Packaging (MSDP) provides an alternative to traditional, static packaging. \nIt allows users to build packages as they go. While users search for multi-destination flights, \nMSDP will find eligible hotels with which to bundle.\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n",
+      "type": "text/plain"
+    }
+  }
+}

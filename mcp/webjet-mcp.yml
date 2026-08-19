@@ -5,21 +5,26 @@ source: openapi/webjet-tripninja-*.yml
 search_result:
   official_server: none
   probes:
-  - {url: 'https://mcp.tripninja.io', status: '000', note: DNS does not resolve}
-  - {url: 'https://sandbox.tripninja.io/mcp', status: 403, note: IP allow-listed API host}
-  - {registry: npm, query: '@modelcontextprotocol / tripninja / webjet', result: no first-party package}
-  - {registry: 'github.com/trip-ninja-inc', result: 'three public repos (api docs, python sdk, csharp sdk) — no MCP server'}
-  note: >-
-    Neither Webjet Group nor Trip Ninja publishes an MCP server. The tools below are a CANDIDATE
-    manifest derived from the published OpenAPI operations so an integrator can stand one up; it is
-    not a Trip Ninja product and no endpoint exists.
+  - url: https://mcp.tripninja.io
+    status: '000'
+    note: DNS does not resolve
+  - url: https://sandbox.tripninja.io/mcp
+    status: 403
+    note: IP allow-listed API host
+  - registry: npm
+    query: '@modelcontextprotocol / tripninja / webjet'
+    result: no first-party package
+  - registry: github.com/trip-ninja-inc
+    result: three public repos (api docs, python sdk, csharp sdk) — no MCP server
+  note: Neither Webjet Group nor Trip Ninja publishes an MCP server. The tools below are a CANDIDATE manifest
+    derived from the published OpenAPI operations so an integrator can stand one up; it is not a Trip
+    Ninja product and no endpoint exists.
 server:
   name: webjet-tripninja
   transport: http
   url: null
-  auth: >-
-    Any implementation must carry a Trip Ninja access token (Authorization: Token <access_token>) and
-    run from an IP address Trip Ninja has allow-listed. There is no anonymous or self-serve access.
+  auth: 'Any implementation must carry a Trip Ninja access token (Authorization: Token <access_token>)
+    and run from an IP address Trip Ninja has allow-listed. There is no anonymous or self-serve access.'
 tools:
 - name: get_searches
   description: Submit a traveller search and receive the optimised set of content-source queries to run.
@@ -27,7 +32,8 @@ tools:
   action_class: acting
   consequence: read
 - name: generate_solutions
-  description: Post zlib+Base64-compressed content-source responses and receive constructed itineraries with markups.
+  description: Post zlib+Base64-compressed content-source responses and receive constructed itineraries
+    with markups.
   source_operation: openapi/webjet-tripninja-smartflights-generate-solutions-openapi.yml#POST /v3/generate-solutions/
   action_class: acting
   consequence: write
@@ -51,14 +57,20 @@ tools:
   consequence: safety-critical
   note: Credential rotation. Should not be exposed to an autonomous agent without human approval.
 tools_not_derived:
-  reason: >-
-    The six GitHub-published documents (flights core, pricing & booking, hotels, MSDP, v2 booking,
-    v2 core) describe surfaces the current developer hub no longer documents. Their operations —
-    FlightSearch, PriceConfirm, CreateBooking, CancelBooking, Ticket, AddBookingToTicketingQueue,
-    ListBooking, BookingDetail, the hotel Search/Details/Rules/PriceConfirm set and the nine MSDP
-    operations — are NOT derived into candidate tools here because their current availability is
-    unverified. They are catalogued in mcp/webjet-tool-crosswalk.yml under rest_only.
+  reason: The six GitHub-published documents (flights core, pricing & booking, hotels, MSDP, v2 booking,
+    v2 core) describe surfaces the current developer hub no longer documents. Their operations — FlightSearch,
+    PriceConfirm, CreateBooking, CancelBooking, Ticket, AddBookingToTicketingQueue, ListBooking, BookingDetail,
+    the hotel Search/Details/Rules/PriceConfirm set and the nine MSDP operations — are NOT derived into
+    candidate tools here because their current availability is unverified. They are catalogued in mcp/webjet-tool-crosswalk.yml
+    under rest_only.
 caveats:
-- Every operationId in the four devhub SmartFlights documents is an empty string, so tools are bound by METHOD + PATH, not by operationId.
+- Every operationId in the four devhub SmartFlights documents is an empty string, so tools are bound by
+  METHOD + PATH, not by operationId.
 - No operation is read-only; there is no safe GET on the v3 surface for an agent to explore with.
 - No rate-limit headers and no 429 response are declared, so an agent has no backpressure signal.
+deployment:
+  mode: none
+  verified: derived
+  tools: 5
+  checked: '2026-08-12'
+  source: catalog MCP census

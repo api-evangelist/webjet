@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "7878783b-ceb2-483a-a6c3-a7f1dc2ea2dd",
+      "name": "Generate Solutions",
+      "request": {
+        "name": "Generate Solutions",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "v2",
+            "generate-solutions",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trip_id\": \"<string>\",\n  \"datasource_responses\": \"<object>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "a48d2f73-3d72-4132-a9a9-5550cfbf5fb1",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"pricing_solution_id\": \"a70de9b20c927e2d93996f8ada28adc2a8cfdbb1\",\n        \"total_price\": 9623.2,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": false,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T15:30:00.000-03:00\",\n              \"departure_timestamp\": 1721500200,\n              \"arrival_time\": \"2024-06-20T18:08:00.000-06:00\",\n              \"arrival_timestamp\": 1721520480,\n              \"flight_number\": \"235\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"E\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YYC\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T20:35:00.000-06:00\",\n              \"departure_timestamp\": 1721529300,\n              \"arrival_time\": \"2024-06-21T12:00:00.000+01:00\",\n              \"arrival_timestamp\": 1721559600,\n              \"flight_number\": \"18\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YYC\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Calgary, AB, Canada (YYC)\",\n              \"Destination\": \"YYC\",\n              \"DepartureTime\": \"2024-06-20T15:30:00.000-03:00\",\n              \"DepartureTimestamp\": 1721500200,\n              \"ArrivalTime\": \"2024-06-20T18:08:00.000-06:00\",\n              \"ArrivalTimestamp\": 1721520480,\n              \"FlightNumber\": \"235\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 338,\n              \"AircraftType\": \"7M8\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKABuv4NABCSAAA==\",\n              \"BookingCode\": \"K\",\n              \"cabin_class\": \"Economy\"\n            },\n            {\n              \"OriginName\": \"Calgary, AB, Canada (YYC)\",\n              \"Origin\": \"YYC\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T20:35:00.000-06:00\",\n              \"DepartureTimestamp\": 1721529300,\n              \"ArrivalTime\": \"2024-06-21T12:00:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721559600,\n              \"FlightNumber\": \"18\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 505,\n              \"AircraftType\": \"789\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKADuv4NABCSAAA==\",\n              \"BookingCode\": \"D\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      },\n      {\n        \"pricing_solution_id\": \"e0edb24bc906f445f7c1bc05e1a4434bd97cc425\",\n        \"total_price\": 17550.34,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": true,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T17:25:00.000-03:00\",\n              \"departure_timestamp\": 1721507100,\n              \"arrival_time\": \"2024-06-20T18:04:00.000-04:00\",\n              \"arrival_timestamp\": 1721513040,\n              \"flight_number\": \"667\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YUL\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T18:50:00.000-04:00\",\n              \"departure_timestamp\": 1721515800,\n              \"arrival_time\": \"2024-06-21T06:30:00.000+01:00\",\n              \"arrival_timestamp\": 1721539800,\n              \"flight_number\": \"866\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YUL\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Destination\": \"YUL\",\n              \"DepartureTime\": \"2024-06-20T17:25:00.000-03:00\",\n              \"DepartureTimestamp\": 1721507100,\n              \"ArrivalTime\": \"2024-06-20T18:04:00.000-04:00\",\n              \"ArrivalTimestamp\": 1721513040,\n              \"FlightNumber\": \"667\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 99,\n              \"AircraftType\": \"333\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAZuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            },\n            {\n              \"OriginName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Origin\": \"YUL\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T18:50:00.000-04:00\",\n              \"DepartureTimestamp\": 1721515800,\n              \"ArrivalTime\": \"2024-06-21T06:30:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721539800,\n              \"FlightNumber\": \"866\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 400,\n              \"AircraftType\": \"788\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAcuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"currency\": \"MXN\",\n  \"itineraries\": [\n    {\n      \"itinerary_id\": \"3e5438fd21674dc539b1ef2fa0720e23c01d495d\",\n      \"total_price\": 9623.2,\n      \"weight\": 9623.2,\n      \"transportation_time\": 990,\n      \"refundable\": false,\n      \"is_virtual_interline\": false,\n      \"structure\": \"[0]\",\n      \"flight_numbers\": [\n        \"WS18\",\n        \"WS235\"\n      ],\n      \"segments\": [\n        {\n          \"pricing_solution_id\": \"a70de9b20c927e2d93996f8ada28adc2a8cfdbb1\",\n          \"is_vi_segment\": false,\n          \"price\": 9623.2,\n          \"weight\": 9623.2,\n          \"segment_position\": 0,\n          \"segment_source\": \"travelport\",\n          \"is_private_fare\": false,\n          \"baggage\": \"2pc\",\n          \"legs\": [\n            {\n              \"departure_time\": \"2024-06-20T15:30:00.000-03:00\",\n              \"departure_timestamp\": 1721500200,\n              \"arrival_time\": \"2024-06-20T18:08:00.000-06:00\",\n              \"arrival_timestamp\": 1721520480,\n              \"flight_number\": \"235\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"E\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YYC\",\n              \"segment_leg_position\": 0\n            },\n            {\n              \"departure_time\": \"2024-06-20T20:35:00.000-06:00\",\n              \"departure_timestamp\": 1721529300,\n              \"arrival_time\": \"2024-06-21T12:00:00.000+01:00\",\n              \"arrival_timestamp\": 1721559600,\n              \"flight_number\": \"18\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YYC\",\n              \"to_iata\": \"LHR\",\n              \"segment_leg_position\": 0\n            }\n          ]\n        }\n      ],\n      \"metadata\": [\n        {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Calgary, AB, Canada (YYC)\",\n              \"Destination\": \"YYC\",\n              \"DepartureTime\": \"2024-06-20T15:30:00.000-03:00\",\n              \"DepartureTimestamp\": 1721500200,\n              \"ArrivalTime\": \"2024-06-20T18:08:00.000-06:00\",\n              \"ArrivalTimestamp\": 1721520480,\n              \"FlightNumber\": \"235\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 338,\n              \"AircraftType\": \"7M8\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKABuv4NAABdAA==\",\n              \"BookingCode\": \"K\",\n              \"cabin_class\": \"Economy\"\n            },\n            {\n              \"OriginName\": \"Calgary, AB, Canada (YYC)\",\n              \"Origin\": \"YYC\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T20:35:00.000-06:00\",\n              \"DepartureTimestamp\": 1721529300,\n              \"ArrivalTime\": \"2024-06-21T12:00:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721559600,\n              \"FlightNumber\": \"18\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 505,\n              \"AircraftType\": \"789\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKADuv4NAABdAA==\",\n              \"BookingCode\": \"D\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      ],\n      \"markup\": 323\n    },\n    {\n      \"itinerary_id\": \"54aad547029a628303a47a21844fef0332070bbb\",\n      \"total_price\": 17550.34,\n      \"weight\": 17550.34,\n      \"transportation_time\": 545,\n      \"refundable\": false,\n      \"is_virtual_interline\": false,\n      \"structure\": \"[0]\",\n      \"flight_numbers\": [\n        \"AC667\",\n        \"AC866\"\n      ],\n      \"segments\": [\n        {\n          \"pricing_solution_id\": \"e0edb24bc906f445f7c1bc05e1a4434bd97cc425\",\n          \"is_vi_segment\": false,\n          \"price\": 17550.34,\n          \"weight\": 17550.34,\n          \"segment_position\": 0,\n          \"segment_source\": \"travelport\",\n          \"is_private_fare\": false,\n          \"baggage\": \"2pc\",\n          \"legs\": [\n            {\n              \"departure_time\": \"2024-06-20T17:25:00.000-03:00\",\n              \"departure_timestamp\": 1721507100,\n              \"arrival_time\": \"2024-06-20T18:04:00.000-04:00\",\n              \"arrival_timestamp\": 1721513040,\n              \"flight_number\": \"667\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YUL\",\n              \"segment_leg_position\": 0\n            },\n            {\n              \"departure_time\": \"2024-06-20T18:50:00.000-04:00\",\n              \"departure_timestamp\": 1721515800,\n              \"arrival_time\": \"2024-06-21T06:30:00.000+01:00\",\n              \"arrival_timestamp\": 1721539800,\n              \"flight_number\": \"866\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YUL\",\n              \"to_iata\": \"LHR\",\n              \"segment_leg_position\": 0\n            }\n          ]\n        }\n      ],\n      \"metadata\": [\n        {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Destination\": \"YUL\",\n              \"DepartureTime\": \"2024-06-20T17:25:00.000-03:00\",\n              \"DepartureTimestamp\": 1721507100,\n              \"ArrivalTime\": \"2024-06-20T18:04:00.000-04:00\",\n              \"ArrivalTimestamp\": 1721513040,\n              \"FlightNumber\": \"667\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 99,\n              \"AircraftType\": \"333\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAZuv4NAABdAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            },\n            {\n              \"OriginName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Origin\": \"YUL\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T18:50:00.000-04:00\",\n              \"DepartureTimestamp\": 1721515800,\n              \"ArrivalTime\": \"2024-06-21T06:30:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721539800,\n              \"FlightNumber\": \"866\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 400,\n              \"AircraftType\": \"788\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAcuv4NAABdAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      ],\n      \"markup\": 325\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "d7e00057-4a85-475b-b2f3-357cc6c6ebc4",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"pricing_solution_id\": \"a70de9b20c927e2d93996f8ada28adc2a8cfdbb1\",\n        \"total_price\": 9623.2,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": false,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T15:30:00.000-03:00\",\n              \"departure_timestamp\": 1721500200,\n              \"arrival_time\": \"2024-06-20T18:08:00.000-06:00\",\n              \"arrival_timestamp\": 1721520480,\n              \"flight_number\": \"235\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"E\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YYC\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T20:35:00.000-06:00\",\n              \"departure_timestamp\": 1721529300,\n              \"arrival_time\": \"2024-06-21T12:00:00.000+01:00\",\n              \"arrival_timestamp\": 1721559600,\n              \"flight_number\": \"18\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YYC\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Calgary, AB, Canada (YYC)\",\n              \"Destination\": \"YYC\",\n              \"DepartureTime\": \"2024-06-20T15:30:00.000-03:00\",\n              \"DepartureTimestamp\": 1721500200,\n              \"ArrivalTime\": \"2024-06-20T18:08:00.000-06:00\",\n              \"ArrivalTimestamp\": 1721520480,\n              \"FlightNumber\": \"235\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 338,\n              \"AircraftType\": \"7M8\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKABuv4NABCSAAA==\",\n              \"BookingCode\": \"K\",\n              \"cabin_class\": \"Economy\"\n            },\n            {\n              \"OriginName\": \"Calgary, AB, Canada (YYC)\",\n              \"Origin\": \"YYC\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T20:35:00.000-06:00\",\n              \"DepartureTimestamp\": 1721529300,\n              \"ArrivalTime\": \"2024-06-21T12:00:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721559600,\n              \"FlightNumber\": \"18\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 505,\n              \"AircraftType\": \"789\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKADuv4NABCSAAA==\",\n              \"BookingCode\": \"D\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      },\n      {\n        \"pricing_solution_id\": \"e0edb24bc906f445f7c1bc05e1a4434bd97cc425\",\n        \"total_price\": 17550.34,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": true,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T17:25:00.000-03:00\",\n              \"departure_timestamp\": 1721507100,\n              \"arrival_time\": \"2024-06-20T18:04:00.000-04:00\",\n              \"arrival_timestamp\": 1721513040,\n              \"flight_number\": \"667\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YUL\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T18:50:00.000-04:00\",\n              \"departure_timestamp\": 1721515800,\n              \"arrival_time\": \"2024-06-21T06:30:00.000+01:00\",\n              \"arrival_timestamp\": 1721539800,\n              \"flight_number\": \"866\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YUL\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Destination\": \"YUL\",\n              \"DepartureTime\": \"2024-06-20T17:25:00.000-03:00\",\n              \"DepartureTimestamp\": 1721507100,\n              \"ArrivalTime\": \"2024-06-20T18:04:00.000-04:00\",\n              \"ArrivalTimestamp\": 1721513040,\n              \"FlightNumber\": \"667\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 99,\n              \"AircraftType\": \"333\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAZuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            },\n            {\n              \"OriginName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Origin\": \"YUL\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T18:50:00.000-04:00\",\n              \"DepartureTimestamp\": 1721515800,\n              \"ArrivalTime\": \"2024-06-21T06:30:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721539800,\n              \"FlightNumber\": \"866\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 400,\n              \"AircraftType\": \"788\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAcuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE52\",\n  \"message\": \"Trip Id not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "74d3c99f-c788-4a0c-9b43-66e286070cd7",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"pricing_solution_id\": \"a70de9b20c927e2d93996f8ada28adc2a8cfdbb1\",\n        \"total_price\": 9623.2,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": false,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T15:30:00.000-03:00\",\n              \"departure_timestamp\": 1721500200,\n              \"arrival_time\": \"2024-06-20T18:08:00.000-06:00\",\n              \"arrival_timestamp\": 1721520480,\n              \"flight_number\": \"235\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"E\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YYC\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T20:35:00.000-06:00\",\n              \"departure_timestamp\": 1721529300,\n              \"arrival_time\": \"2024-06-21T12:00:00.000+01:00\",\n              \"arrival_timestamp\": 1721559600,\n              \"flight_number\": \"18\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YYC\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Calgary, AB, Canada (YYC)\",\n              \"Destination\": \"YYC\",\n              \"DepartureTime\": \"2024-06-20T15:30:00.000-03:00\",\n              \"DepartureTimestamp\": 1721500200,\n              \"ArrivalTime\": \"2024-06-20T18:08:00.000-06:00\",\n              \"ArrivalTimestamp\": 1721520480,\n              \"FlightNumber\": \"235\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 338,\n              \"AircraftType\": \"7M8\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKABuv4NABCSAAA==\",\n              \"BookingCode\": \"K\",\n              \"cabin_class\": \"Economy\"\n            },\n            {\n              \"OriginName\": \"Calgary, AB, Canada (YYC)\",\n              \"Origin\": \"YYC\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T20:35:00.000-06:00\",\n              \"DepartureTimestamp\": 1721529300,\n              \"ArrivalTime\": \"2024-06-21T12:00:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721559600,\n              \"FlightNumber\": \"18\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 505,\n              \"AircraftType\": \"789\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKADuv4NABCSAAA==\",\n              \"BookingCode\": \"D\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      },\n      {\n        \"pricing_solution_id\": \"e0edb24bc906f445f7c1bc05e1a4434bd97cc425\",\n        \"total_price\": 17550.34,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": true,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T17:25:00.000-03:00\",\n              \"departure_timestamp\": 1721507100,\n              \"arrival_time\": \"2024-06-20T18:04:00.000-04:00\",\n              \"arrival_timestamp\": 1721513040,\n              \"flight_number\": \"667\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YUL\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T18:50:00.000-04:00\",\n              \"departure_timestamp\": 1721515800,\n              \"arrival_time\": \"2024-06-21T06:30:00.000+01:00\",\n              \"arrival_timestamp\": 1721539800,\n              \"flight_number\": \"866\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YUL\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Destination\": \"YUL\",\n              \"DepartureTime\": \"2024-06-20T17:25:00.000-03:00\",\n              \"DepartureTimestamp\": 1721507100,\n              \"ArrivalTime\": \"2024-06-20T18:04:00.000-04:00\",\n              \"ArrivalTimestamp\": 1721513040,\n              \"FlightNumber\": \"667\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 99,\n              \"AircraftType\": \"333\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAZuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            },\n            {\n              \"OriginName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Origin\": \"YUL\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T18:50:00.000-04:00\",\n              \"DepartureTimestamp\": 1721515800,\n              \"ArrivalTime\": \"2024-06-21T06:30:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721539800,\n              \"FlightNumber\": \"866\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 400,\n              \"AircraftType\": \"788\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAcuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "df675135-f002-4085-a079-c9ac133b2810",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "generate-solutions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"datasource_responses\": {\n    \"4f499298b303c55a1ee522118afce28abe2f68e4\": [\n      {\n        \"pricing_solution_id\": \"a70de9b20c927e2d93996f8ada28adc2a8cfdbb1\",\n        \"total_price\": 9623.2,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": false,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T15:30:00.000-03:00\",\n              \"departure_timestamp\": 1721500200,\n              \"arrival_time\": \"2024-06-20T18:08:00.000-06:00\",\n              \"arrival_timestamp\": 1721520480,\n              \"flight_number\": \"235\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"E\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YYC\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T20:35:00.000-06:00\",\n              \"departure_timestamp\": 1721529300,\n              \"arrival_time\": \"2024-06-21T12:00:00.000+01:00\",\n              \"arrival_timestamp\": 1721559600,\n              \"flight_number\": \"18\",\n              \"operating_carrier\": \"WS\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YYC\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Calgary, AB, Canada (YYC)\",\n              \"Destination\": \"YYC\",\n              \"DepartureTime\": \"2024-06-20T15:30:00.000-03:00\",\n              \"DepartureTimestamp\": 1721500200,\n              \"ArrivalTime\": \"2024-06-20T18:08:00.000-06:00\",\n              \"ArrivalTimestamp\": 1721520480,\n              \"FlightNumber\": \"235\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 338,\n              \"AircraftType\": \"7M8\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKABuv4NABCSAAA==\",\n              \"BookingCode\": \"K\",\n              \"cabin_class\": \"Economy\"\n            },\n            {\n              \"OriginName\": \"Calgary, AB, Canada (YYC)\",\n              \"Origin\": \"YYC\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T20:35:00.000-06:00\",\n              \"DepartureTimestamp\": 1721529300,\n              \"ArrivalTime\": \"2024-06-21T12:00:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721559600,\n              \"FlightNumber\": \"18\",\n              \"Carrier\": \"WS\",\n              \"CarrierFullName\": \"Westjet\",\n              \"FlightTime\": 505,\n              \"AircraftType\": \"789\",\n              \"AvailabilitySource\": \"P\",\n              \"Key\": \"eAo/mASqWDKADuv4NABCSAAA==\",\n              \"BookingCode\": \"D\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      },\n      {\n        \"pricing_solution_id\": \"e0edb24bc906f445f7c1bc05e1a4434bd97cc425\",\n        \"total_price\": 17550.34,\n        \"segment_source\": \"travelport\",\n        \"is_private_fare\": false,\n        \"refundable\": true,\n        \"baggage\": \"2pc\",\n        \"segments\": [\n          [\n            {\n              \"departure_time\": \"2024-06-20T17:25:00.000-03:00\",\n              \"departure_timestamp\": 1721507100,\n              \"arrival_time\": \"2024-06-20T18:04:00.000-04:00\",\n              \"arrival_timestamp\": 1721513040,\n              \"flight_number\": \"667\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YHZ\",\n              \"to_iata\": \"YUL\"\n            },\n            {\n              \"departure_time\": \"2024-06-20T18:50:00.000-04:00\",\n              \"departure_timestamp\": 1721515800,\n              \"arrival_time\": \"2024-06-21T06:30:00.000+01:00\",\n              \"arrival_timestamp\": 1721539800,\n              \"flight_number\": \"866\",\n              \"operating_carrier\": \"AC\",\n              \"transportation_type\": \"flight\",\n              \"fare_type\": \"PublicFare\",\n              \"cabin_class\": \"BC\",\n              \"from_iata\": \"YUL\",\n              \"to_iata\": \"LHR\"\n            }\n          ]\n        ],\n        \"metadata\": {\n          \"segment_source\": \"travelport\",\n          \"legs\": [\n            {\n              \"OriginName\": \"Halifax, NS, Canada (YHZ)\",\n              \"Origin\": \"YHZ\",\n              \"DestinationName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Destination\": \"YUL\",\n              \"DepartureTime\": \"2024-06-20T17:25:00.000-03:00\",\n              \"DepartureTimestamp\": 1721507100,\n              \"ArrivalTime\": \"2024-06-20T18:04:00.000-04:00\",\n              \"ArrivalTimestamp\": 1721513040,\n              \"FlightNumber\": \"667\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 99,\n              \"AircraftType\": \"333\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAZuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            },\n            {\n              \"OriginName\": \"Montreal, PQ, Canada (YUL)\",\n              \"Origin\": \"YUL\",\n              \"DestinationName\": \"London, United Kingdom (LHR)\",\n              \"Destination\": \"LHR\",\n              \"DepartureTime\": \"2024-06-20T18:50:00.000-04:00\",\n              \"DepartureTimestamp\": 1721515800,\n              \"ArrivalTime\": \"2024-06-21T06:30:00.000+01:00\",\n              \"ArrivalTimestamp\": 1721539800,\n              \"FlightNumber\": \"866\",\n              \"Carrier\": \"AC\",\n              \"CarrierFullName\": \"Air Canada\",\n              \"FlightTime\": 400,\n              \"AircraftType\": \"788\",\n              \"AvailabilitySource\": \"Q\",\n              \"Key\": \"eAo/mASqWDKAcuv4NABCSAAA==\",\n              \"BookingCode\": \"J\",\n              \"cabin_class\": \"Business\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f34ba03b-378d-427d-b9ea-9238ca2104bc",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Generate Solutions/h2>\nAfter your infrastructure has made the queries to your content sources that Trip Ninja defined in /get-searches/, the \ngenerate-solutions/ endpoint will generate a set of optimal itineraries including the ideal markup on those itineraries and then return them to you. You can then present those itineraries on the front end of your platform to your customers.\n\nThe /generate-solutions/ endpoint contains an optional metadata field that exists on each query that your infrastructure performs. This field contains any metadata that you want to pass in (branded fares, tax info, etc.). \n\n<b>1. Include Metadata Field</b>\nIf you choose to include the metadata field, we will pass you these values in a list inside the corresponding itinerary when we have finished generating the itineraries for the search.\nPros -The benefit of this extra metadata data is that the response from the /generate-solutions/ endpoint will be ready to be displayed on the front end of your platform.\nCons - This will inflate the request/response size considerably which can result in longer loading times.\n\n<b>2. Ignore MetaData Field</b>\nIn approach, your infrastructure will only send the required fields listed in our docs.\nPros - This will result in a much smaller request/response.\nCons - It will be up to your infrastructure and platform to process the data and add any additional metadata to the itineraries returned.\n\n!\n",
+      "type": "text/plain"
+    }
+  }
+}

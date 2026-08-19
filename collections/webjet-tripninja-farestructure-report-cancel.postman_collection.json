@@ -1,0 +1,210 @@
+{
+  "item": [
+    {
+      "id": "bfc9b377-8594-45cc-ad88-93b4fec16f8f",
+      "name": "Cancel Booking Report",
+      "request": {
+        "name": "Cancel Booking Report",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "v2",
+            "report",
+            "cancel",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "4d60bc61-a71e-4a33-a96c-4f72a42b9873",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "report",
+                "cancel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Trip has been cancelled.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f179cdaa-8188-4ae3-add9-bf0e1b804412",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "report",
+                "cancel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE52\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5227634b-b454-430a-b987-c0223193cad2",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "report",
+                "cancel",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3bacf35c-73bd-4ec2-be64-ab208f0e1424",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

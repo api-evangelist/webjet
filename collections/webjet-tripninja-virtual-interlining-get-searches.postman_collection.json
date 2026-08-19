@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "cf18c905-8d96-4436-a5fa-3fb67e9aefb5",
+      "name": "Get Searches",
+      "request": {
+        "name": "Get Searches",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "v2",
+            "get-searches",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"segments\": [\n    {\n      \"id\": \"<integer>\",\n      \"from_iata\": \"<string>\",\n      \"to_iata\": \"<string>\",\n      \"departure_date\": \"<string>\",\n      \"from_type\": \"C\",\n      \"to_type\": \"C\",\n      \"cabin_class\": \"E\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"from_iata\": \"<string>\",\n      \"to_iata\": \"<string>\",\n      \"departure_date\": \"<string>\",\n      \"from_type\": \"C\",\n      \"to_type\": \"C\",\n      \"cabin_class\": \"E\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"<string>\",\n  \"travellers\": [\n    \"ADT\"\n  ],\n  \"currency\": \"USD\",\n  \"country_code\": \"<string>\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"single_pnr\": true,\n  \"virtual_interlining\": false,\n  \"num_vi_locations_returned\": 1,\n  \"risk_profile_name\": \"default\",\n  \"return_single_pnr_itineraries\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "95565b5a-8de4-450c-911d-e4debc918a73",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"departure_date\": \"2024-08-15\",\n      \"cabin_class\": \"E\",\n      \"from_iata\": \"EWR\",\n      \"to_iata\": \"LHR\",\n      \"from_type\": \"A\",\n      \"to_type\": \"A\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\"\n  ],\n  \"currency\": \"CAD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"single_pnr\": false,\n  \"virtual_interlining\": true,\n  \"num_vi_locations_returned\": 1,\n  \"risk_profile_name\": \"low-risk-CA\",\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"trip_id\": \"gAAAAABlSXcLA0ChTKO9-iZT-sveIYqZ4tEluxEBAnSupx0rIBvx1NI4_7apGXoe8iTtZ4iytATGyURN7IGDUnWmSKXMYhQfA7DhlPOY4SidBcigPAKWH7k=\",\n  \"datasource_requests\": [\n    {\n      \"datasource_request_id\": \"045ce44555be2c68819bc889a9e50d1fc5d5bf80\",\n      \"num_results\": 200,\n      \"datasource_segments\": [\n        {\n          \"id\": 1,\n          \"departure_date\": \"2024-08-15\",\n          \"from_iata\": \"EWR\",\n          \"to_iata\": \"LHR\",\n          \"cabin_class\": \"E\",\n          \"from_type\": \"A\",\n          \"to_type\": \"A\",\n          \"is_international\": false\n        }\n      ]\n    },\n    {\n      \"datasource_request_id\": \"df90edc75d6eb7e5159be9b03162312a708c64b2\",\n      \"num_results\": 200,\n      \"datasource_segments\": [\n        {\n          \"id\": 1.1,\n          \"from_iata\": \"EWR\",\n          \"from_type\": \"A\",\n          \"to_iata\": \"IAD\",\n          \"to_type\": \"A\",\n          \"departure_date\": \"2024-08-15\",\n          \"cabin_class\": \"E\",\n          \"content_source\": \"travelport\",\n          \"is_international\": false\n        }\n      ]\n    },\n    {\n      \"datasource_request_id\": \"aed2e648f78be1a1566f859262bf7da65a59c6ef\",\n      \"num_results\": 200,\n      \"datasource_segments\": [\n        {\n          \"id\": 1.2,\n          \"from_iata\": \"IAD\",\n          \"from_type\": \"A\",\n          \"to_iata\": \"LHR\",\n          \"to_type\": \"A\",\n          \"departure_date\": \"2024-08-15\",\n          \"cabin_class\": \"E\",\n          \"content_source\": \"travelport\",\n          \"is_international\": true\n        }\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "eecfebb9-6597-43ee-9346-f66bc980f769",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"departure_date\": \"2024-08-15\",\n      \"cabin_class\": \"E\",\n      \"from_iata\": \"EWR\",\n      \"to_iata\": \"LHR\",\n      \"from_type\": \"A\",\n      \"to_type\": \"A\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\"\n  ],\n  \"currency\": \"CAD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"single_pnr\": false,\n  \"virtual_interlining\": true,\n  \"num_vi_locations_returned\": 1,\n  \"risk_profile_name\": \"low-risk-CA\",\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE16\",\n  \"message\": \"Segment ID is invalid.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "44e27d7a-7e7c-4f47-8c1c-da11e772f2df",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"departure_date\": \"2024-08-15\",\n      \"cabin_class\": \"E\",\n      \"from_iata\": \"EWR\",\n      \"to_iata\": \"LHR\",\n      \"from_type\": \"A\",\n      \"to_type\": \"A\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\"\n  ],\n  \"currency\": \"CAD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"single_pnr\": false,\n  \"virtual_interlining\": true,\n  \"num_vi_locations_returned\": 1,\n  \"risk_profile_name\": \"low-risk-CA\",\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "a356bb2d-f69a-4d9a-bf3c-49aa0c877125",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v2",
+                "get-searches",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"id\": 1,\n      \"departure_date\": \"2024-08-15\",\n      \"cabin_class\": \"E\",\n      \"from_iata\": \"EWR\",\n      \"to_iata\": \"LHR\",\n      \"from_type\": \"A\",\n      \"to_type\": \"A\"\n    }\n  ],\n  \"num_results\": 50,\n  \"markup_source\": \"onsite\",\n  \"travellers\": [\n    \"ADT\"\n  ],\n  \"currency\": \"CAD\",\n  \"country_code\": \"CA\",\n  \"cabin_class\": \"E\",\n  \"time_value\": 0,\n  \"single_pnr\": false,\n  \"virtual_interlining\": true,\n  \"num_vi_locations_returned\": 1,\n  \"risk_profile_name\": \"low-risk-CA\",\n  \"return_single_pnr_itineraries\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3258aa46-20be-4edf-a35e-6dd8a200f74f",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Get Searches</h2>\nThe <code>/get-searches/</code> endpoint is responsible for taking a traveller search request from your platform and applying our FareStructure logic to determine the optimal queries predicted.\n\n<b>The general flow is as follows:</b>\nA traveller makes a search request on your platform for an itinerary and you send this request from your platform to Trip Ninja using the                               endpoint.\nTrip Ninja reviews this search request, builds a set of optimal content search queries for you to send to your content provider(s), and returns this set of content search queries to you.\n\n!\n",
+      "type": "text/plain"
+    }
+  }
+}

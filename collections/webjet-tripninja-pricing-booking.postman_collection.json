@@ -1,0 +1,1105 @@
+{
+  "item": [
+    {
+      "id": "21e2e2ac-a3f5-46c9-ade7-4f9df9b9f4ca",
+      "name": "Price Confirmation",
+      "request": {
+        "name": "Price Confirmation",
+        "description": {
+          "content": "Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "price",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trip_id\": \"<string>\",\n  \"trip_type\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"price\": \"<float>\",\n  \"markup\": \"<float>\",\n  \"itineraries\": [\n    {\n      \"itinerary_reference\": \"<integer>\",\n      \"plating_carrier\": \"<string>\",\n      \"credentials\": {\n        \"data_source\": \"<string>\",\n        \"pcc\": \"<string>\",\n        \"provider\": \"<string>\",\n        \"region\": \"<string>\",\n        \"pcc_currency\": \"<string>\",\n        \"conversion_rate\": \"<float>\"\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"<string>\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": \"<boolean>\",\n          \"vi_solution_id\": \"<string>\",\n          \"itinerary_index\": \"<int>\",\n          \"vi_position\": \"<integer>\"\n        },\n        {\n          \"segment_id\": \"<string>\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": \"<boolean>\",\n          \"vi_solution_id\": \"<string>\",\n          \"itinerary_index\": \"<int>\",\n          \"vi_position\": \"<integer>\"\n        }\n      ],\n      \"traveller_list\": \"<array>\",\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 0\n    },\n    {\n      \"itinerary_reference\": \"<integer>\",\n      \"plating_carrier\": \"<string>\",\n      \"credentials\": {\n        \"data_source\": \"<string>\",\n        \"pcc\": \"<string>\",\n        \"provider\": \"<string>\",\n        \"region\": \"<string>\",\n        \"pcc_currency\": \"<string>\",\n        \"conversion_rate\": \"<float>\"\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"<string>\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": \"<boolean>\",\n          \"vi_solution_id\": \"<string>\",\n          \"itinerary_index\": \"<int>\",\n          \"vi_position\": \"<integer>\"\n        },\n        {\n          \"segment_id\": \"<string>\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": \"<boolean>\",\n          \"vi_solution_id\": \"<string>\",\n          \"itinerary_index\": \"<int>\",\n          \"vi_position\": \"<integer>\"\n        }\n      ],\n      \"traveller_list\": \"<array>\",\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 0\n    }\n  ],\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "2b0259f0-db4c-4b9b-8797-be2ad7ce90da",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"129a4045ef84edc4c0d5f0b1b28a906495d3f966\",\n  \"trip_type\": \"OneWay\",\n  \"currency\": \"USD\",\n  \"price\": 161.23,\n  \"markup\": 0,\n  \"itineraries\": [\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        },\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        }\n      ],\n      \"traveller_list\": [\n        \"ADT\"\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7\n    },\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        },\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        }\n      ],\n      \"traveller_list\": [\n        \"ADT\"\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7\n    }\n  ],\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"trip_id\": \"129a4045ef84edc4c0d5f0b1b28a906495d3f966\",\n  \"pricing\": {\n    \"confirmed_total_price\": 455.68,\n    \"original_total_price\": 455.61,\n    \"base_fare\": 370.04,\n    \"taxes\": 85.64,\n    \"fees\": 0,\n    \"markup\": 20,\n    \"currency\": \"USD\",\n    \"ancillary_total\": 60\n  },\n  \"itinerary\": [\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7,\n      \"base_fare\": 115.5,\n      \"taxes\": 34.55,\n      \"fees\": 12.99\n    },\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7,\n      \"base_fare\": 115.5,\n      \"taxes\": 34.55,\n      \"fees\": 12.99\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6f210ea0-851c-4ef0-a388-768a66c420ca",
+          "name": "Unable to confirm trip pricing",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": \"129a4045ef84edc4c0d5f0b1b28a906495d3f966\",\n  \"trip_type\": \"OneWay\",\n  \"currency\": \"USD\",\n  \"price\": 161.23,\n  \"markup\": 0,\n  \"itineraries\": [\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        },\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        }\n      ],\n      \"traveller_list\": [\n        \"ADT\"\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7\n    },\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        },\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"flights\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0\n        }\n      ],\n      \"traveller_list\": [\n        \"ADT\"\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7\n    }\n  ],\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"itinerary with reference 1 was unsuccessful. reason Invalid date. Check arrival and departure dates\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "0ac7e4e3-bc87-4762-a545-a4d7067fd097",
+      "name": "List Bookings",
+      "request": {
+        "name": "List Bookings",
+        "description": {
+          "content": "Get a list of all bookings for travel agency or agent.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "book",
+            "list",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "key": "agency",
+              "value": "{{agency}}"
+            },
+            {
+              "key": "user",
+              "value": "{{agent_email}}"
+            },
+            {
+              "key": "offset",
+              "value": "{{offset}}"
+            },
+            {
+              "key": "limit",
+              "value": "{{limit}}"
+            },
+            {
+              "disabled": false,
+              "key": "agency",
+              "value": "<string>",
+              "description": "Travel agency id for which to list bookings from. Either this or agent_email should be passed. This parameter is incompatible with `agent_email`.\n"
+            },
+            {
+              "disabled": false,
+              "key": "agent_email",
+              "value": "<string>",
+              "description": "Email address of the travel agent to list bookings from. Either this or agent_email should be passed. This parameter is incompatible with `agency`.\n"
+            },
+            {
+              "disabled": false,
+              "key": "offset",
+              "value": "<integer>",
+              "description": "The number of items to skip before starting to collect the result set"
+            },
+            {
+              "disabled": false,
+              "key": "limit",
+              "value": "<integer>",
+              "description": "The numbers of items to return"
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "89b624d2-4174-4e67-90d4-bcbcb0aa50bd",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                "list",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "agency",
+                  "value": "9238812-2131233-ee213123"
+                },
+                {
+                  "key": "agent_email",
+                  "value": "agent@travelagency.com"
+                },
+                {
+                  "key": "offset",
+                  "value": "100"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"bookings\": [\n    {\n      \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n      \"primary_passenger\": {\n        \"first_name\": \"Andres\",\n        \"last_name\": \"Collart\"\n      },\n      \"booking_date\": \"2019-07-07\",\n      \"departure_date\": \"2019-11-21\",\n      \"status\": \"booked\",\n      \"pnr_list\": [\n        {\n          \"pnr_number\": \"DKCD62A\",\n          \"route\": \"YHZ-YOW,YOW-YYZ\",\n          \"departure_date\": \"2019-11-21\",\n          \"pnr_status\": \"booked\"\n        },\n        {\n          \"pnr_number\": \"DKCD62A\",\n          \"route\": \"YHZ-YOW,YOW-YYZ\",\n          \"departure_date\": \"2019-11-21\",\n          \"pnr_status\": \"booked\"\n        }\n      ],\n      \"currency\": \"CAD\"\n    },\n    {\n      \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n      \"primary_passenger\": {\n        \"first_name\": \"Andres\",\n        \"last_name\": \"Collart\"\n      },\n      \"booking_date\": \"2019-07-07\",\n      \"departure_date\": \"2019-11-21\",\n      \"status\": \"booked\",\n      \"pnr_list\": [\n        {\n          \"pnr_number\": \"DKCD62A\",\n          \"route\": \"YHZ-YOW,YOW-YYZ\",\n          \"departure_date\": \"2019-11-21\",\n          \"pnr_status\": \"booked\"\n        },\n        {\n          \"pnr_number\": \"DKCD62A\",\n          \"route\": \"YHZ-YOW,YOW-YYZ\",\n          \"departure_date\": \"2019-11-21\",\n          \"pnr_status\": \"booked\"\n        }\n      ],\n      \"currency\": \"CAD\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "fc305e1e-b0fa-45bf-b991-ee5bae5047a0",
+          "name": "Unable to get bookings",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                "list",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "agency",
+                  "value": "9238812-2131233-ee213123"
+                },
+                {
+                  "key": "agent_email",
+                  "value": "agent@travelagency.com"
+                },
+                {
+                  "key": "offset",
+                  "value": "100"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE2200\",\n  \"message\": \"Invalid agency/agent entered\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "53a8ec07-b61f-416f-a410-881e367b1683",
+      "name": "Booking Detail",
+      "request": {
+        "name": "Booking Detail",
+        "description": {
+          "content": "Retrieve a booking details",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "book",
+            "trip",
+            ":super_trip_id",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "key": "agency",
+              "value": "{{agency}}"
+            },
+            {
+              "disabled": false,
+              "key": "agency",
+              "value": "<string>",
+              "description": "Travel agency for which to list bookings from. Either this or agent_email should be passed. This parameter is incompatible with `agent_email`.\n"
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "super_trip_id",
+              "description": "A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "e2a2c066-04e0-4f8c-b1ab-5e571ff665a6",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                "trip",
+                ":super_trip_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "agency",
+                  "value": "tripninja"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "super_trip_id",
+                  "description": "A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"pricing\": {\n    \"confirmed_total_price\": 455.68,\n    \"original_total_price\": 455.61,\n    \"base_fare\": 370.04,\n    \"taxes\": 85.64,\n    \"fees\": 0,\n    \"markup\": 20,\n    \"currency\": \"USD\",\n    \"additional_markup\": 15,\n    \"ancillary_total\": 30\n  },\n  \"itinerary\": [\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"flight_details\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0,\n          \"additional_details\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"brand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"flight_details\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0,\n          \"additional_details\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"brand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7,\n      \"base_fare\": 115.5,\n      \"taxes\": 34.55,\n      \"fees\": 12.99\n    },\n    {\n      \"itinerary_reference\": 1,\n      \"plating_carrier\": \"WS\",\n      \"credentials\": {\n        \"data_source\": \"amadeus\",\n        \"pcc\": \"MEL49f839\",\n        \"provider\": \"1A\",\n        \"region\": \"americas\",\n        \"pcc_currency\": \"CAD\",\n        \"conversion_rate\": 0.78\n      },\n      \"segments\": [\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"flight_details\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0,\n          \"additional_details\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"brand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"segment_id\": \"14c9e2e5c95a5bf0f9f7712de24348e6aba88c32\",\n          \"baggage\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"flight_details\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"virtual_interline\": true,\n          \"vi_solution_id\": \"fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da\",\n          \"itinerary_index\": 0,\n          \"vi_position\": 0,\n          \"additional_details\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"brand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"itinerary_type\": \"<string>\",\n      \"itinerary_markup\": 7,\n      \"base_fare\": 115.5,\n      \"taxes\": 34.55,\n      \"fees\": 12.99\n    }\n  ],\n  \"passengers\": [\n    {\n      \"first_name\": \"Andres\",\n      \"last_name\": \"Collart\",\n      \"date_of_birth\": \"2017-07-23\",\n      \"gender\": \"M\",\n      \"passport_number\": \"KDS3468\",\n      \"passport_expiration\": \"2021-11-21\",\n      \"passport_country\": \"Canada\",\n      \"passenger_type\": \"ADT\",\n      \"email\": \"andres.collar@tripninja.io\",\n      \"phone_number\": \"9022222222\",\n      \"frequent_flyer\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\",\n          \"flight_numbers\": \"QT723, AC693\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\",\n          \"flight_numbers\": \"QT723, AC693\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            },\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            },\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"first_name\": \"Andres\",\n      \"last_name\": \"Collart\",\n      \"date_of_birth\": \"2017-07-23\",\n      \"gender\": \"M\",\n      \"passport_number\": \"KDS3468\",\n      \"passport_expiration\": \"2021-11-21\",\n      \"passport_country\": \"Canada\",\n      \"passenger_type\": \"ADT\",\n      \"email\": \"andres.collar@tripninja.io\",\n      \"phone_number\": \"9022222222\",\n      \"frequent_flyer\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\",\n          \"flight_numbers\": \"QT723, AC693\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\",\n          \"flight_numbers\": \"QT723, AC693\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            },\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            },\n            {\n              \"baggage_type\": \"string\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\"\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"hotels\": [\n    {\n      \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n      \"status\": \"string\",\n      \"booked_hotel_details\": {\n        \"address\": {\n          \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n          \"longitude\": 44.64511447836071,\n          \"lattitude\": -63.575245615440565,\n          \"distance_from_search_reference\": 7.5,\n          \"phone_number\": \"+1 902-420-0555\"\n        },\n        \"hotel_chain\": \"GI\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n        \"location_iata\": \"LON\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"total_price\": 40,\n        \"currency\": \"CAD\",\n        \"rating\": 4,\n        \"traveller_total\": 3,\n        \"rooms_total\": 2\n      }\n    },\n    {\n      \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n      \"status\": \"string\",\n      \"booked_hotel_details\": {\n        \"address\": {\n          \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n          \"longitude\": 44.64511447836071,\n          \"lattitude\": -63.575245615440565,\n          \"distance_from_search_reference\": 7.5,\n          \"phone_number\": \"+1 902-420-0555\"\n        },\n        \"hotel_chain\": \"GI\",\n        \"hotel_code\": \"35573\",\n        \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n        \"location_iata\": \"LON\",\n        \"check_in_time\": \"3pm\",\n        \"check_out_time\": \"10am\",\n        \"rate_plan_type\": \"A00BOB\",\n        \"total_price\": 40,\n        \"currency\": \"CAD\",\n        \"rating\": 4,\n        \"traveller_total\": 3,\n        \"rooms_total\": 2\n      }\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "8cfde314-6de5-4b2d-aaf3-b05f41c2042c",
+          "name": "Unable to retrieve booking information",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                "trip",
+                ":super_trip_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "agency",
+                  "value": "tripninja"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "super_trip_id",
+                  "description": "A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "3958cfb7-cb6d-47c5-8c35-288fef4b6b95",
+      "name": "Create Booking",
+      "request": {
+        "name": "Create Booking",
+        "description": {
+          "content": "When a trip is to be booked, send a request to the endpoint /book/ to create the Universal Record and associated PNR's for the trip. The booking can then be placed on the agency's ticketing queue.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "book",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\",\n  \"hotel_trace_ids\": \"<array>\",\n  \"passengers\": [\n    {\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"date_of_birth\": \"<string>\",\n      \"gender\": \"<string>\",\n      \"phone_number\": \"<string>\",\n      \"passenger_type\": \"<string>\",\n      \"email\": \"<string>\",\n      \"title\": \"<string>\",\n      \"passport_country\": \"<string>\",\n      \"passport_number\": \"<string>\",\n      \"passport_expiration\": \"<string>\",\n      \"frequent_flyer_cards\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"card_supplier\": \"<string>\",\n          \"card_number\": \"<string>\"\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"card_supplier\": \"<string>\",\n          \"card_number\": \"<string>\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"meal_choice\": \"<string>\"\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"meal_choice\": \"<string>\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"date_of_birth\": \"<string>\",\n      \"gender\": \"<string>\",\n      \"phone_number\": \"<string>\",\n      \"passenger_type\": \"<string>\",\n      \"email\": \"<string>\",\n      \"title\": \"<string>\",\n      \"passport_country\": \"<string>\",\n      \"passport_number\": \"<string>\",\n      \"passport_expiration\": \"<string>\",\n      \"frequent_flyer_cards\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"card_supplier\": \"<string>\",\n          \"card_number\": \"<string>\"\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"card_supplier\": \"<string>\",\n          \"card_number\": \"<string>\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"meal_choice\": \"<string>\"\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"meal_choice\": \"<string>\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"<string>\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": \"<number>\",\n              \"total_price\": \"<number>\",\n              \"restriction\": \"<string>\",\n              \"additional_service_reference\": \"<string>\"\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"billing\": {\n    \"email\": \"<string>\",\n    \"payment_included\": false,\n    \"payment_info\": {\n      \"card_type\": \"<string>\",\n      \"cardholder_name\": \"<string>\",\n      \"card_number\": \"<string>\",\n      \"card_cvv\": \"<string>\",\n      \"card_expiration_date\": \"<string>\"\n    }\n  },\n  \"segment_additional_details\": {\n    \"additional_details\": {\n      \"e_ticketability\": \"<boolean>\",\n      \"latest_ticketing_time\": \"<date>\",\n      \"refundable\": \"<boolean>\",\n      \"cancel_penalty\": {\n        \"amount\": \"<float>\",\n        \"percentage\": \"<float>\"\n      },\n      \"change_penalty\": {\n        \"amount\": \"<float>\",\n        \"percentage\": \"<float>\"\n      },\n      \"fare_types_info\": \"<string>\"\n    },\n    \"brands\": [\n      {\n        \"brand_description\": \"<string>\",\n        \"brand_services\": {\n          \"checked_baggage\": \"<boolean>\",\n          \"meals_and_beverages\": \"<boolean>\",\n          \"rebooking\": \"<string>\",\n          \"refund\": \"<string>\",\n          \"seat_assignment\": \"<string>\",\n          \"carry_on_hand_baggage\": \"<boolean>\"\n        },\n        \"carrier\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tag_info\": \"<string>\",\n        \"tag_line\": \"<string>\",\n        \"services\": [\n          {\n            \"classification\": \"<string>\",\n            \"description\": \"<string>\",\n            \"group\": \"<string>\",\n            \"marketing_carrier\": \"<string>\",\n            \"status\": \"<string>\",\n            \"text\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          },\n          {\n            \"classification\": \"<string>\",\n            \"description\": \"<string>\",\n            \"group\": \"<string>\",\n            \"marketing_carrier\": \"<string>\",\n            \"status\": \"<string>\",\n            \"text\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      {\n        \"brand_description\": \"<string>\",\n        \"brand_services\": {\n          \"checked_baggage\": \"<boolean>\",\n          \"meals_and_beverages\": \"<boolean>\",\n          \"rebooking\": \"<string>\",\n          \"refund\": \"<string>\",\n          \"seat_assignment\": \"<string>\",\n          \"carry_on_hand_baggage\": \"<boolean>\"\n        },\n        \"carrier\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tag_info\": \"<string>\",\n        \"tag_line\": \"<string>\",\n        \"services\": [\n          {\n            \"classification\": \"<string>\",\n            \"description\": \"<string>\",\n            \"group\": \"<string>\",\n            \"marketing_carrier\": \"<string>\",\n            \"status\": \"<string>\",\n            \"text\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          },\n          {\n            \"classification\": \"<string>\",\n            \"description\": \"<string>\",\n            \"group\": \"<string>\",\n            \"marketing_carrier\": \"<string>\",\n            \"status\": \"<string>\",\n            \"text\": [\n              \"<string>\",\n              \"<string>\"\n            ]\n          }\n        ]\n      }\n    ]\n  },\n  \"additional_markup\": \"<float>\",\n  \"add_to_ticketing_queue\": false,\n  \"ticketing_queue\": \"<string>\",\n  \"agent_email\": \"<string>\",\n  \"agency\": \"<string>\",\n  \"consolidate_ticket\": \"<boolean>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "1c5f55da-12de-486a-af3c-92f2c4a65234",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"hotel_trace_ids\": [\n    \"ndsf6sjf6sdf7sdf6\",\n    \"DDsf9Qj96sPP7sd9U\"\n  ],\n  \"passengers\": [\n    {\n      \"first_name\": \"FirstName\",\n      \"last_name\": \"LastName\",\n      \"date_of_birth\": \"2005-03-10\",\n      \"gender\": \"M\",\n      \"phone_number\": \"9022225555\",\n      \"passenger_type\": \"ADT\",\n      \"email\": \"email@email.com\",\n      \"title\": \"Mr\",\n      \"passport_country\": \"AZ\",\n      \"passport_number\": \"QX12345678\",\n      \"passport_expiration\": \"2020-10\",\n      \"frequent_flyer_cards\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"first_name\": \"FirstName\",\n      \"last_name\": \"LastName\",\n      \"date_of_birth\": \"2005-03-10\",\n      \"gender\": \"M\",\n      \"phone_number\": \"9022225555\",\n      \"passenger_type\": \"ADT\",\n      \"email\": \"email@email.com\",\n      \"title\": \"Mr\",\n      \"passport_country\": \"AZ\",\n      \"passport_number\": \"QX12345678\",\n      \"passport_expiration\": \"2020-10\",\n      \"frequent_flyer_cards\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"billing\": {\n    \"email\": \"email.address@email.com\",\n    \"payment_included\": true,\n    \"payment_info\": {\n      \"card_type\": \"VI\",\n      \"cardholder_name\": \"John David Smith\",\n      \"card_number\": \"4520000000000000\",\n      \"card_cvv\": \"345\",\n      \"card_expiration_date\": \"2021-10\"\n    }\n  },\n  \"segment_additional_details\": {\n    \"additional_details\": {\n      \"e_ticketability\": true,\n      \"latest_ticketing_time\": \"<date>\",\n      \"refundable\": true,\n      \"cancel_penalty\": {\n        \"amount\": 0,\n        \"percentage\": 100\n      },\n      \"change_penalty\": {\n        \"amount\": 78,\n        \"percentage\": 0\n      },\n      \"fare_types_info\": \"WS3 - Published fare\"\n    },\n    \"brands\": [\n      {\n        \"brand_description\": \"Econo-Flex\",\n        \"brand_services\": {\n          \"checked_baggage\": true,\n          \"meals_and_beverages\": true,\n          \"rebooking\": \"$\",\n          \"refund\": \"$\",\n          \"seat_assignment\": \"$\",\n          \"carry_on_hand_baggage\": true\n        },\n        \"carrier\": \"AA\",\n        \"name\": \"Econo\",\n        \"tag_info\": \"Econo flex provides all the comforts of economy with additional flexibility options relating to refunds and cancellation.\",\n        \"tag_line\": \"Econo flex, flexibility when it matters.\",\n        \"services\": [\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          },\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          }\n        ]\n      },\n      {\n        \"brand_description\": \"Econo-Flex\",\n        \"brand_services\": {\n          \"checked_baggage\": true,\n          \"meals_and_beverages\": true,\n          \"rebooking\": \"$\",\n          \"refund\": \"$\",\n          \"seat_assignment\": \"$\",\n          \"carry_on_hand_baggage\": true\n        },\n        \"carrier\": \"AA\",\n        \"name\": \"Econo\",\n        \"tag_info\": \"Econo flex provides all the comforts of economy with additional flexibility options relating to refunds and cancellation.\",\n        \"tag_line\": \"Econo flex, flexibility when it matters.\",\n        \"services\": [\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          },\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          }\n        ]\n      }\n    ]\n  },\n  \"additional_markup\": 15,\n  \"add_to_ticketing_queue\": true,\n  \"ticketing_queue\": \"01\",\n  \"agent_email\": \"agent@travelagency.com\",\n  \"agency\": \"tripninja\",\n  \"consolidate_ticket\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"ur_locator_codes\": {\n    \"1\": \"D917A841\",\n    \"2\": \"8YYE22P0\",\n    \"3\": \"8YYE22P0\"\n  },\n  \"pnr_numbers\": {\n    \"1\": \"TH2H52\",\n    \"2\": \"UG22WH\",\n    \"3\": \"UG22WH\"\n  },\n  \"consolidated_tickets\": {\n    \"HC4C\": [\n      \"1\"\n    ],\n    \"Y4E5\": [\n      \"2\",\n      \"3\"\n    ]\n  },\n  \"booked_hotels\": [\n    {\n      \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n      \"booking_reference\": \"JJ8rrO9\",\n      \"ur_locator_code\": \"AXY67G\",\n      \"provider_locator_code\": \"D2eEr3E\",\n      \"check_in_date\": \"1978-03-16\",\n      \"booking_success\": \"success\"\n    },\n    {\n      \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n      \"booking_reference\": \"JJ8rrO9\",\n      \"ur_locator_code\": \"AXY67G\",\n      \"provider_locator_code\": \"D2eEr3E\",\n      \"check_in_date\": \"2003-01-22\",\n      \"booking_success\": \"success\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "a9cbcbea-7e1d-4cf1-b528-f6be4f8fcc15",
+          "name": "Unable to create booking",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"hotel_trace_ids\": [\n    \"ndsf6sjf6sdf7sdf6\",\n    \"DDsf9Qj96sPP7sd9U\"\n  ],\n  \"passengers\": [\n    {\n      \"first_name\": \"FirstName\",\n      \"last_name\": \"LastName\",\n      \"date_of_birth\": \"2005-03-10\",\n      \"gender\": \"M\",\n      \"phone_number\": \"9022225555\",\n      \"passenger_type\": \"ADT\",\n      \"email\": \"email@email.com\",\n      \"title\": \"Mr\",\n      \"passport_country\": \"AZ\",\n      \"passport_number\": \"QX12345678\",\n      \"passport_expiration\": \"2020-10\",\n      \"frequent_flyer_cards\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"first_name\": \"FirstName\",\n      \"last_name\": \"LastName\",\n      \"date_of_birth\": \"2005-03-10\",\n      \"gender\": \"M\",\n      \"phone_number\": \"9022225555\",\n      \"passenger_type\": \"ADT\",\n      \"email\": \"email@email.com\",\n      \"title\": \"Mr\",\n      \"passport_country\": \"AZ\",\n      \"passport_number\": \"QX12345678\",\n      \"passport_expiration\": \"2020-10\",\n      \"frequent_flyer_cards\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"card_supplier\": \"AA\",\n          \"card_number\": \"84299921292\"\n        }\n      ],\n      \"meals\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"meal_choice\": \"GFML\"\n        }\n      ],\n      \"additional_checked_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"1stChecked\",\n              \"base_price\": 40,\n              \"total_price\": 40,\n              \"restriction\": \"UPTO50LB/23KG AND UPTO62LI/158LCM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ],\n      \"additional_carry_on_bags\": [\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        },\n        {\n          \"itinerary_reference\": \"1\",\n          \"applicable_bags\": [\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            },\n            {\n              \"baggage_type\": \"<string>\",\n              \"base_price\": 10,\n              \"total_price\": 10,\n              \"restriction\": \"PERSONAL ITEM\",\n              \"additional_service_reference\": \"C9O\"\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"billing\": {\n    \"email\": \"email.address@email.com\",\n    \"payment_included\": true,\n    \"payment_info\": {\n      \"card_type\": \"VI\",\n      \"cardholder_name\": \"John David Smith\",\n      \"card_number\": \"4520000000000000\",\n      \"card_cvv\": \"345\",\n      \"card_expiration_date\": \"2021-10\"\n    }\n  },\n  \"segment_additional_details\": {\n    \"additional_details\": {\n      \"e_ticketability\": true,\n      \"latest_ticketing_time\": \"<date>\",\n      \"refundable\": true,\n      \"cancel_penalty\": {\n        \"amount\": 0,\n        \"percentage\": 100\n      },\n      \"change_penalty\": {\n        \"amount\": 78,\n        \"percentage\": 0\n      },\n      \"fare_types_info\": \"WS3 - Published fare\"\n    },\n    \"brands\": [\n      {\n        \"brand_description\": \"Econo-Flex\",\n        \"brand_services\": {\n          \"checked_baggage\": true,\n          \"meals_and_beverages\": true,\n          \"rebooking\": \"$\",\n          \"refund\": \"$\",\n          \"seat_assignment\": \"$\",\n          \"carry_on_hand_baggage\": true\n        },\n        \"carrier\": \"AA\",\n        \"name\": \"Econo\",\n        \"tag_info\": \"Econo flex provides all the comforts of economy with additional flexibility options relating to refunds and cancellation.\",\n        \"tag_line\": \"Econo flex, flexibility when it matters.\",\n        \"services\": [\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          },\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          }\n        ]\n      },\n      {\n        \"brand_description\": \"Econo-Flex\",\n        \"brand_services\": {\n          \"checked_baggage\": true,\n          \"meals_and_beverages\": true,\n          \"rebooking\": \"$\",\n          \"refund\": \"$\",\n          \"seat_assignment\": \"$\",\n          \"carry_on_hand_baggage\": true\n        },\n        \"carrier\": \"AA\",\n        \"name\": \"Econo\",\n        \"tag_info\": \"Econo flex provides all the comforts of economy with additional flexibility options relating to refunds and cancellation.\",\n        \"tag_line\": \"Econo flex, flexibility when it matters.\",\n        \"services\": [\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          },\n          {\n            \"classification\": \"Baggage charges that apply at the airport.\",\n            \"description\": \"CHECKED BAGGAGE\",\n            \"group\": \"Baggage\",\n            \"marketing_carrier\": \"AA\",\n            \"status\": \"$\",\n            \"text\": [\n              \"23\",\n              \"23\"\n            ]\n          }\n        ]\n      }\n    ]\n  },\n  \"additional_markup\": 15,\n  \"add_to_ticketing_queue\": true,\n  \"ticketing_queue\": \"01\",\n  \"agent_email\": \"agent@travelagency.com\",\n  \"agency\": \"tripninja\",\n  \"consolidate_ticket\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE46\",\n  \"message\": \"trip has already been booked\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "afeac2d7-3e71-418b-9396-3cf2ed0dc262",
+      "name": "Cancel Booking",
+      "request": {
+        "name": "Cancel Booking",
+        "description": {
+          "content": "To cancel a booking, send a request with the trip_id and ur_locator_code.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "book",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "DELETE",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "6f8779d5-28cc-4015-8c87-c35922621d82",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Success\",\n  \"message\": \"Trip was successfully cancelled\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ed6472ad-4029-47c9-a56d-905099ceffb8",
+          "name": "Unable to cancel booking",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "0b7012c0-2d08-4112-92c0-0609784f29d1",
+      "name": "Add To Ticketing Queue",
+      "request": {
+        "name": "Add To Ticketing Queue",
+        "description": {
+          "content": "If a trip has been booked, but not yet added to the agency ticketing queue, use this endpoint to add it to their queue.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "queue",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\",\n  \"queue\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "8d955e3a-b423-4052-bc77-0342d50a9d39",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "queue",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"queue\": \"01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"0\",\n  \"message\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5c483c84-ba98-458d-8a1f-9e873b5b414e",
+          "name": "Unable to add trip to ticketing queue",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "queue",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\",\n  \"queue\": \"01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "f70e3ceb-cf04-4847-bbff-871ea426cce2",
+      "name": "Ticket",
+      "request": {
+        "name": "Ticket",
+        "description": {
+          "content": "If a trip has been queued, but not yet ticketed, use this endpoint to do the ticketing.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "ticket",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "bc5da513-107b-492e-9c38-efd30c43b323",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "ticket",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"0\",\n  \"message\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "92f43833-73a1-4f34-88e4-eb18d0bd157d",
+          "name": "Unable to issue ticket",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "ticket",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"5df23dd9s72hne223d299err2323423r2342r221\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"itinerary with reference 1 was unsuccessful. reason LAST TIME TO TICKET IS PAST - PLEASE REPRICE (08SEP20 23:19)\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://preprodapi.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "76dcc8e7-e569-47c4-b11d-c0f723aad266",
+    "name": "Trip Ninja Endpoint Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the Data Source’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n",
+      "type": "text/plain"
+    }
+  }
+}

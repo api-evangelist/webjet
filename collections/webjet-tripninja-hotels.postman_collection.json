@@ -1,0 +1,1294 @@
+{
+  "item": [
+    {
+      "id": "bacd6f6a-0ea5-4890-998d-d2bfdfeecc88",
+      "name": "Hotel Search",
+      "request": {
+        "name": "Hotel Search",
+        "description": {
+          "content": "This endpoint initiates a hotel search for one location (city), and returns a list of available options. A separate endpoint needs to be called to obtain information about room types, etc.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "search",
+            "hotels",
+            ":endpoint"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_itinerary_reference\": \"<string>\",\n  \"credential_info\": {\n    \"pcc\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"data_source\": \"<string>\",\n    \"queue\": \"<number>\"\n  },\n  \"traveller_total\": \"<int>\",\n  \"rooms_total\": \"<int>\",\n  \"hotel_location\": {\n    \"type\": \"<string>\",\n    \"IATA\": \"<string>\",\n    \"name\": \"<string>\",\n    \"region\": \"<string>\",\n    \"country\": \"<string>\",\n    \"country_name\": \"<string>\",\n    \"city_name\": \"<string>\"\n  },\n  \"currency\": \"<string>\",\n  \"super_trip_id\": \"<string>\",\n  \"rooms\": [\n    {\n      \"num_adults\": \"<int>\",\n      \"num_children\": \"<int>\",\n      \"nationality\": \"<string>\",\n      \"country_of_residence\": \"<string>\",\n      \"children_age_list\": \"<array of ints>\"\n    },\n    {\n      \"num_adults\": \"<int>\",\n      \"num_children\": \"<int>\",\n      \"nationality\": \"<string>\",\n      \"country_of_residence\": \"<string>\",\n      \"children_age_list\": \"<array of ints>\"\n    }\n  ],\n  \"next_result_reference\": [\n    {\n      \"reference\": \"<string>\",\n      \"provider\": \"<string>\"\n    },\n    {\n      \"reference\": \"<string>\",\n      \"provider\": \"<string>\"\n    }\n  ],\n  \"endpoint\": \"<string>\",\n  \"webbeds_country_code\": \"<string>\",\n  \"webbeds_city_code\": \"<string>\",\n  \"load_geocode_data\": \"<boolean>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "36b8c799-29db-41e0-af68-a862686c83bb",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "hotels",
+                ":endpoint"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\",\n    \"country_name\": \"France\",\n    \"city_name\": \"Paris\"\n  },\n  \"currency\": \"CAD\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"rooms\": [\n    {\n      \"num_adults\": 2,\n      \"num_children\": 3,\n      \"nationality\": \"CO\",\n      \"country_of_residence\": \"CA\",\n      \"children_age_list\": [\n        1,\n        5,\n        8\n      ]\n    },\n    {\n      \"num_adults\": 1,\n      \"num_children\": 0\n    }\n  ],\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"endpoint\": \"preprod\",\n  \"webbeds_country_code\": \"<string>\",\n  \"webbeds_city_code\": \"<string>\",\n  \"load_geocode_data\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotels\": [\n    {\n      \"location_iata\": \"LON\",\n      \"location_full\": \"London, England\",\n      \"rating\": {\n        \"rating\": 4,\n        \"rating_provider\": \"Giata\",\n        \"rating_maximum\": 10,\n        \"rating_minimum\": 0\n      },\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n      \"minimum_charge\": 400.32,\n      \"maximum_charge\": 780.65,\n      \"address\": {\n        \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n        \"city\": \"Halifax\",\n        \"region\": \"\",\n        \"country\": \"FR\",\n        \"longitude\": 44.64511447836071,\n        \"lattitude\": -63.575245615440565,\n        \"distance_from_reference_point_km\": 7.5,\n        \"phone_number\": \"+1 902-420-0555\"\n      },\n      \"amenities\": [\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        },\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        }\n      ],\n      \"credential_info\": {\n        \"pcc\": \"2G3C\",\n        \"provider\": \"1V\",\n        \"pcc_currency\": \"CAD\",\n        \"queue\": 1\n      },\n      \"conversion_rate\": 0.45,\n      \"neighbourhood\": \"Saint Boniface\",\n      \"hotel_chain_code\": \"-1\",\n      \"has_free_cancellation\": false\n    },\n    {\n      \"location_iata\": \"LON\",\n      \"location_full\": \"London, England\",\n      \"rating\": {\n        \"rating\": 4,\n        \"rating_provider\": \"Giata\",\n        \"rating_maximum\": 10,\n        \"rating_minimum\": 0\n      },\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n      \"minimum_charge\": 400.32,\n      \"maximum_charge\": 780.65,\n      \"address\": {\n        \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n        \"city\": \"Halifax\",\n        \"region\": \"\",\n        \"country\": \"FR\",\n        \"longitude\": 44.64511447836071,\n        \"lattitude\": -63.575245615440565,\n        \"distance_from_reference_point_km\": 7.5,\n        \"phone_number\": \"+1 902-420-0555\"\n      },\n      \"amenities\": [\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        },\n        {\n          \"amenity_type\": \"HA\",\n          \"amenity_title\": \"High speed internet connection\"\n        }\n      ],\n      \"credential_info\": {\n        \"pcc\": \"2G3C\",\n        \"provider\": \"1V\",\n        \"pcc_currency\": \"CAD\",\n        \"queue\": 1\n      },\n      \"conversion_rate\": 0.45,\n      \"neighbourhood\": \"Saint Boniface\",\n      \"hotel_chain_code\": \"-1\",\n      \"has_free_cancellation\": false\n    }\n  ],\n  \"hotel_itinerary_reference\": \"1\",\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"hotels_media\": [\n    {\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_media_items\": [\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        },\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        }\n      ]\n    },\n    {\n      \"hotel_chain\": \"GI\",\n      \"hotel_code\": \"35573\",\n      \"hotel_media_items\": [\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        },\n        {\n          \"title\": \"Front desk.\",\n          \"large\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\",\n          \"thumbnail\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/45/0b/f8/lobby.jpg\"\n        }\n      ]\n    }\n  ],\n  \"hotel_neighbourhoods\": [\n    \"St. Vital Center\",\n    \"Downtown\",\n    \"River Heights\",\n    \"Saint Boniface\",\n    \"Fort Garry\"\n  ],\n  \"search_request\": {\n    \"check_in_date\": \"<date>\",\n    \"check_out_date\": \"<date>\",\n    \"hotel_itinerary_reference\": \"1\",\n    \"credential_info\": {\n      \"pcc\": \"2G3C\",\n      \"provider\": \"1V\",\n      \"data_source\": \"<string>\",\n      \"queue\": 1\n    },\n    \"traveller_total\": 3,\n    \"rooms_total\": 2,\n    \"hotel_location\": {\n      \"type\": \"R\",\n      \"IATA\": \"PAR\",\n      \"name\": \"Eiffel Tower\",\n      \"region\": \"NS\",\n      \"country\": \"FR\",\n      \"country_name\": \"France\",\n      \"city_name\": \"Paris\"\n    },\n    \"currency\": \"CAD\",\n    \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n    \"rooms\": [\n      {\n        \"num_adults\": 2,\n        \"num_children\": 3,\n        \"nationality\": \"CO\",\n        \"country_of_residence\": \"CA\",\n        \"children_age_list\": [\n          1,\n          5,\n          8\n        ]\n      },\n      {\n        \"num_adults\": 1,\n        \"num_children\": 0\n      }\n    ],\n    \"next_result_reference\": [\n      {\n        \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n        \"provider\": \"1V\"\n      },\n      {\n        \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n        \"provider\": \"1V\"\n      }\n    ],\n    \"endpoint\": \"preprod\",\n    \"webbeds_country_code\": \"<string>\",\n    \"webbeds_city_code\": \"<string>\",\n    \"load_geocode_data\": false\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "55e66899-f0ad-45d7-b2fc-c4e88fb497d6",
+          "name": "Partial Content (no Hotel found)",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "hotels",
+                ":endpoint"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\",\n    \"country_name\": \"France\",\n    \"city_name\": \"Paris\"\n  },\n  \"currency\": \"CAD\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"rooms\": [\n    {\n      \"num_adults\": 2,\n      \"num_children\": 3,\n      \"nationality\": \"CO\",\n      \"country_of_residence\": \"CA\",\n      \"children_age_list\": [\n        1,\n        5,\n        8\n      ]\n    },\n    {\n      \"num_adults\": 1,\n      \"num_children\": 0\n    }\n  ],\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"endpoint\": \"preprod\",\n  \"webbeds_country_code\": \"<string>\",\n  \"webbeds_city_code\": \"<string>\",\n  \"load_geocode_data\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Partial Content",
+          "code": 206,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"No availability found: Try changing dates\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f84be198-b872-4a3d-b66d-1e5d0e2cd568",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "hotels",
+                ":endpoint"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\",\n    \"country_name\": \"France\",\n    \"city_name\": \"Paris\"\n  },\n  \"currency\": \"CAD\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"rooms\": [\n    {\n      \"num_adults\": 2,\n      \"num_children\": 3,\n      \"nationality\": \"CO\",\n      \"country_of_residence\": \"CA\",\n      \"children_age_list\": [\n        1,\n        5,\n        8\n      ]\n    },\n    {\n      \"num_adults\": 1,\n      \"num_children\": 0\n    }\n  ],\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"endpoint\": \"preprod\",\n  \"webbeds_country_code\": \"<string>\",\n  \"webbeds_city_code\": \"<string>\",\n  \"load_geocode_data\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"Not a valid city.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "7ff3c209-f2be-4d31-b3b6-f1887434352e",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "hotels",
+                ":endpoint"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\",\n    \"country_name\": \"France\",\n    \"city_name\": \"Paris\"\n  },\n  \"currency\": \"CAD\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"rooms\": [\n    {\n      \"num_adults\": 2,\n      \"num_children\": 3,\n      \"nationality\": \"CO\",\n      \"country_of_residence\": \"CA\",\n      \"children_age_list\": [\n        1,\n        5,\n        8\n      ]\n    },\n    {\n      \"num_adults\": 1,\n      \"num_children\": 0\n    }\n  ],\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"endpoint\": \"preprod\",\n  \"webbeds_country_code\": \"<string>\",\n  \"webbeds_city_code\": \"<string>\",\n  \"load_geocode_data\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "0b535343-527b-4cae-831c-8951ace48a49",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "hotels",
+                ":endpoint"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"hotel_location\": {\n    \"type\": \"R\",\n    \"IATA\": \"PAR\",\n    \"name\": \"Eiffel Tower\",\n    \"region\": \"NS\",\n    \"country\": \"FR\",\n    \"country_name\": \"France\",\n    \"city_name\": \"Paris\"\n  },\n  \"currency\": \"CAD\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"rooms\": [\n    {\n      \"num_adults\": 2,\n      \"num_children\": 3,\n      \"nationality\": \"CO\",\n      \"country_of_residence\": \"CA\",\n      \"children_age_list\": [\n        1,\n        5,\n        8\n      ]\n    },\n    {\n      \"num_adults\": 1,\n      \"num_children\": 0\n    }\n  ],\n  \"next_result_reference\": [\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    },\n    {\n      \"reference\": \"GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==\",\n      \"provider\": \"1V\"\n    }\n  ],\n  \"endpoint\": \"preprod\",\n  \"webbeds_country_code\": \"<string>\",\n  \"webbeds_city_code\": \"<string>\",\n  \"load_geocode_data\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "7929b3e7-0a04-4ba9-b0df-078d1043ab5b",
+      "name": "Hotel Details",
+      "request": {
+        "name": "Hotel Details",
+        "description": {
+          "content": "Get the room details of one of the hotels returned in the search response.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "details",
+            "hotels",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles data source production and pre-production endpoints."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hotel_trace_id\": \"<string>\",\n  \"hotel_itinerary_reference\": \"<string>\",\n  \"credential_info\": {\n    \"pcc\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"data_source\": \"<string>\",\n    \"queue\": \"<number>\"\n  },\n  \"hotel_chain\": \"<string>\",\n  \"hotel_code\": \"<string>\",\n  \"traveller_total\": \"<int>\",\n  \"rooms_total\": \"<int>\",\n  \"currency\": \"<string>\",\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"super_trip_id\": \"<string>\",\n  \"room_type\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "b19c532d-c65a-4757-a0f7-c6ca82de777c",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "details",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"address\": {\n    \"street_address\": \"1583 Brunswick St, Halifax, NS B3J 3P5\",\n    \"city\": \"Halifax\",\n    \"region\": \"\",\n    \"country\": \"FR\",\n    \"longitude\": 44.64511447836071,\n    \"lattitude\": -63.575245615440565,\n    \"distance_from_reference_point_km\": 7.5,\n    \"phone_number\": \"+1 902-420-0555\"\n  },\n  \"location_iata\": \"LON\",\n  \"hotel_name\": \"Cambridge Suites Hotel Halifax\",\n  \"check_in_time\": \"3pm\",\n  \"check_out_time\": \"10am\",\n  \"rooms\": [\n    {\n      \"total_price\": 705.1,\n      \"price_per_room_per_night\": 141.02,\n      \"room_description\": \"Executive Suite Room\",\n      \"rate_descriotion\": \"2 Double Bed Non Smoking Featuring All The Modern-day Essentials Including A Flat Screen\",\n      \"refundable\": true,\n      \"smoking\": false,\n      \"meals\": {\n        \"breakfast\": true,\n        \"lunch\": true,\n        \"dinner\": true\n      },\n      \"bed_types\": {\n        \"Queen bed\": 2,\n        \"King Single\": 1\n      },\n      \"original_total_string\": \"SGD172.00\",\n      \"guarantee\": \"Guarantee\"\n    },\n    {\n      \"total_price\": 705.1,\n      \"price_per_room_per_night\": 141.02,\n      \"room_description\": \"Executive Suite Room\",\n      \"rate_descriotion\": \"2 Double Bed Non Smoking Featuring All The Modern-day Essentials Including A Flat Screen\",\n      \"refundable\": true,\n      \"smoking\": false,\n      \"meals\": {\n        \"breakfast\": true,\n        \"lunch\": true,\n        \"dinner\": true\n      },\n      \"bed_types\": {\n        \"Queen bed\": 2,\n        \"King Single\": 1\n      },\n      \"original_total_string\": \"SGD172.00\",\n      \"guarantee\": \"Guarantee\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e797b621-cfdf-4cf1-a0ad-c17b5a161920",
+          "name": "Partial Content (no Hotel found)",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "details",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Partial Content",
+          "code": 206,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"No availability found: Try changing dates\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "dc2fe2a1-812a-41d7-ac43-4ee4d735e9ea",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "details",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"Not a valid city.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "46eed03c-0be7-41b1-bce9-0935cc711491",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "details",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "24b4e10e-c972-4e98-ae23-05d7a9b2ffae",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "details",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints."
+                }
+              ]
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_itinerary_reference\": \"1\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"currency\": \"CAD\",\n  \"check_in_date\": \"2021-05-10\",\n  \"check_out_date\": \"2021-05-15\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"room_type\": \"Double\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "690acc6e-c5ed-4fc8-a44d-e9642807f6a1",
+      "name": "Hotel Rules",
+      "request": {
+        "name": "Hotel Rules",
+        "description": {
+          "content": "Get the rules details of the selected hotel_code, hotel_chain, and rate_plan_type. This is a required operation prior to booking as elements of this are saved in the cache and reused in booking.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "rules",
+            "hotels",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hotel_trace_id\": \"<string>\",\n  \"hotel_chain\": \"<string>\",\n  \"hotel_code\": \"<string>\",\n  \"rate_plan_type\": \"<string>\",\n  \"original_total_string\": \"<string>\",\n  \"traveller_total\": \"<int>\",\n  \"rooms_total\": \"<int>\",\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"credential_info\": {\n    \"pcc\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"data_source\": \"<string>\",\n    \"queue\": \"<number>\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "e6165ece-c31f-4d43-a0ec-adece54740f6",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "rules",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"rate_plan_type\": \"A01LV8\",\n  \"original_total_string\": \"SGD172.00\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"cancellation_policy\": \"non-refundable rate cancellation permitted up to 1days before arrival\",\n  \"guarantee_policy\": \"\",\n  \"deposit\": \"book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only\",\n  \"room_rate_descriptions\": {\n    \"Rate description\": \"Early check in and check out when available.\",\n    \"Room rate\": \"Maximum occupancy - 1\"\n  },\n  \"rule_descriptions\": {\n    \"Guarantee\": \"Accept all guarantee methods\",\n    \"Checkin Checkout\": \"Check in time 15:00, check out time 11:00\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "8546661f-dd28-4746-8486-36046e9f4738",
+          "name": "Partial Content (no Hotel found)",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "rules",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"rate_plan_type\": \"A01LV8\",\n  \"original_total_string\": \"SGD172.00\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Partial Content",
+          "code": 206,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"No availability found: Try changing dates\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "bbfebef6-da78-496d-ab13-f73b247bb61a",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "rules",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"rate_plan_type\": \"A01LV8\",\n  \"original_total_string\": \"SGD172.00\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"Not a valid rate_plan_type.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "78483b1a-23d4-4a33-af2d-aa5117241ef0",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "rules",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"rate_plan_type\": \"A01LV8\",\n  \"original_total_string\": \"SGD172.00\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3652ed72-daa2-498c-bbb2-3d18b7ba2699",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "rules",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"rate_plan_type\": \"A01LV8\",\n  \"original_total_string\": \"SGD172.00\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "ed4dd689-815c-431c-adf6-a29128be5b74",
+      "name": "Hotel Price Confirmation",
+      "request": {
+        "name": "Hotel Price Confirmation",
+        "description": {
+          "content": "Once the desired hotel have been selected, call the price confirm endpoint to confirm availability and prices.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "price",
+            "hotels",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hotel_trace_id\": \"<string>\",\n  \"hotel_chain\": \"<string>\",\n  \"hotel_code\": \"<string>\",\n  \"traveller_total\": \"<int>\",\n  \"rooms_total\": \"<int>\",\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"room_type\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"rate_plan_type\": \"<string>\",\n  \"hotel_name\": \"<string>\",\n  \"credential_info\": {\n    \"pcc\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"data_source\": \"<string>\",\n    \"queue\": \"<number>\"\n  },\n  \"converted_total_price\": \"<float>\",\n  \"guarantee\": \"<string>\",\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "23c7e169-6b73-4c9c-b294-4860993c0290",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"room_type\": \"Double\",\n  \"currency\": \"CAD\",\n  \"rate_plan_type\": \"A00BOB\",\n  \"hotel_name\": \"Comfort Inn\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"converted_total_price\": 127,\n  \"guarantee\": \"Guarantee\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "eac5cdac-2d89-4108-b3fc-d1f5c33a3a24",
+          "name": "Unable to confirm trip pricing",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles data source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\",\n  \"hotel_chain\": \"GI\",\n  \"hotel_code\": \"35573\",\n  \"traveller_total\": 3,\n  \"rooms_total\": 2,\n  \"check_in_date\": \"<date>\",\n  \"check_out_date\": \"<date>\",\n  \"room_type\": \"Double\",\n  \"currency\": \"CAD\",\n  \"rate_plan_type\": \"A00BOB\",\n  \"hotel_name\": \"Comfort Inn\",\n  \"credential_info\": {\n    \"pcc\": \"2G3C\",\n    \"provider\": \"1V\",\n    \"data_source\": \"<string>\",\n    \"queue\": 1\n  },\n  \"converted_total_price\": 127,\n  \"guarantee\": \"Guarantee\",\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"Unsuccessful. reason Invalid date.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "db57bba9-f101-4046-a91e-363c7d75e76c",
+      "name": "Remove Price Confirmed Hotel",
+      "request": {
+        "name": "Remove Price Confirmed Hotel",
+        "description": {
+          "content": "This allows for a user to remove a single hotel from the super trip.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "price",
+            "hotels",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "DELETE",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\",\n  \"hotel_trace_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "59d5f09e-47c8-4cd1-beab-4cd26178b0df",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "dca4514e-377b-4e6e-aeea-889c2a9ca1f2",
+          "name": "Unable to remove priced hotel",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                "hotels",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\",\n  \"hotel_trace_id\": \"ndsf6sjf6sdf7sdf6\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"super_trip_id required for price confirm delete\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://preprodapi.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "259bffa6-fb40-404b-85dc-9860ea5fb771",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testring, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n",
+      "type": "text/plain"
+    }
+  }
+}

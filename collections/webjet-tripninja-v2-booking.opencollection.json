@@ -1,0 +1,170 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trip Ninja API Documentation",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/search/flight/:endpoint/flight/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles Data Source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint triggers farestrucutre for any number of city search\n"
+    },
+    {
+      "info": {
+        "name": "Price Confirmation",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/price/flight/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles Data Source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices."
+    },
+    {
+      "info": {
+        "name": "Create Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/book/flight/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles Data Source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "When a trip is to be booked, send a request to the endpoint /book/ to create the Universal Record and associated PNR's for the trip. The booking can then be placed on the agency's ticketing queue."
+    },
+    {
+      "info": {
+        "name": "Cancel Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://preprodapi.tripninja.io/book/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "To cancel a booking, send a request with the trip_id and ur_locator_code."
+    },
+    {
+      "info": {
+        "name": "Add To Ticketing Queue",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/queue/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "If a trip has been booked, but not yet added to the agency ticketing queue, use this endpoint to add it to their queue."
+    },
+    {
+      "info": {
+        "name": "Ticket",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/ticket/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "If a trip has been queued, but not yet ticketed, use this endpoint to do the ticketing."
+    },
+    {
+      "info": {
+        "name": "Super Trip Nickname",
+        "type": "http"
+      },
+      "http": {
+        "method": "PUT",
+        "url": "https://preprodapi.tripninja.io/super_trip/:id/",
+        "params": [
+          {
+            "name": "id",
+            "value": "aksdhiywehe96wewe76",
+            "type": "path",
+            "description": "Super Trip ID provided"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This can be used to add a nickname to a super trip"
+    },
+    {
+      "info": {
+        "name": "Super Trip Nickname",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://preprodapi.tripninja.io/super_trip/:id/part/",
+        "params": [
+          {
+            "name": "id",
+            "value": "aksdhiywehe96wewe76",
+            "type": "path",
+            "description": "Super Trip ID provided"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This can be used to remove flights/hotels/cars from a super trip"
+    }
+  ],
+  "bundled": true
+}

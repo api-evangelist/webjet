@@ -1,0 +1,25 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trip Ninja API Documentation",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Get Searches",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://sandbox.tripninja.io/v3/get-searches/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Get Searches"
+    }
+  ],
+  "bundled": true
+}

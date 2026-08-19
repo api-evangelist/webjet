@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trip Ninja API Documentation",
+    "version": "4.15.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Hotel Search",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/search/hotels/:endpoint",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles data source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This endpoint initiates a hotel search for one location (city), and returns a list of available options. A separate endpoint needs to be called to obtain information about room types, etc.\n"
+    },
+    {
+      "info": {
+        "name": "Hotel Details",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/details/hotels/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles data source production and pre-production endpoints."
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Get the room details of one of the hotels returned in the search response."
+    },
+    {
+      "info": {
+        "name": "Hotel Rules",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/rules/hotels/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Get the rules details of the selected hotel_code, hotel_chain, and rate_plan_type. This is a required operation prior to booking as elements of this are saved in the cache and reused in booking."
+    },
+    {
+      "info": {
+        "name": "Hotel Price Confirmation",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/price/hotels/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles data source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Once the desired hotel have been selected, call the price confirm endpoint to confirm availability and prices."
+    },
+    {
+      "info": {
+        "name": "Remove Price Confirmed Hotel",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://preprodapi.tripninja.io/price/hotels/:endpoint/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "This allows for a user to remove a single hotel from the super trip."
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,25 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trip Ninja API Documentation",
+    "version": "4.15.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cancel Booking Report",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://sandbox.tripninja.io/v2/report/cancel/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Cancel Booking Report"
+    }
+  ],
+  "bundled": true
+}

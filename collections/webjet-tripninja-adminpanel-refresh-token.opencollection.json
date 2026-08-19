@@ -1,0 +1,25 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trip Ninja API Documentation",
+    "version": "4.15.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Refresh Token",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://sandbox.tripninja.io/adminpanel/refresh-token/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Refresh Token"
+    }
+  ],
+  "bundled": true
+}

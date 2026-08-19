@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trip Ninja Endpoint Documentation",
+    "version": "4.15.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Price Confirmation",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/price/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles Data Source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices."
+    },
+    {
+      "info": {
+        "name": "List Bookings",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://preprodapi.tripninja.io/book/list/?agency=:agency&user=:agent_email&offset=:offset&limit=:limit",
+        "params": [
+          {
+            "name": "agency",
+            "value": "9238812-2131233-ee213123",
+            "type": "query",
+            "description": "Travel agency id for which to list bookings from. Either this or agent_email should be passed. This parameter is incompatible with `agent_email`.\n"
+          },
+          {
+            "name": "agent_email",
+            "value": "agent@travelagency.com",
+            "type": "query",
+            "description": "Email address of the travel agent to list bookings from. Either this or agent_email should be passed. This parameter is incompatible with `agency`.\n"
+          },
+          {
+            "name": "offset",
+            "value": "100",
+            "type": "query",
+            "description": "The number of items to skip before starting to collect the result set"
+          },
+          {
+            "name": "limit",
+            "value": "10",
+            "type": "query",
+            "description": "The numbers of items to return"
+          }
+        ]
+      },
+      "docs": "Get a list of all bookings for travel agency or agent."
+    },
+    {
+      "info": {
+        "name": "Booking Detail",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://preprodapi.tripninja.io/book/trip/:super_trip_id/?agency=:agency",
+        "params": [
+          {
+            "name": "super_trip_id",
+            "value": "5df23dd9s72hne223d299err2323423r2342r221",
+            "type": "path",
+            "description": "A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip."
+          },
+          {
+            "name": "agency",
+            "value": "tripninja",
+            "type": "query",
+            "description": "Travel agency for which to list bookings from. Either this or agent_email should be passed. This parameter is incompatible with `agent_email`.\n"
+          }
+        ]
+      },
+      "docs": "Retrieve a booking details"
+    },
+    {
+      "info": {
+        "name": "Create Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/book/:endpoint/",
+        "params": [
+          {
+            "name": "endpoint",
+            "value": "",
+            "type": "path",
+            "description": "Parameter toggles Data Source production and pre-production endpoints"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "When a trip is to be booked, send a request to the endpoint /book/ to create the Universal Record and associated PNR's for the trip. The booking can then be placed on the agency's ticketing queue."
+    },
+    {
+      "info": {
+        "name": "Cancel Booking",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://preprodapi.tripninja.io/book/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "To cancel a booking, send a request with the trip_id and ur_locator_code."
+    },
+    {
+      "info": {
+        "name": "Add To Ticketing Queue",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/queue/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "If a trip has been booked, but not yet added to the agency ticketing queue, use this endpoint to add it to their queue."
+    },
+    {
+      "info": {
+        "name": "Ticket",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://preprodapi.tripninja.io/ticket/",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "If a trip has been queued, but not yet ticketed, use this endpoint to do the ticketing."
+    }
+  ],
+  "bundled": true
+}

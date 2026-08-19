@@ -1,0 +1,161 @@
+{
+  "item": [
+    {
+      "id": "9f94aa36-9a2b-4ee4-ba0c-b17430b42b39",
+      "name": "Refresh Token",
+      "request": {
+        "name": "Refresh Token",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "adminpanel",
+            "refresh-token",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"access_token\": \"<string>\",\n  \"refresh_token\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "3cfca486-edd9-4931-a734-68e6feb3542c",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "adminpanel",
+                "refresh-token",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"access_token\": \"6774c6717cb93ba8dbfac19c142d043d2ca5a7e7\",\n  \"refresh_token\": \"9aecb3c4aa17cb35758a2446a5c957040c879684\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"access_token\": \"a1c1ebeb7460cb88f4dd366a21c790b8ca716889\",\n  \"refresh_token\": \"ca46466787677bd50743a016532c6gg778b41532\",\n  \"expiry_date\": \"2023-10-26T18:27:16.657382Z\",\n  \"created_date\": \"2023-09-26T18:27:16.657370Z\",\n  \"is_production_token\": false,\n  \"is_datastream_token\": false\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "78143630-4f6f-4bec-bfd3-2efb6a4cb28b",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "adminpanel",
+                "refresh-token",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"access_token\": \"6774c6717cb93ba8dbfac19c142d043d2ca5a7e7\",\n  \"refresh_token\": \"9aecb3c4aa17cb35758a2446a5c957040c879684\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"401\",\n  \"message\": \"Invalid token\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "652e7292-8387-49ab-8724-adced210c529",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

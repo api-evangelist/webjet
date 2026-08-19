@@ -1,0 +1,1426 @@
+{
+  "item": [
+    {
+      "id": "961c3daa-9c13-4c51-b4f0-d986f099d01d",
+      "name": "Search",
+      "request": {
+        "name": "Search",
+        "description": {
+          "content": "This endpoint triggers farestrucutre for any number of city search\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "search",
+            "flight",
+            ":endpoint",
+            "flight",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "ecb35e13-5b88-4748-9b03-aca8f12240a9",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "flight",
+                ":endpoint",
+                "flight",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "db7d6833-61f7-4a9f-9454-f6fc4e83f8cb",
+          "name": "Partial Content (Flight not found)",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "flight",
+                ":endpoint",
+                "flight",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Partial Content",
+          "code": 206,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"Flight(s) not found: Could not find all the flights required to make up this trip. Try changing dates, IATA codes, cabin class, etc.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5a013d06-09f9-4907-bc4e-f359cdc5f594",
+          "name": "Invalid Input",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "flight",
+                ":endpoint",
+                "flight",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE23\",\n  \"message\": \"Not a valid alliance. Expected one of *A, *S, *O\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c4e265e7-b378-4948-8854-d734a40f72ca",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "flight",
+                ":endpoint",
+                "flight",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE44\",\n  \"message\": \"User is not authorized\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "487ef938-a70a-42ba-ad8f-5f6af46aa75b",
+          "name": "Server Error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "search",
+                "flight",
+                ":endpoint",
+                "flight",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "af21548b-72d0-4093-8c27-82e815b2de64",
+      "name": "Price Confirmation",
+      "request": {
+        "name": "Price Confirmation",
+        "description": {
+          "content": "Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "price",
+            "flight",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "71b42d50-f7be-4040-ae57-58cfc1237b25",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                "flight",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "d943e376-f6c5-4778-a144-81b51aab6f66",
+          "name": "Unable to confirm trip pricing",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "price",
+                "flight",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"itinerary with reference 1 was unsuccessful. reason Invalid date. Check arrival and departure dates\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "95b3de26-361e-4899-b86a-d2b1c23e69e9",
+      "name": "Create Booking",
+      "request": {
+        "name": "Create Booking",
+        "description": {
+          "content": "When a trip is to be booked, send a request to the endpoint /book/ to create the Universal Record and associated PNR's for the trip. The booking can then be placed on the agency's ticketing queue.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "book",
+            "flight",
+            ":endpoint",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "endpoint",
+              "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "2740413b-3858-4fe6-a48c-ce1e9cd2d220",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                "flight",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"ur_locator_codes\": {\n    \"1\": \"D917A841\"\n  },\n  \"pnr_numbers\": {\n    \"1\": \"TH2H52\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b16048fc-e8fb-4b0b-ab92-f3ccce328c9c",
+          "name": "Unable to create booking",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                "flight",
+                ":endpoint",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "endpoint",
+                  "description": "(Required) Parameter toggles Data Source production and pre-production endpoints"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE46\",\n  \"message\": \"trip has already been booked\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "bcd1048d-2f55-494d-98da-d67ae7c6566f",
+      "name": "Cancel Booking",
+      "request": {
+        "name": "Cancel Booking",
+        "description": {
+          "content": "To cancel a booking, send a request with the trip_id and ur_locator_code.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "book",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "DELETE",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "7f8ab0c6-bfa2-471e-8929-73017509b6fb",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"Success\",\n  \"message\": \"Trip was successfully cancelled\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "9efc0ad1-ec3b-4f82-ac17-d36609edf951",
+          "name": "Unable to cancel booking",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "book",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "aad19e08-7801-47ea-82aa-d2dd33af9ce7",
+      "name": "Add To Ticketing Queue",
+      "request": {
+        "name": "Add To Ticketing Queue",
+        "description": {
+          "content": "If a trip has been booked, but not yet added to the agency ticketing queue, use this endpoint to add it to their queue.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "queue",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "573ebafc-0e1b-483a-9516-69899413ec96",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "queue",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"0\",\n  \"message\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "29286896-5a1e-4302-a11f-34f4e1f9399f",
+          "name": "Unable to add trip to ticketing queue",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "queue",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE38\",\n  \"message\": \"Trip ID not found\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "47efb1d8-b8c8-4b3f-8734-1452d7861c49",
+      "name": "Ticket",
+      "request": {
+        "name": "Ticket",
+        "description": {
+          "content": "If a trip has been queued, but not yet ticketed, use this endpoint to do the ticketing.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "ticket",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"super_trip_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "83393700-8984-4a17-add3-57327b698e14",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "ticket",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"0\",\n  \"message\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e5ff3dfd-a54f-4a70-86ed-03f892fe365e",
+          "name": "Unable to issue ticket",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "ticket",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"super_trip_id\": \"bdf876sf6sfsdf87sdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"IE45\",\n  \"message\": \"itinerary with reference 1 was unsuccessful. reason LAST TIME TO TICKET IS PAST - PLEASE REPRICE (08SEP20 23:19)\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "ad179d7d-a9b2-4cd7-ba4e-d88703de7ea4",
+      "name": "Super Trip Nickname",
+      "request": {
+        "name": "Super Trip Nickname",
+        "description": {
+          "content": "This can be used to add a nickname to a super trip",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "super_trip",
+            ":id",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "id",
+              "description": "(Required) Super Trip ID provided"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "PUT",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nickname\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "60625e09-effc-4581-ab0c-b379b3f9d8a4",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "super_trip",
+                ":id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Super Trip ID provided"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nickname\": \"My Super Trip\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"success\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b0d42ed1-915f-4826-ba73-acd6b240eec3",
+          "name": "Unable to update the nickname",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "super_trip",
+                ":id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Super Trip ID provided"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nickname\": \"My Super Trip\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Unable to update the nickname. Internal Error\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "d63a5f74-ab2d-4abc-9b55-c56908659573",
+      "name": "Super Trip Nickname",
+      "request": {
+        "name": "Super Trip Nickname",
+        "description": {
+          "content": "This can be used to remove flights/hotels/cars from a super trip",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "super_trip",
+            ":id",
+            "part",
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "id",
+              "description": "(Required) Super Trip ID provided"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "DELETE",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"part_type\": \"<string>\",\n  \"part_id\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "0ebbcfb3-0517-405e-86d3-9661cb3b1f48",
+          "name": "Success",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "super_trip",
+                ":id",
+                "part",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Super Trip ID provided"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"part_type\": \"itinerary\",\n  \"part_id\": \"hgasd65ashdg7a6w5\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"markup\": 20\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "0fe5856e-bc02-4c73-abf7-36c58949c4b4",
+          "name": "Unable to update the nickname",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "super_trip",
+                ":id",
+                "part",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Super Trip ID provided"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"part_type\": \"itinerary\",\n  \"part_id\": \"hgasd65ashdg7a6w5\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Unable to update the nickname. Internal Error\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://preprodapi.tripninja.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "09d13e91-2d8f-4c47-b7ed-0b90cc204b1a",
+    "name": "Trip Ninja API Documentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Workflow</h2>\nThe following diagram shows the typical data flow of API calls to Trip Ninja for a FareStructure integration with both a partner website\nand metasearch as sources.\n\n![Workflow diagram](https://s3.amazonaws.com/tn-api-docs/FlowChart1-01.png)\n\nNote: the following three endpoints (Price Confirmation, PNR Creation, Ticket Issuance) are simply to report to us that you have done these API calls to your GDS.\nPrice Confirmation, PNR creation, and Ticket Issuance should follow your existing process (as per the following diagram).\n\n![Workflow diagram](https://s3.amazonaws.com/tn-api-docs/FlowChart1-02.png)\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n\n# Error Codes\n<table>\n  <tr><td>IE01</td><td>Need minimum 2 destinations</td></tr>\n  <tr><td>IE02</td><td>Duplicate city in list</td></tr>\n  <tr><td>IE09</td><td>Can't run any queries for flight dates in the past</td></tr>\n  <tr><td>IE10</td><td>Incorrect city_type, expected one of ['C', 'A']</td></tr>\n  <tr><td>IE16</td><td>Please provide a PCC</td></tr>\n  <tr><td>IE17</td><td>Invalid carrier</td></tr>\n  <tr><td>IE19</td><td>Incorrect region, expected one of 'emea', 'apac', 'americas'</td></tr>\n  <tr><td>IE20</td><td>Incorrect provider, expected one of '1V','1G','1P','1A'</td></tr>\n  <tr><td>IE21</td><td>Wrong currency</td></tr>\n  <tr><td>IE22</td><td>Not a valid cabin option. expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'</td></tr>\n  <tr><td>IE23</td><td>Not a valid alliance. Expected one of *A, *S, *O</td></tr>\n  <tr><td>IE24</td><td>Travellers Type does not meet expected criteria. Should be a list having between 0 and 10 values</td></tr>\n  <tr><td>IE26</td><td>Exclude_carriers, alliance and permitted_carriers are mutually exclusive - please choose one</td></tr>\n  <tr><td>IE27</td><td>Num_results should be an integer between 50 and 250</td></tr>\n  <tr><td>IE28</td><td>Refundable parameter must be boolean value true or false</td></tr>\n  <tr><td>IE29</td><td>Invalid Traveller type</td></tr>\n  <tr><td>IE30</td><td>Incorrect value for single_pnr, must be boolean</td></tr>\n  <tr><td>IE31</td><td>LCC token not associated with user</td></tr>\n  <tr><td>IE32</td><td>Incorrect value for include_itineraries, must be boolean</td></tr>\n  <tr><td>IE33</td><td>Stops must be one of 'any', 'direct', '1', '2'</td></tr>\n  <tr><td>IE34</td><td>Incorrect value for no_overnight_layovers, must be boolean</td></tr>\n  <tr><td>IE36</td><td>Invalid LCC name</td></tr>\n<table>\n",
+      "type": "text/plain"
+    }
+  }
+}
