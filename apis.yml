@@ -45,35 +45,38 @@ modified: '2026-07-28'
 enriched: '2026-07-28'
 specificationVersion: '0.23'
 apis:
-- aid: webjet:tripninja-smartflights-api
-  name: Trip Ninja SmartFlights API
+- aid: webjet:tripninja-datastream-api
+  name: Trip Ninja DataStream API
   description: >-
-    SmartFlights is Trip Ninja's current (v3) flight-construction API. A travel platform posts a
-    traveller search to /v3/get-searches/, Trip Ninja returns the set of optimised content queries to
-    run against the platform's own content sources (GDS, NDC or aggregator), the platform posts those
-    zlib-compressed provider responses to /v3/generate-solutions/, and SmartFlights returns unified —
-    including split-ticket and virtual-interlined — itineraries with machine-learned markups. Booked
-    and cancelled itineraries are reported back via /v3/report/book/ and /v3/report/cancel/. Trip
-    Ninja supplies no air content of its own. REST/JSON, token authentication
-    (Authorization: Token <access_token>, 90-day expiry).
+    DataStream is a separately-credentialled Trip Ninja product with its own documentation section (setup,
+    authentication, integration lifecycle) and its own public Postman collection. It uses the same Token
+    Authentication scheme as SmartFlights, with a DataStream-specific token generated in the Admin Panel's
+    Developer Resources section (is_datastream_token on the refresh-token response). No OpenAPI document
+    and no base URL for DataStream are published on the developer hub, so none is recorded here.
+  humanURL: https://devhub.tripninja.io/data-stream/overview/
+  tags:
+  - Data
+  - Streaming
+  properties:
+  - type: Documentation
+    url: https://devhub.tripninja.io/data-stream/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/data-stream/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/data-stream/authentication/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-5fccfe6e-479a-429f-a497-d42a0bb859c9
+- aid: webjet:webjet-adminpanel-api
+  name: Webjet Adminpanel API
+  description: The Adminpanel API from Webjet — 1 operation(s) for adminpanel.
   humanURL: https://devhub.tripninja.io/smartflights/overview/
   baseURL: https://sandbox.tripninja.io
   tags:
-  - Flight Search
-  - Shopping
-  - Offers
-  - Booking
-  - Reporting
-  - Virtual Interlining
+  - Adminpanel
   properties:
   - type: OpenAPI
-    url: openapi/webjet-tripninja-smartflights-get-searches-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-smartflights-generate-solutions-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-smartflights-report-book-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-smartflights-report-cancel-openapi.yml
+    url: openapi/webjet-adminpanel-api-openapi.yml
   - type: Documentation
     url: https://devhub.tripninja.io/smartflights/overview/
   - type: Documentation
@@ -91,276 +94,1120 @@ apis:
   - type: APIReference
     url: https://devhub.tripninja.io/smartflights/report-cancellation/
   - type: PostmanCollection
-    url: https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
   - type: SDK
     url: https://pypi.org/project/tn-sdk/
   - type: SDK
     url: https://www.nuget.org/packages/TripNinja.SDK
   - type: Documentation
     url: https://devhub.tripninja.io/smartflights/troubleshooting/
-  - type: Overlay
-    url: overlays/webjet-smartflights-get-searches-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-smartflights-generate-solutions-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-smartflights-report-book-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-smartflights-report-cancel-overlay.yaml
-  - type: AgentSkill
-    url: skills/webjet-tripninja-search-and-construct.md
-  - type: AgentSkill
-    url: skills/webjet-tripninja-report-booking-and-cancellation.md
-- aid: webjet:tripninja-admin-panel-api
-  name: Trip Ninja Admin Panel API
-  description: >-
-    The single documented Admin Panel operation, POST /adminpanel/refresh-token/, exchanges a
-    refresh token for a new access token. Access tokens expire 90 days after issue; refresh tokens
-    have an indefinite lifespan until regenerated, and using one issues a new refresh token as well.
-    Response flags is_production_token and is_datastream_token distinguish sandbox from production
-    and DataStream from SmartFlights credentials. Tokens are minted by a human in the Trip Ninja
-    Admin Panel at app.tripninja.io, not by a self-serve signup.
-  humanURL: https://devhub.tripninja.io/smartflights/authentication/
-  baseURL: https://sandbox.tripninja.io
-  tags:
-  - Authentication
-  - Tokens
-  properties:
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-adminpanel-refresh-token-openapi.yml
   - type: Documentation
     url: https://devhub.tripninja.io/smartflights/authentication/
   - type: Documentation
     url: https://devhub.tripninja.io/resources/admin-panel
   - type: Portal
     url: https://app.tripninja.io
-  - type: Overlay
-    url: overlays/webjet-adminpanel-refresh-token-overlay.yaml
-  - type: AgentSkill
-    url: skills/webjet-tripninja-rotate-access-token.md
-- aid: webjet:tripninja-farestructure-api
-  name: Trip Ninja FareStructure API (deprecated)
-  description: >-
-    FareStructure is the deprecated v2 predecessor to SmartFlights, still published under
-    devhub.tripninja.io/deprecated/farestructure/. It automates split ticketing across multiple
-    content sources to build multi-city itineraries priced below a single GDS search, over
-    /v2/get-searches/, /v2/generate-solutions/, /v2/report/book/ and /v2/report/cancel/. Requires the
-    consuming OTA to be able to hold one traveller itinerary across multiple PNRs.
-  humanURL: https://devhub.tripninja.io/deprecated/farestructure/overview
-  baseURL: https://sandbox.tripninja.io
-  tags:
-  - Flight Search
-  - Split Ticketing
-  - Deprecated
-  properties:
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-farestructure-get-searches-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-farestructure-generate-solutions-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-farestructure-report-book-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-farestructure-report-cancel-openapi.yml
   - type: Documentation
     url: https://devhub.tripninja.io/deprecated/farestructure/overview
   - type: Documentation
     url: https://devhub.tripninja.io/deprecated/farestructure/setup/
   - type: PostmanCollection
-    url: https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
-  - type: Overlay
-    url: overlays/webjet-farestructure-get-searches-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-farestructure-generate-solutions-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-farestructure-report-book-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-farestructure-report-cancel-overlay.yaml
-- aid: webjet:tripninja-virtual-interlining-api
-  name: Trip Ninja Virtual Interlining API (deprecated)
-  description: >-
-    Virtual Interlining is the deprecated v2 product that combines segments from carriers with no
-    interline agreement into a single sellable itinerary, published under
-    devhub.tripninja.io/deprecated/virtual-interlining/. Two documented operations,
-    /v2/get-searches/ and /v2/generate-solutions/; its capability is now folded into SmartFlights.
-  humanURL: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
-  baseURL: https://sandbox.tripninja.io
-  tags:
-  - Virtual Interlining
-  - Flight Search
-  - Deprecated
-  properties:
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-virtual-interlining-get-searches-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-virtual-interlining-generate-solutions-openapi.yml
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
   - type: Documentation
     url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
   - type: Documentation
     url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
   - type: PostmanCollection
-    url: https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
-  - type: Overlay
-    url: overlays/webjet-virtual-interlining-get-searches-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-virtual-interlining-generate-solutions-overlay.yaml
-- aid: webjet:tripninja-datastream-api
-  name: Trip Ninja DataStream API
-  description: >-
-    DataStream is a separately-credentialled Trip Ninja product with its own documentation section
-    (setup, authentication, integration lifecycle) and its own public Postman collection. It uses the
-    same Token Authentication scheme as SmartFlights, with a DataStream-specific token generated in
-    the Admin Panel's Developer Resources section (is_datastream_token on the refresh-token
-    response). No OpenAPI document and no base URL for DataStream are published on the developer hub,
-    so none is recorded here.
-  humanURL: https://devhub.tripninja.io/data-stream/overview/
-  tags:
-  - Data
-  - Streaming
-  properties:
-  - type: Documentation
-    url: https://devhub.tripninja.io/data-stream/overview/
-  - type: Documentation
-    url: https://devhub.tripninja.io/data-stream/setup/
-  - type: Authentication
-    url: https://devhub.tripninja.io/data-stream/authentication/
-  - type: PostmanCollection
-    url: https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-5fccfe6e-479a-429f-a497-d42a0bb859c9
-- aid: webjet:tripninja-flights-core-api
-  name: Trip Ninja Flights Core API
-  description: >-
-    A flight search and reporting surface published by Trip Ninja in its own public GitHub
-    documentation repository (github.com/trip-ninja-inc/trip_ninja_api_docs) rather than on the
-    developer hub. Five operations with real operationIds: FlightSearch (POST /search/flights/
-    {endpoint}/), PriceConfirmationReport (POST /pre-booking/), BookingReport (POST /booking/),
-    TicketingReport (POST /ticketing/) and CancelBookingReport (POST /cancel/). It is the older shape
-    of the reporting loop the current v3 SmartFlights surface expresses as /v3/report/book/ and
-    /v3/report/cancel/, plus a ticketing report v3 no longer has. The named server is
-    preprodapi.tripninja.io, which resolves and returns 403 "Missing Authentication Token" to
-    non-allow-listed callers. Last updated in that repository on 2023-12-14 and not linked from the
-    current developer hub; availability is unverified and nothing here is marked deprecated by Trip
-    Ninja.
-  humanURL: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-  baseURL: https://preprodapi.tripninja.io
-  tags:
-  - Flight Search
-  - Reporting
-  - Booking
-  - Ticketing
-  properties:
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-flights-core-openapi.yml
-  - type: Overlay
-    url: overlays/webjet-flights-core-overlay.yaml
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
   - type: SourceCode
     url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
   - type: Arazzo
-    name: Report price confirmation, booking, ticketing and cancellation
     url: arazzo/webjet-tripninja-report-and-cancel.yml
-- aid: webjet:tripninja-pricing-booking-api
-  name: Trip Ninja Pricing & Booking API
-  description: >-
-    The fullest Trip Ninja transaction surface, published in Trip Ninja's public GitHub documentation
-    repository. Seven operations with real operationIds — PriceConfirm (POST /price/{endpoint}/),
-    CreateBooking (POST /book/{endpoint}/), BookingDetail (GET /book/trip/{super_trip_id}/),
-    ListBooking (GET /book/list/), AddBookingToTicketingQueue (POST /queue/), Ticket (POST /ticket/)
-    and CancelBooking (DELETE /book/). It is the only Trip Ninja surface anywhere with read
-    operations and the only one with pagination (offset/limit on ListBooking), and it carries the
-    passenger, PNR and super_trip_id models that group the multiple PNRs of a split-ticket journey.
-    Last updated 2023-12-14; not documented on the current developer hub, so availability is
-    unverified.
-  humanURL: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-  baseURL: https://preprodapi.tripninja.io
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-book-api
+  name: Webjet Book API
+  description: The Book API from Webjet — 5 operation(s) for book.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
   tags:
-  - Booking
-  - Pricing
-  - Ticketing
-  - Fulfillment
+  - Book
   properties:
   - type: OpenAPI
-    url: openapi/webjet-tripninja-pricing-booking-openapi.yml
-  - type: Overlay
-    url: overlays/webjet-pricing-booking-overlay.yaml
+    url: openapi/webjet-book-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
   - type: SourceCode
     url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
   - type: Arazzo
-    name: Search, confirm price, book, queue and ticket
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
     url: arazzo/webjet-tripninja-search-price-book-ticket.yml
-  - type: AgentSkill
-    url: skills/webjet-tripninja-price-book-and-ticket.md
-- aid: webjet:tripninja-hotels-api
-  name: Trip Ninja Hotels API
-  description: >-
-    A hotel shopping surface — Search (POST /search/hotels/{endpoint}), Details (POST
-    /details/hotels/{endpoint}/), Rules (POST /rules/hotels/{endpoint}/) and PriceConfirm plus a
-    price-confirmation removal (POST and DELETE on /price/hotels/{endpoint}/) — published only in
-    Trip Ninja's public GitHub documentation repository. The schema set includes a webbeds_room_obj,
-    indicating WebBeds-shaped room content. Hotels are not mentioned anywhere on the current
-    developer hub, which documents flights only; availability is unverified.
-  humanURL: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-  baseURL: https://preprodapi.tripninja.io
+- aid: webjet:webjet-booking-api
+  name: Webjet Booking API
+  description: The Booking API from Webjet — 1 operation(s) for booking.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
   tags:
-  - Hotels
-  - Accommodation
-  - Shopping
-  - Pricing
-  properties:
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-hotels-openapi.yml
-  - type: Overlay
-    url: overlays/webjet-hotels-overlay.yaml
-  - type: SourceCode
-    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-- aid: webjet:tripninja-msdp-api
-  name: Trip Ninja MSDP (Dynamic Packaging) API
-  description: >-
-    MSDP is Trip Ninja's multi-source dynamic packaging product — flights and hotels combined into
-    one sellable package. Nine operations with real operationIds: MSDPSearch, MSDPGetFlightResults,
-    MSDPGetHotelResults, MSDPRemoveHotelResult, MSDPGetHotelDetails, MSDPPriceConfirmationReport,
-    MSDPBookingReport, MSDPTicketingReport and MSDPCancelBookingReport. It is the only Trip Ninja
-    specification with typed per-operation error schemas (MSDPSearchErrorDetails,
-    MSDPOTABookingErrorDetails and siblings) rather than the generic {status, message} envelope. The
-    developer hub carries a /dynamic-packaging/ route with no page behind it, so this
-    GitHub-published document is the only machine-readable description of the product.
-  humanURL: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-  baseURL: https://preprodapi.tripninja.io
-  tags:
-  - Dynamic Packaging
-  - Hotels
-  - Flight Search
   - Booking
   properties:
   - type: OpenAPI
-    url: openapi/webjet-tripninja-msdp-openapi.yml
-  - type: Overlay
-    url: overlays/webjet-msdp-overlay.yaml
+    url: openapi/webjet-booking-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
   - type: SourceCode
     url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-- aid: webjet:tripninja-v2-legacy-api
-  name: Trip Ninja v2 Legacy API
-  description: >-
-    Two further GitHub-published OpenAPI 3.0.0 documents describing the 2.0.0-era surface — a core
-    document (/get-searches/, /generate-solutions/) and a booking document (Search, PriceConfirm,
-    CreateBooking, CancelBooking, AddBookingToTicketingQueue, Ticket, SuperTrip and
-    SuperTripPartDeletion). They predate the v2 FareStructure and Virtual Interlining documentation
-    now served under devhub.tripninja.io/deprecated/, and are recorded for completeness of the
-    published corpus.
-  humanURL: https://github.com/trip-ninja-inc/trip_ninja_api_docs
-  baseURL: https://preprodapi.tripninja.io
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-cancel-api
+  name: Webjet Cancel API
+  description: The Cancel API from Webjet — 1 operation(s) for cancel.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
   tags:
-  - Legacy
-  - Booking
-  - Flight Search
+  - Cancel
   properties:
   - type: OpenAPI
-    url: openapi/webjet-tripninja-v2-core-openapi.yml
-  - type: OpenAPI
-    url: openapi/webjet-tripninja-v2-booking-openapi.yml
-  - type: Overlay
-    url: overlays/webjet-v2-core-overlay.yaml
-  - type: Overlay
-    url: overlays/webjet-v2-booking-overlay.yaml
+    url: openapi/webjet-cancel-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
   - type: SourceCode
     url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-details-api
+  name: Webjet Details API
+  description: The Details API from Webjet — 1 operation(s) for details.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Details
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-details-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-generate-solutions-api
+  name: Webjet Generate Solutions API
+  description: The Generate Solutions API from Webjet — 3 operation(s) for generate solutions.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Generate Solutions
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-generate-solutions-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-get-searches-api
+  name: Webjet Get Searches API
+  description: The Get Searches API from Webjet — 3 operation(s) for get searches.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Get Searches
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-get-searches-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-msdp-api
+  name: Webjet Msdp API
+  description: The Msdp API from Webjet — 8 operation(s) for msdp.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Msdp
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-msdp-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-pre-booking-api
+  name: Webjet Pre Booking API
+  description: The Pre Booking API from Webjet — 1 operation(s) for pre booking.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Pre Booking
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-pre-booking-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-price-api
+  name: Webjet Price API
+  description: The Price API from Webjet — 3 operation(s) for price.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Price
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-price-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-queue-api
+  name: Webjet Queue API
+  description: The Queue API from Webjet — 1 operation(s) for queue.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Queue
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-queue-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-report-api
+  name: Webjet Report API
+  description: The Report API from Webjet — 4 operation(s) for report.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Report
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-report-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-results-api
+  name: Webjet Results API
+  description: The Results API from Webjet — 1 operation(s) for results.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Results
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-results-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-rules-api
+  name: Webjet Rules API
+  description: The Rules API from Webjet — 1 operation(s) for rules.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-rules-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-search-api
+  name: Webjet Search API
+  description: The Search API from Webjet — 3 operation(s) for search.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-search-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-super-trip-api
+  name: Webjet Super Trip API
+  description: The Super Trip API from Webjet — 2 operation(s) for super trip.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Super Trip
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-super-trip-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-ticket-api
+  name: Webjet Ticket API
+  description: The Ticket API from Webjet — 1 operation(s) for ticket.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Ticket
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-ticket-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
+- aid: webjet:webjet-ticketing-api
+  name: Webjet Ticketing API
+  description: The Ticketing API from Webjet — 1 operation(s) for ticketing.
+  humanURL: https://devhub.tripninja.io/smartflights/overview/
+  baseURL: https://sandbox.tripninja.io
+  tags:
+  - Ticketing
+  properties:
+  - type: OpenAPI
+    url: openapi/webjet-ticketing-api-openapi.yml
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/overview/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/setup/
+  - type: Authentication
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/certification/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/get-searches/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/generate-solutions/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-booking/
+  - type: APIReference
+    url: https://devhub.tripninja.io/smartflights/report-cancellation/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/trip-ninja-public/collection/5uzd69o/smartflights-api
+  - type: SDK
+    url: https://pypi.org/project/tn-sdk/
+  - type: SDK
+    url: https://www.nuget.org/packages/TripNinja.SDK
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/troubleshooting/
+  - type: Documentation
+    url: https://devhub.tripninja.io/smartflights/authentication/
+  - type: Documentation
+    url: https://devhub.tripninja.io/resources/admin-panel
+  - type: Portal
+    url: https://app.tripninja.io
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/farestructure/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-8f976a0a-6fba-4bd1-ba03-ac8325501bff
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/overview
+  - type: Documentation
+    url: https://devhub.tripninja.io/deprecated/virtual-interlining/setup/
+  - type: PostmanCollection
+    url: >-
+      https://www.postman.com/tripninjadevteam/workspace/trip-ninja-public/collection/20885222-9fe46e47-a94a-4866-b2bf-f0c087666451
+  - type: SourceCode
+    url: https://github.com/trip-ninja-inc/trip_ninja_api_docs
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-report-and-cancel.yml
+  - type: Arazzo
+    url: arazzo/webjet-tripninja-search-price-book-ticket.yml
 common:
+- type: Overlay
+  url: overlays/webjet-smartflights-get-searches-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-smartflights-generate-solutions-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-smartflights-report-book-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-smartflights-report-cancel-overlay.yaml
+- type: AgentSkill
+  url: skills/webjet-tripninja-search-and-construct.md
+- type: AgentSkill
+  url: skills/webjet-tripninja-report-booking-and-cancellation.md
+- type: Overlay
+  url: overlays/webjet-adminpanel-refresh-token-overlay.yaml
+- type: AgentSkill
+  url: skills/webjet-tripninja-rotate-access-token.md
+- type: Overlay
+  url: overlays/webjet-farestructure-get-searches-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-farestructure-generate-solutions-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-farestructure-report-book-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-farestructure-report-cancel-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-virtual-interlining-get-searches-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-virtual-interlining-generate-solutions-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-flights-core-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-pricing-booking-overlay.yaml
+- type: AgentSkill
+  url: skills/webjet-tripninja-price-book-and-ticket.md
+- type: Overlay
+  url: overlays/webjet-hotels-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-msdp-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-v2-core-overlay.yaml
+- type: Overlay
+  url: overlays/webjet-v2-booking-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/webjet-agentic-access.yml
 - type: DomainSecurity
