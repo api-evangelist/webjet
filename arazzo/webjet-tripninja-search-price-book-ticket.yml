@@ -9,6 +9,17 @@ info:
     the referenced specification. This surface is NOT documented on the current developer hub — treat
     availability as unverified and confirm with Trip Ninja before building against it. Access
     requires a commercial agreement, Trip Ninja-issued credentials and an allow-listed source IP.
+  x-realizes-capability-ids:
+  - BC-4020
+  x-capability-derivation:
+    method: 'deterministic join: sourceDescriptions -> per-tag OpenAPI -> tag/capability edge. No classification at this step.'
+    min_confidence: 0.7
+    sources:
+    - capability_id: BC-4020
+      capability_name: Reservation & Booking Management
+      spec: webjet-book-api-openapi.yml
+      confidence: 0.88
+    model: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities, CC BY 4.0
 sourceDescriptions:
 - name: bookApi
   url: ../openapi/webjet-book-api-openapi.yml

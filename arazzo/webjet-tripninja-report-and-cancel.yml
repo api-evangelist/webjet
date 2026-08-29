@@ -9,6 +9,17 @@ info:
     openapi/webjet-tripninja-flights-core-openapi.yml, published by Trip Ninja at
     https://github.com/trip-ninja-inc/trip_ninja_api_docs. Every operationId exists verbatim in that
     specification. Authored by API Evangelist on 2026-07-28.
+  x-realizes-capability-ids:
+  - BC-4020.20
+  x-capability-derivation:
+    method: 'deterministic join: sourceDescriptions -> per-tag OpenAPI -> tag/capability edge. No classification at this step.'
+    min_confidence: 0.7
+    sources:
+    - capability_id: BC-4020.20
+      capability_name: Booking Modification & Cancellation
+      spec: webjet-cancel-api-openapi.yml
+      confidence: 0.7
+    model: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities, CC BY 4.0
 sourceDescriptions:
 - name: bookingApi
   url: ../openapi/webjet-booking-api-openapi.yml
