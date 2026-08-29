@@ -40,6 +40,19 @@ tags:
 - Car Rental
 - New Zealand
 - Travel Technology
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 created: '2026-07-28'
 modified: '2026-07-28'
 enriched: '2026-07-28'
@@ -1166,6 +1179,8 @@ apis:
   - type: Arazzo
     url: arazzo/webjet-tripninja-search-price-book-ticket.yml
 common:
+- type: IssueTracker
+  url: https://github.com/trip-ninja-inc/trip_ninja_api_docs/issues
 - type: Overlay
   url: overlays/webjet-smartflights-get-searches-overlay.yaml
 - type: Overlay
