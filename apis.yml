@@ -1,5 +1,8 @@
 aid: webjet
 url: https://raw.githubusercontent.com/api-evangelist/webjet/refs/heads/main/apis.yml
+x-api-posture: no-product-api
+x-api-posture-basis: observed
+x-api-posture-note: "Its API posture is honestly lopsided: the consumer brands publish no developer documentation and no public API at all (developer/api/docs subdomains do not resolve; www.webjet.com.au returns 403 to no"
 name: Webjet
 kind: company
 description: >-
@@ -1179,6 +1182,9 @@ apis:
   - type: Arazzo
     url: arazzo/webjet-tripninja-search-price-book-ticket.yml
 common:
+- type: CapabilityMap
+  url: capabilities/webjet-capability-edges.yml
+  name: Webjet Business Capability Map
 - type: IssueTracker
   url: https://github.com/trip-ninja-inc/trip_ninja_api_docs/issues
 - type: Overlay
