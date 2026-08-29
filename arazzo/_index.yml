@@ -1,7 +1,7 @@
-generated: '2026-07-28'
-method: derived
-source: arazzo/*.yml
-note: >-
+x-generated: '2026-07-28'
+x-method: derived
+x-source: arazzo/*.yml
+x-note: >-
   Authored by API Evangelist — Trip Ninja publishes no Arazzo. Both workflows are grounded in the
   GitHub-published specifications, which are the only Trip Ninja documents carrying real
   operationIds; the current developer-hub documents publish operationId: "" and cannot be wired into

@@ -10,11 +10,20 @@ info:
     availability as unverified and confirm with Trip Ninja before building against it. Access
     requires a commercial agreement, Trip Ninja-issued credentials and an allow-listed source IP.
 sourceDescriptions:
-- name: flightsCore
-  url: ../openapi/webjet-tripninja-flights-core-openapi.yml
+- name: bookApi
+  url: ../openapi/webjet-book-api-openapi.yml
   type: openapi
-- name: pricingBooking
-  url: ../openapi/webjet-tripninja-pricing-booking-openapi.yml
+- name: priceApi
+  url: ../openapi/webjet-price-api-openapi.yml
+  type: openapi
+- name: queueApi
+  url: ../openapi/webjet-queue-api-openapi.yml
+  type: openapi
+- name: searchApi
+  url: ../openapi/webjet-search-api-openapi.yml
+  type: openapi
+- name: ticketApi
+  url: ../openapi/webjet-ticket-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: search-price-book-ticket
@@ -50,7 +59,7 @@ workflows:
   steps:
   - stepId: search
     description: Shop for itineraries.
-    operationId: $sourceDescriptions.flightsCore.FlightSearch
+    operationId: $sourceDescriptions.searchApi.FlightSearch
     parameters:
     - name: endpoint
       in: path
@@ -64,7 +73,7 @@ workflows:
       searchResponse: $response.body
   - stepId: confirm-price
     description: Re-price the selected itinerary. Air prices move between shopping and booking — never skip this.
-    operationId: $sourceDescriptions.pricingBooking.PriceConfirm
+    operationId: $sourceDescriptions.priceApi.PriceConfirm
     parameters:
     - name: endpoint
       in: path
@@ -80,7 +89,7 @@ workflows:
     description: >-
       Consequential and irreversible. Requires explicit human approval. Do NOT retry on an ambiguous
       response — this API publishes no idempotency key.
-    operationId: $sourceDescriptions.pricingBooking.CreateBooking
+    operationId: $sourceDescriptions.bookApi.CreateBooking
     parameters:
     - name: endpoint
       in: path
@@ -94,7 +103,7 @@ workflows:
       bookingResponse: $response.body
   - stepId: queue-for-ticketing
     description: Place the booking on the ticketing queue.
-    operationId: $sourceDescriptions.pricingBooking.AddBookingToTicketingQueue
+    operationId: $sourceDescriptions.queueApi.AddBookingToTicketingQueue
     requestBody:
       contentType: application/json
       payload: $inputs.queueRequest
@@ -102,7 +111,7 @@ workflows:
     - condition: $statusCode == 200
   - stepId: ticket
     description: Issue the ticket. Irreversible and chargeable. Requires explicit human approval.
-    operationId: $sourceDescriptions.pricingBooking.Ticket
+    operationId: $sourceDescriptions.ticketApi.Ticket
     requestBody:
       contentType: application/json
       payload: $inputs.ticketingRequest

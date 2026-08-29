@@ -10,8 +10,17 @@ info:
     https://github.com/trip-ninja-inc/trip_ninja_api_docs. Every operationId exists verbatim in that
     specification. Authored by API Evangelist on 2026-07-28.
 sourceDescriptions:
-- name: flightsCore
-  url: ../openapi/webjet-tripninja-flights-core-openapi.yml
+- name: bookingApi
+  url: ../openapi/webjet-booking-api-openapi.yml
+  type: openapi
+- name: cancelApi
+  url: ../openapi/webjet-cancel-api-openapi.yml
+  type: openapi
+- name: preBookingApi
+  url: ../openapi/webjet-pre-booking-api-openapi.yml
+  type: openapi
+- name: ticketingApi
+  url: ../openapi/webjet-ticketing-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: report-price-book-ticket
@@ -31,7 +40,7 @@ workflows:
         description: TicketingReportRequest body.
   steps:
   - stepId: report-price-confirmation
-    operationId: $sourceDescriptions.flightsCore.PriceConfirmationReport
+    operationId: $sourceDescriptions.preBookingApi.PriceConfirmationReport
     requestBody:
       contentType: application/json
       payload: $inputs.priceConfirmationReport
@@ -41,7 +50,7 @@ workflows:
     description: >-
       Report a booking that already exists in your own PNR estate. No idempotency key exists — do not
       auto-retry on an ambiguous outcome.
-    operationId: $sourceDescriptions.flightsCore.BookingReport
+    operationId: $sourceDescriptions.bookingApi.BookingReport
     requestBody:
       contentType: application/json
       payload: $inputs.bookingReport
@@ -50,7 +59,7 @@ workflows:
     outputs:
       bookingReportResponse: $response.body
   - stepId: report-ticketing
-    operationId: $sourceDescriptions.flightsCore.TicketingReport
+    operationId: $sourceDescriptions.ticketingApi.TicketingReport
     requestBody:
       contentType: application/json
       payload: $inputs.ticketingReport
@@ -73,7 +82,7 @@ workflows:
         description: CancelRequest body — trip_id.
   steps:
   - stepId: report-cancel
-    operationId: $sourceDescriptions.flightsCore.CancelBookingReport
+    operationId: $sourceDescriptions.cancelApi.CancelBookingReport
     requestBody:
       contentType: application/json
       payload: $inputs.cancelReport
