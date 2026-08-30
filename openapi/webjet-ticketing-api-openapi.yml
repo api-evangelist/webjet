@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  version: 4.15.0
+  title: Trip Ninja API Documentation Ticketing API
+  description: "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>FareStructure</h2>\nThe FareStructure product returns the set of best GDS responses that create the specified route. It finds the best fare structure via\nsplit ticketing and does not reorder the destinations. Each of the returned segments must be ticketed in its own PNR. <br><br>The “structure” seen in the\nFareStructure response determines how you will carry out price confirmation as well as PNR creation. We start counting flights at 0. \nFor example if structure is [[0, 2] , 1], this implies flight 0 and flight 2 are to be priced/ticketed together as one openjaw.\nFlight 1 should be priced as a oneway. [1, 2, 3] would be 3 separate oneways to be priced/ticketed individually.\n[[0, 1], [2, 3]] would be two openjaws, flight 0 and flight 1 priced/ticketed together as one openjaw and flights\n2 and 3 ticketed together as one openjaw.\n\n<h2>Workflow</h2>\nThe following diagram shows the typical data flow of API calls to Trip Ninja for a FareStructure integration with both a partner website\nand metasearch as sources.\n\n![Workflow diagram](https://s3.amazonaws.com/tn-api-docs/FlowChart1-01.png)\n\nNote: the following three endpoints (Price Confirmation, PNR Creation, Ticket Issuance) are simply to report to us that you have done these API calls to your GDS.\nPrice Confirmation, PNR creation, and Ticket Issuance should follow your existing process (as per the following diagram).\n\n![Workflow diagram](https://s3.amazonaws.com/tn-api-docs/FlowChart1-02.png)\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n\n# Error Codes\n<table>\n  <tr><td>IE01</td><td>Need minimum 2 destinations</td></tr>\n  <tr><td>IE02</td><td>Duplicate city in list</td></tr>\n  <tr><td>IE09</td><td>Can't run any queries for flight dates in the past</td></tr>\n  <tr><td>IE10</td><td>Incorrect city_type, expected one of ['C', 'A']</td></tr>\n  <tr><td>IE16</td><td>Please provide a PCC</td></tr>\n  <tr><td>IE17</td><td>Invalid carrier</td></tr>\n  <tr><td>IE19</td><td>Incorrect region, expected one of 'emea', 'apac', 'americas', 'edge'</td></tr>\n  <tr><td>IE20</td><td>Incorrect provider, expected one of '1V','1G','1P','1A'</td></tr>\n  <tr><td>IE21</td><td>Wrong currency</td></tr>\n  <tr><td>IE22</td><td>Not a valid cabin option. expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'</td></tr>\n  <tr><td>IE23</td><td>Not a valid alliance. Expected one of *A, *S, *O</td></tr>\n  <tr><td>IE24</td><td>Travellers Type does not meet expected criteria. Should be a list having between 0 and 10 values</td></tr>\n  <tr><td>IE26</td><td>Exclude_carriers, alliance and permitted_carriers are mutually exclusive - please choose one</td></tr>\n  <tr><td>IE27</td><td>Num_results should be an integer between 50 and 5000</td></tr>\n  <tr><td>IE28</td><td>Refundable parameter must be boolean value true or false</td></tr>\n  <tr><td>IE29</td><td>Invalid Traveller type</td></tr>\n  <tr><td>IE30</td><td>Incorrect value for single_pnr, must be boolean</td></tr>\n  <tr><td>IE31</td><td>LCC token not associated with user</td></tr>\n  <tr><td>IE32</td><td>Incorrect value for include_itineraries, must be boolean</td></tr>\n  <tr><td>IE33</td><td>Stops must be one of 'any', 'direct', '1', '2'</td></tr>\n  <tr><td>IE34</td><td>Incorrect value for no_overnight_layovers, must be boolean</td></tr>\n  <tr><td>IE36</td><td>Invalid LCC name</td></tr>\n<table>\n"
+  x-logo:
+    url: https://s3.amazonaws.com/tn-api-docs/trip_ninja_logo.png
+    altText: Trip Ninja logo
+    href: https://www.tripninja.io/
+servers:
+- url: https://preprodapi.tripninja.io
+  description: Pre-Production server
+tags:
+- name: Ticketing
+paths:
+  /ticketing/:
+    post:
+      summary: Ticketing Report
+      description: 'When tickets are issued for a trip, please hit the following endpoint
+
+        '
+      operationId: TicketingReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketingReportRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        400:
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: States whether request to book was successful.
+                    example: Not booked
+      tags:
+      - Ticketing
+components:
+  schemas:
+    TicketingReportRequest:
+      title: Request
+      type: object
+      required: trip_id segment_ids
+      properties:
+        trip_id:
+          type: string
+          description: Trip ID returned in search response
+          example: 6be6e72c60102bd489ac46434d4ac6c11e047ee8
+        segment_ids:
+          type: array
+          description: Array of segment_id’s for the booked segments - These will be strings for one-ways and arrays of strings for open-jaws.
+          items:
+            type: string
+            example:
+            - 18fd1992fd90e6e2cf44d49308a1482b2ecd7f67
+            - 59e15240be759a023c950e66379dca775fd8aaf1
+        queue:
+          type: string
+          description: Length of the queue number has to be within 3 letters.
+          example: '001'

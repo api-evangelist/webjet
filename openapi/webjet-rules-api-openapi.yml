@@ -1,0 +1,199 @@
+openapi: 3.2.0
+info:
+  version: 4.15.0
+  title: Trip Ninja API Documentation Rules API
+  description: "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testring, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n"
+  x-logo:
+    url: https://s3.amazonaws.com/tn-api-docs/trip_ninja_logo.png
+    altText: Trip Ninja logo
+    href: https://www.tripninja.io/
+servers:
+- url: https://preprodapi.tripninja.io
+  description: Pre-Production server
+tags:
+- name: Rules
+paths:
+  /rules/hotels/{endpoint}/:
+    post:
+      parameters:
+      - in: path
+        name: endpoint
+        required: true
+        schema:
+          type: string
+          enum:
+          - preprod
+          - prod
+          description: Parameter toggles data source production and pre-production endpoints.
+      summary: Hotel Rules
+      description: Get the rules details of the selected hotel_code, hotel_chain, and rate_plan_type. This is a required operation prior to booking as elements of this are saved in the cache and reused in booking.
+      operationId: Rules
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HotelRulesRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HotelRulesResponse'
+        400:
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE23
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: Not a valid rate_plan_type.
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE44
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: User is not authorized
+        206:
+          description: Partial Content (no Hotel found)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Error code and 0 for success response
+                    example: IE23
+                  message:
+                    type: string
+                    description: Contains the error message
+                    example: 'No availability found: Try changing dates'
+        500:
+          description: Server Error
+      tags:
+      - Rules
+components:
+  schemas:
+    HotelRulesResponse:
+      properties:
+        cancellation_policy:
+          type: string
+          description: The cancellation policy
+          example: non-refundable rate cancellation permitted up to 1days before arrival
+        guarantee_policy:
+          type: string
+          description: The guarantee policy.
+          example: ''
+        deposit:
+          type: string
+          description: The deposit requirements
+          example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
+        room_rate_descriptions:
+          type: object
+          description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
+          example:
+            Rate description: Early check in and check out when available.
+            Room rate: Maximum occupancy - 1
+        rule_descriptions:
+          type: object
+          description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
+          example:
+            Guarantee: Accept all guarantee methods
+            Checkin Checkout: Check in time 15:00, check out time 11:00
+    HotelRulesRequest:
+      required:
+      - hotel_trace_id
+      - hotel_chain
+      - hotel_code
+      - rate_plan_type
+      - original_total_string
+      - traveller_total
+      - rooms_total
+      - check_in_date
+      - check_out_date
+      - credential_info
+      properties:
+        hotel_trace_id:
+          type: string
+          example: ndsf6sjf6sdf7sdf6
+          description: An identifier to refer to the hotel for searching room availability
+        hotel_chain:
+          type: string
+          description: The refence for the hotel chain.
+          example: GI
+        hotel_code:
+          type: string
+          description: The reference for the hotel code
+          example: '35573'
+        rate_plan_type:
+          type: string
+          description: The reference for the room and rate plan selection
+          example: A01LV8
+        original_total_string:
+          type: string
+          description: The original total price as a string in the hotels currency is required for the rules request and is presented here.
+          example: SGD172.00
+        traveller_total:
+          type: int
+          example: 3
+          description: Number of people that will be staying at the hotel.
+        rooms_total:
+          type: int
+          example: 2
+          description: The number of rooms required for the above travellers.
+        check_in_date:
+          type: string
+          format: date
+          description: 'Date of check-in. format: YYYY-MM-DD.'
+        check_out_date:
+          type: string
+          format: date
+          description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
+        credential_info:
+          $ref: '#/components/schemas/credential_info'
+    credential_info:
+      description: The credential info that will be used to make the request.
+      type: object
+      required:
+      - pcc
+      - provider
+      - data_source
+      properties:
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
+          type: string
+          example: 2G3C
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          type: string
+          example: 1V
+        data_source:
+          description: The datasource that is associated with the PCC.
+          type: string
+          enum:
+          - travelport
+          - travelport_student
+          - travelport_itx
+          - amadeus
+          - tripstack
+          - mystifly
+        queue:
+          type: number
+          example: 1

@@ -1,0 +1,79 @@
+openapi: 3.2.0
+info:
+  title: Webjet Ticket API
+  x-refined-note:
+  - x-logo differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Ticket across 2 of this provider''s published API definitions: webjet-tripninja-pricing-booking-openapi.yml, webjet-tripninja-v2-booking-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://preprodapi.tripninja.io
+  description: Pre-Production server
+tags:
+- name: Ticket
+paths:
+  /ticket/:
+    post:
+      summary: Ticket
+      description: If a trip has been queued, but not yet ticketed, use this endpoint to do the ticketing.
+      operationId: Ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketingRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: '0'
+                  message:
+                    type: string
+                    example: success
+        400:
+          description: Unable to issue ticket
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: IE45
+                  message:
+                    type: string
+                    example: itinerary with reference 1 was unsuccessful. reason LAST TIME TO TICKET IS PAST - PLEASE REPRICE (08SEP20 23:19)
+      tags:
+      - Ticket
+    servers:
+    - url: https://preprodapi.tripninja.io
+      description: Pre-Production server
+components:
+  schemas:
+    TicketingRequest:
+      title: Request
+      type: object
+      required:
+      - super_trip_id
+      properties:
+        super_trip_id:
+          description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
+          type: string
+          example: 5df23dd9s72hne223d299err2323423r2342r221
+    TicketingRequest_2:
+      allOf:
+      - $ref: tn_api_pricing_booking_spec.yml#/components/schemas/TicketingRequest
+      required:
+      - super_trip_id
+      properties:
+        super_trip_id:
+          type: string
+          example: bdf876sf6sfsdf87sdf
+x-refined-from:
+- webjet-tripninja-pricing-booking-openapi.yml
+- webjet-tripninja-v2-booking-openapi.yml
