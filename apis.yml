@@ -89,6 +89,8 @@ apis:
   humanURL: https://devhub.tripninja.io/smartflights/overview/
   baseURL: https://sandbox.tripninja.io
   tags:
+  - Admin Panel
+  tags_raw:
   - Adminpanel
   properties:
   - type: OpenAPI
@@ -577,6 +579,8 @@ apis:
   humanURL: https://devhub.tripninja.io/smartflights/overview/
   baseURL: https://sandbox.tripninja.io
   tags:
+  - Pre-Booking
+  tags_raw:
   - Pre Booking
   properties:
   - type: OpenAPI
