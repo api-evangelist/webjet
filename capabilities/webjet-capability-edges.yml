@@ -1,0 +1,56 @@
+slug: webjet
+provider: Webjet
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Travel & Hospitality
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Book
+  spec_file: webjet-book-api-openapi.yml
+  capability_id: BC-4020
+  capability_id_l1: BC-4020
+  capability_name: Reservation & Booking Management
+  confidence: 0.88
+  evidence: 'POST /book/{endpoint}/  Create Booking; DELETE /book/  Cancel Booking; GET /book/trip/{super_trip_id}/  Booking
+    Detail; schemas: pnr_info, booked_flights, passenger'
+  reason: Operations create, retrieve, list and cancel flight/hotel bookings with PNR and passenger data
+    — reservation and booking lifecycle. L1 kept because capture, retrieval and cancellation are all represented.
+- tag: Cancel
+  spec_file: webjet-cancel-api-openapi.yml
+  capability_id: BC-4020.20
+  capability_id_l1: BC-4020
+  capability_name: Booking Modification & Cancellation
+  confidence: 0.7
+  evidence: 'POST /cancel/  CancelBookingReport; schemas: CancelRequest'
+  reason: Endpoint handles cancellation of a booking, matching booking modification and cancellation.
+    Confidence tempered by the single, thinly documented 'report' style operation.
+- tag: Msdp
+  spec_file: webjet-msdp-api-openapi.yml
+  capability_id: BC-4020
+  capability_id_l1: BC-4020
+  capability_name: Reservation & Booking Management
+  confidence: 0.7
+  evidence: MSDPBookingReport  MSDP Booking Report; MSDPTicketingReport  MSDP Ticketing Report; MSDPCancelBookingReport  MSDP
+    Cancel Booking Report
+  reason: This tag spans the full transaction lifecycle — search, price confirmation, booking, ticketing
+    and cancellation of flight+hotel trips — which is reservation and booking lifecycle management. Left
+    at L1 because operations straddle capture, documentation and cancellation sub-capabilities.
+- tag: Report
+  spec_file: webjet-report-api-openapi.yml
+  capability_id: BC-4020
+  capability_id_l1: BC-4020
+  capability_name: Reservation & Booking Management
+  confidence: 0.7
+  evidence: POST /v2/report/book/  Booking Report; POST /v2/report/cancel/  Cancel Booking Report; schemas
+    BookingReportRequest, CancelRequest
+  reason: Despite the generic tag name, the operations report/execute booking and booking cancellation
+    against the itinerary engine — reservation lifecycle. Kept at L1 since it covers both capture and
+    cancellation.
