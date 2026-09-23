@@ -2,7 +2,10 @@ openapi: 3.2.0
 info:
   version: 4.15.0
   title: Trip Ninja API Documentation Details API
-  description: "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testring, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n"
+  description: 'Introduction
+
+
+    Trip Ninja uses a REST API with requests and responses in JSON format.'
   x-logo:
     url: https://s3.amazonaws.com/tn-api-docs/trip_ninja_logo.png
     altText: Trip Ninja logo
@@ -91,6 +94,96 @@ paths:
       - Details
 components:
   schemas:
+    credential_info:
+      description: The credential info that will be used to make the request.
+      type: object
+      required:
+      - pcc
+      - provider
+      - data_source
+      properties:
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
+          type: string
+          example: 2G3C
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          type: string
+          example: 1V
+        data_source:
+          description: The datasource that is associated with the PCC.
+          type: string
+          enum:
+          - travelport
+          - travelport_student
+          - travelport_itx
+          - amadeus
+          - tripstack
+          - mystifly
+        queue:
+          type: number
+          example: 1
+    HotelDetailsRequest:
+      required:
+      - hotel_trace_id
+      - hotel_itinerary_reference
+      - credential_info
+      - hotel_chain
+      - hotel_code
+      - traveller_total
+      - rooms_total
+      - currency
+      - check_in_date
+      - check_out_date
+      properties:
+        super_trip_id:
+          type: string
+          example: bdf876sf6sfsdf87sdf
+          description: id of the super trip
+        hotel_trace_id:
+          type: string
+          example: ndsf6sjf6sdf7sdf6
+          description: An identifier to refer to the hotel for searching room availability
+        hotel_itinerary_reference:
+          type: string
+          example: '1'
+          description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
+        credential_info:
+          $ref: '#/components/schemas/credential_info'
+        hotel_chain:
+          type: string
+          description: The refence for the hotel chain.
+          example: GI
+        hotel_code:
+          type: string
+          description: The reference for the hotel code
+          example: '35573'
+        traveller_total:
+          type: int
+          example: 3
+          description: Number of people that will be staying at the hotel.
+        rooms_total:
+          type: int
+          example: 2
+          description: The number of rooms required for the above travellers.
+        room_type:
+          type: string
+          example: Double
+          description: The type of room to price.
+        currency:
+          type: string
+          example: CAD
+          description: The currency that the details should be presented in.
+        check_in_date:
+          type: string
+          format: date
+          description: 'Date of check-in to search hotel availibilities on. format: YYYY-MM-DD.'
+          example: '2021-05-10'
+        check_out_date:
+          type: string
+          format: date
+          description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
+          example: '2021-05-15'
     HotelDetailsResponse:
       properties:
         super_trip_id:
@@ -214,93 +307,3 @@ components:
                 type: string
                 description: The guarantee type for the room - needed for pricing.
                 example: Guarantee
-    HotelDetailsRequest:
-      required:
-      - hotel_trace_id
-      - hotel_itinerary_reference
-      - credential_info
-      - hotel_chain
-      - hotel_code
-      - traveller_total
-      - rooms_total
-      - currency
-      - check_in_date
-      - check_out_date
-      properties:
-        super_trip_id:
-          type: string
-          example: bdf876sf6sfsdf87sdf
-          description: id of the super trip
-        hotel_trace_id:
-          type: string
-          example: ndsf6sjf6sdf7sdf6
-          description: An identifier to refer to the hotel for searching room availability
-        hotel_itinerary_reference:
-          type: string
-          example: '1'
-          description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
-        credential_info:
-          $ref: '#/components/schemas/credential_info'
-        hotel_chain:
-          type: string
-          description: The refence for the hotel chain.
-          example: GI
-        hotel_code:
-          type: string
-          description: The reference for the hotel code
-          example: '35573'
-        traveller_total:
-          type: int
-          example: 3
-          description: Number of people that will be staying at the hotel.
-        rooms_total:
-          type: int
-          example: 2
-          description: The number of rooms required for the above travellers.
-        room_type:
-          type: string
-          example: Double
-          description: The type of room to price.
-        currency:
-          type: string
-          example: CAD
-          description: The currency that the details should be presented in.
-        check_in_date:
-          type: string
-          format: date
-          description: 'Date of check-in to search hotel availibilities on. format: YYYY-MM-DD.'
-          example: '2021-05-10'
-        check_out_date:
-          type: string
-          format: date
-          description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
-          example: '2021-05-15'
-    credential_info:
-      description: The credential info that will be used to make the request.
-      type: object
-      required:
-      - pcc
-      - provider
-      - data_source
-      properties:
-        pcc:
-          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
-          type: string
-          example: 2G3C
-        provider:
-          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-          type: string
-          example: 1V
-        data_source:
-          description: The datasource that is associated with the PCC.
-          type: string
-          enum:
-          - travelport
-          - travelport_student
-          - travelport_itx
-          - amadeus
-          - tripstack
-          - mystifly
-        queue:
-          type: number
-          example: 1

@@ -2,7 +2,10 @@ openapi: 3.2.0
 info:
   version: 4.15.0
   title: Trip Ninja API Documentation Rules API
-  description: "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testring, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n"
+  description: 'Introduction
+
+
+    Trip Ninja uses a REST API with requests and responses in JSON format.'
   x-logo:
     url: https://s3.amazonaws.com/tn-api-docs/trip_ninja_logo.png
     altText: Trip Ninja logo
@@ -91,32 +94,6 @@ paths:
       - Rules
 components:
   schemas:
-    HotelRulesResponse:
-      properties:
-        cancellation_policy:
-          type: string
-          description: The cancellation policy
-          example: non-refundable rate cancellation permitted up to 1days before arrival
-        guarantee_policy:
-          type: string
-          description: The guarantee policy.
-          example: ''
-        deposit:
-          type: string
-          description: The deposit requirements
-          example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
-        room_rate_descriptions:
-          type: object
-          description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
-          example:
-            Rate description: Early check in and check out when available.
-            Room rate: Maximum occupancy - 1
-        rule_descriptions:
-          type: object
-          description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
-          example:
-            Guarantee: Accept all guarantee methods
-            Checkin Checkout: Check in time 15:00, check out time 11:00
     HotelRulesRequest:
       required:
       - hotel_trace_id
@@ -197,3 +174,29 @@ components:
         queue:
           type: number
           example: 1
+    HotelRulesResponse:
+      properties:
+        cancellation_policy:
+          type: string
+          description: The cancellation policy
+          example: non-refundable rate cancellation permitted up to 1days before arrival
+        guarantee_policy:
+          type: string
+          description: The guarantee policy.
+          example: ''
+        deposit:
+          type: string
+          description: The deposit requirements
+          example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
+        room_rate_descriptions:
+          type: object
+          description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
+          example:
+            Rate description: Early check in and check out when available.
+            Room rate: Maximum occupancy - 1
+        rule_descriptions:
+          type: object
+          description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
+          example:
+            Guarantee: Accept all guarantee methods
+            Checkin Checkout: Check in time 15:00, check out time 11:00

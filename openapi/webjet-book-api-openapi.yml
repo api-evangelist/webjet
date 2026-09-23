@@ -306,37 +306,299 @@ components:
           description: Last Name
           type: string
           example: Collart
-    credentials:
+    segment_type:
+      type: string
+      enum:
+      - one_way
+      - open_jaw
+      description: Type of flight
+    itinerary_response:
       type: object
-      description: Indicate data source to call and required credentials
+      description: The itinerary to be priced
+      required:
+      - itinerary_reference
+      - plating_carrier
+      - credentials
+      - segments
       properties:
-        data_source:
-          $ref: '#/components/schemas/data_source'
-        pcc:
-          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
+        itinerary_reference:
+          type: integer
+          description: itinerary reference id within the itinerary. Always starting from 1
+          example: 1
+        plating_carrier:
+          type: string
+          description: The airline that a ticket will be issued on behalf of.
           required: true
-          type: string
-          example: MEL49f839
-        provider:
-          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-          required: true
-          type: string
-          example: 1A
-        region:
-          description: Parameter toggles which travelport regional service endpoint you hit *Travelport Only*
-          required: false
-          type: string
-          example: americas
-        pcc_currency:
-          description: Indicates the currency that the PCC is charged in.
-          required: false
-          type: string
-          example: CAD
-        conversion_rate:
-          description: The conversion rate that was used to convert from the pcc_currency to the searched currency. In order to convery back to the pcc currency simply use price * (1 / conversion_rate).
-          required: true
+          example: WS
+        credentials:
+          $ref: '#/components/schemas/credentials'
+        itinerary_type:
+          $ref: '#/components/schemas/segment_type'
+        itinerary_markup:
+          type: number
+          default: 0
+          description: Markup for the itinerary. Trip markup and Itinerary markup parameters are mutualy exclusive
+          example: 7
+        segments:
+          type: array
+          description: The segments chosen for the trip
+          items:
+            $ref: '#/components/schemas/segment_response'
+        base_fare:
           type: float
-          example: 0.78
+          description: The confirmed base fare for this itinerary of the pricing response.
+          example: 115.5
+        taxes:
+          type: float
+          description: The confirmed taxes associated with this itinerary of the pricing response.
+          example: 34.55
+        fees:
+          type: float
+          description: The confirmed feess associated with this itinerary in the pricing response.
+          example: 12.99
+    segment_response:
+      type: object
+      description: The segment which is a part of an openjaw or a oneway
+      required:
+      - segment_id
+      - baggage
+      - flight_details
+      properties:
+        segment_id:
+          type: string
+          description: Segment_id for the group
+          example: 14c9e2e5c95a5bf0f9f7712de24348e6aba88c32
+        virtual_interline:
+          type: boolean
+          description: 'true if option is a vi solution
+
+            '
+          example: true
+        vi_solution_id:
+          type:
+          - string
+          - 'null'
+          description: ID mapping VI parts of the option together. Helps finding VI solutions located in same segment position.
+          example: fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da
+        itinerary_index:
+          type:
+          - int
+          - 'null'
+          description: 'position of the virtual interlining option in itinerary(PNR). Starts from 0
+
+            Helps ordering parts of the VI solution in the itinerary
+
+            '
+          example: 0
+        vi_position:
+          type:
+          - integer
+          - 'null'
+          description: 'Shows which part of the segment option is this. Helps order parts of the VI solution in the same segment
+
+            Starts from 0
+
+            '
+          example: 0
+        baggage:
+          $ref: '#/components/schemas/baggage'
+        flight_details:
+          type: array
+          description: An array of flights
+          items:
+            $ref: '#/components/schemas/booked_flights'
+        additional_details:
+          $ref: '#/components/schemas/additional_details'
+        brand:
+          $ref: '#/components/schemas/brand'
+    itinerary_response_list:
+      type: array
+      description: The itinerary chosen for the trip
+      items:
+        allOf:
+        - $ref: '#/components/schemas/itinerary_response'
+    CancelRequest:
+      title: Request
+      type: object
+      required:
+      - super_trip_id
+      properties:
+        super_trip_id:
+          description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
+          type: string
+          example: 5df23dd9s72hne223d299err2323423r2342r221
+    ListBookingResponse:
+      title: Response
+      type: object
+      properties:
+        bookings:
+          type: array
+          items:
+            type: object
+            properties:
+              super_trip_id:
+                description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
+                type: string
+                example: 5df23dd9s72hne223d299err2323423r2342r221
+              primary_passenger:
+                $ref: '#/components/schemas/passenger'
+                description: Primary passenger information
+              booking_date:
+                description: Date on which the booking was made
+                type: string
+                example: '2019-07-07'
+              departure_date:
+                description: Date on which the first flight of the trip leaves.
+                type: string
+                format: date
+                example: '2019-11-21'
+              status:
+                description: Status of booking
+                type: string
+                example: booked
+                enum:
+                - booked
+                - ticketed
+                - cancelled
+              pnr_list:
+                type: array
+                description: List of each PNR information
+                items:
+                  $ref: '#/components/schemas/pnr_info'
+              currency:
+                description: Currency in which the booking was made
+                type: string
+                example: CAD
+    baggage:
+      type: object
+      description: Details of carryon and checked baggage allowances
+      properties:
+        applicable_bags:
+          type: string
+          description: null
+          example: 1stChecked
+        applicable_carryon_bags:
+          type: string
+          description: null
+          example: '1'
+        baggage_restrictions:
+          type: string
+          description: null
+          example: UPTO50LB/23KG AND UPTO62LI/158LCM
+        carryon_restrictions:
+          type: string
+          description: null
+          example: CARRYON HAND BAGGAGE ALLOWANCE
+    GetBookingDetailsResponse:
+      title: Response
+      type: object
+      properties:
+        super_trip_id:
+          description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
+          type: string
+          example: 5df23dd9s72hne223d299err2323423r2342r221
+        pricing:
+          description: Breakdown of the total confirmed prices including taxes, fees, and markup for the trip.
+          type: object
+          $ref: '#/components/schemas/trip_pricing_breakdown_additional'
+        itinerary:
+          $ref: '#/components/schemas/itinerary_response_list'
+        passengers:
+          type: array
+          description: All passengers information
+          items:
+            $ref: '#/components/schemas/passenger_detail'
+        hotels:
+          type: array
+          description: A list of the hotels booked under this super trip.
+          items:
+            type: object
+            description: Hotels
+            properties:
+              hotel_trace_id:
+                type: string
+                example: ndsf6sjf6sdf7sdf6
+                description: An identifier to refer to the hotel for searching room availability
+              status:
+                enum:
+                - booked
+                - cancelled
+                description: Status of the hotel booking
+              booked_hotel_details:
+                type: object
+                description: The specific details of the booked hotel.
+                properties:
+                  address:
+                    type: object
+                    properties:
+                      street_address:
+                        type: string
+                        description: The street address of the hotel.
+                        example: 1583 Brunswick St, Halifax, NS B3J 3P5
+                      longitude:
+                        type: float
+                        description: The longitude of the hotel.
+                        example: 44.64511447836071
+                      lattitude:
+                        type: float
+                        description: The lattitude of the hotel.
+                        example: -63.575245615440565
+                      distance_from_search_reference:
+                        type: float
+                        description: The distance that the hotel is from the reference submitted in the search.
+                        example: 7.5
+                      phone_number:
+                        type: str
+                        description: The contact phone number for the hotel.
+                        example: +1 902-420-0555
+                  hotel_chain:
+                    type: string
+                    description: The refence for the hotel chain.
+                    example: GI
+                  hotel_code:
+                    type: string
+                    description: The reference for the hotel code
+                    example: '35573'
+                  hotel_name:
+                    type: string
+                    description: The name of the hotel
+                    example: Cambridge Suites Hotel Halifax
+                  location_iata:
+                    type: string
+                    description: The location of the hotel.
+                    example: LON
+                  check_in_time:
+                    type: string
+                    description: The check in time for the hotel.
+                    example: 3pm
+                  check_out_time:
+                    type: string
+                    description: The check out time
+                    example: 10am
+                  rate_plan_type:
+                    type: string
+                    example: A00BOB
+                    description: The type reference for the rate plan selected for this hotel and this room.
+                  total_price:
+                    type: number
+                    description: Total price of the hotel
+                    example: 40.0
+                  currency:
+                    type: string
+                    example: CAD
+                    description: Currency the booking was made in.
+                  rating:
+                    type: int
+                    description: The hotel rating
+                    example: 4
+                  traveller_total:
+                    type: int
+                    example: 3
+                    description: Number of people that will be staying at the hotel.
+                  rooms_total:
+                    type: int
+                    example: 2
+                    description: The number of rooms required for the above travellers.
     flights:
       type: object
       description: flight information
@@ -409,6 +671,242 @@ components:
           description: Identifier for the brand
           required: true
           example: ECONOFLEX
+    credentials:
+      type: object
+      description: Indicate data source to call and required credentials
+      properties:
+        data_source:
+          $ref: '#/components/schemas/data_source'
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
+          required: true
+          type: string
+          example: MEL49f839
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          required: true
+          type: string
+          example: 1A
+        region:
+          description: Parameter toggles which travelport regional service endpoint you hit *Travelport Only*
+          required: false
+          type: string
+          example: americas
+        pcc_currency:
+          description: Indicates the currency that the PCC is charged in.
+          required: false
+          type: string
+          example: CAD
+        conversion_rate:
+          description: The conversion rate that was used to convert from the pcc_currency to the searched currency. In order to convery back to the pcc currency simply use price * (1 / conversion_rate).
+          required: true
+          type: float
+          example: 0.78
+    trip_pricing_breakdown_additional:
+      type: object
+      description: Breakdown of confirmed prices including taxes, fees, and markup for the trip.
+      properties:
+        confirmed_total_price:
+          type: float
+          description: Total price of the trip after price confirmation (base_fare + taxes + fees). Does not include markup.
+          example: 455.68
+        original_total_price:
+          type: float
+          description: Original price of trip from search request - does not include markup.
+          example: 455.61
+        base_fare:
+          type: float
+          description: Confirmed base_fare price for the trip.
+          example: 370.04
+        taxes:
+          type: float
+          description: Confirmed taxes for the trip.
+          example: 85.64
+        fees:
+          type: float
+          description: Confirmed fees for trip *Travelport customers only*
+          example: 0.0
+        markup:
+          type: float
+          description: Trip Ninja provided markup amount
+          example: 20.0
+        currency:
+          type: string
+          description: Currency in which trip was priced
+          example: USD
+        additional_markup:
+          type: float
+          description: Additional markup to be applied to the booking price.
+          example: 15.0
+        ancillary_total:
+          type: float
+          description: Total price of all ancillaries.
+          example: 30.0
+    passenger_detail:
+      title: Primary passenger
+      type: object
+      properties:
+        first_name:
+          description: First Name
+          type: string
+          example: Andres
+        last_name:
+          description: Last Name
+          type: string
+          example: Collart
+        date_of_birth:
+          description: Date of Birth
+          type: string
+          format: date
+          example: '2017-07-23'
+        gender:
+          description: Gender
+          type: string
+          example: M
+          enum:
+          - F
+          - M
+        passport_number:
+          description: Passport Number *Optional*
+          type: string
+          example: KDS3468
+        passport_expiration:
+          description: Passport Expiry Date *Optional*
+          type: string
+          format: date
+          example: '2021-11-21'
+        passport_country:
+          description: Nationality *Optional*
+          type: string
+          example: Canada
+        passenger_type:
+          description: Type of passenger
+          type: string
+          example: ADT
+          enum:
+          - ADT
+          - STU
+          - CHD
+          - INF
+        email:
+          description: passenger email address *Primary passenger only*
+          type: string
+          example: andres.collar@tripninja.io
+        phone_number:
+          description: passenger phone number *Primary passenger only*
+          type: string
+          example: '9022222222'
+        frequent_flyer:
+          $ref: '#/components/schemas/frequent_flyer_cards'
+        meals:
+          description: The passenger's meals details
+          type: array
+          items:
+            type: object
+            properties:
+              itinerary_reference:
+                description: The itinerary reference to apply the meal to.
+                type: string
+                example: '1'
+              meal_choice:
+                description: Chosen meal
+                type: string
+                enum:
+                - AVML
+                - BBML
+                - BLML
+                - CHML
+                - DBML
+                - FPML
+                - GFML
+                - HNML
+                - JPML
+                - KSML
+                - LCML
+                - LFML
+                - LSML
+                - MOML
+                - NFML
+                - NLML
+                - OBML
+                - ORML
+                - RVML
+                - SFML
+                - SPML
+                - VGML
+                - VLML
+                - VOML
+                example: GFML
+              flight_numbers:
+                description: flight numbers including meal
+                type: string
+                example: QT723, AC693
+        additional_checked_bags:
+          description: The passenger's additional baggage details
+          type: array
+          items:
+            type: object
+            description: Excess Baggage
+            properties:
+              itinerary_reference:
+                description: The itinerary reference to apply the card to.
+                type: string
+                example: '1'
+              applicable_bags:
+                type: array
+                description: List of additional bags for this itinerary
+                items:
+                  type: object
+                  properties:
+                    baggage_type:
+                      type: string
+                      description: Describe which checked bag is this price applicable to
+                      example: 1stChecked
+                    base_price:
+                      type: number
+                      description: Base price of the checked bag
+                      example: 40.0
+                    total_price:
+                      type: number
+                      description: Total price of the checked bag
+                      example: 40.0
+                    restriction:
+                      type: string
+                      description: Information about baggage restrictions
+                      example: UPTO50LB/23KG AND UPTO62LI/158LCM
+        additional_carry_on_bags:
+          description: The passenger's carry on bag details
+          type: array
+          items:
+            type: object
+            description: Excess Baggage
+            properties:
+              itinerary_reference:
+                description: The itinerary reference to apply the card to.
+                type: string
+                example: '1'
+              applicable_bags:
+                type: array
+                description: List of additional bags for this itinerary
+                items:
+                  type: object
+                  properties:
+                    baggage_type:
+                      type: string
+                      description: Describe which carry on bag is this price applicable to
+                      example: 1
+                    base_price:
+                      type: number
+                      description: Base price of the bag
+                      example: 10.0
+                    total_price:
+                      type: number
+                      description: Total price of the bag
+                      example: 10.0
+                    restriction:
+                      type: string
+                      description: Information about baggage restrictions
+                      example: PERSONAL ITEM
     BookedHotelResponse:
       title: Response
       type: object
@@ -440,61 +938,125 @@ components:
           - fail
           description: Provides status of the hotel, indicating whether this individual hotel booking was a success.
           example: success
-    segment_response:
+    pnr_info:
       type: object
-      description: The segment which is a part of an openjaw or a oneway
-      required:
-      - segment_id
-      - baggage
-      - flight_details
       properties:
-        segment_id:
+        pnr_number:
+          description: PNR Number.
           type: string
-          description: Segment_id for the group
-          example: 14c9e2e5c95a5bf0f9f7712de24348e6aba88c32
-        virtual_interline:
-          type: boolean
-          description: 'true if option is a vi solution
-
-            '
-          example: true
-        vi_solution_id:
-          type:
-          - string
-          - 'null'
-          description: ID mapping VI parts of the option together. Helps finding VI solutions located in same segment position.
-          example: fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da
-        itinerary_index:
-          type:
-          - int
-          - 'null'
-          description: 'position of the virtual interlining option in itinerary(PNR). Starts from 0
-
-            Helps ordering parts of the VI solution in the itinerary
-
-            '
-          example: 0
-        vi_position:
-          type:
-          - integer
-          - 'null'
-          description: 'Shows which part of the segment option is this. Helps order parts of the VI solution in the same segment
-
-            Starts from 0
-
-            '
-          example: 0
-        baggage:
-          $ref: '#/components/schemas/baggage'
-        flight_details:
-          type: array
-          description: An array of flights
-          items:
-            $ref: '#/components/schemas/booked_flights'
-        additional_details:
-          $ref: '#/components/schemas/additional_details'
-        brand:
-          $ref: '#/components/schemas/brand'
+          example: DKCD62A
+        route:
+          description: PNR route.
+          type: string
+          example: YHZ-YOW,YOW-YYZ
+        departure_date:
+          description: PNR Departure Date.
+          type: string
+          format: date
+          example: '2019-11-21'
+        pnr_status:
+          description: The status of the PNR.
+          type: string
+          example: booked
+    booked_flights:
+      allOf:
+      - $ref: '#/components/schemas/flights'
+      - type: object
+        properties:
+          origin_name:
+            type: string
+            description: Full name of the flight origin
+            example: London, United Kingdom (LHR)
+          destination_name:
+            type: string
+            description: Full name of the flight destination
+            example: Paris, France (CDG)
+    brand:
+      type: array
+      description: An array of brands relating to each flight of the segment
+      items:
+        type: object
+        properties:
+          brand_description:
+            description: The name or brand descriptor.
+            type: string
+            example: Econo-Flex
+          brand_services:
+            type: object
+            description: Brand Services
+            properties:
+              checked_baggage:
+                description: Are checked bags permittied on this ticket.
+                type: boolean
+                example: true
+              meals_and_beverages:
+                description: Are meals and beverages provided as part of this ticket.
+                type: boolean
+                example: true
+              rebooking:
+                description: Rebooking available on this ticket.
+                type: string
+                example: $
+              refund:
+                description: Refundability of the ticket.
+                type: string
+                example: $
+              seat_assignment:
+                description: Seat assignment availability on this ticket.
+                type: string
+                example: $
+              carry_on_hand_baggage:
+                description: Is carry on hand baggage permitted on this ticket.
+                type: boolean
+                example: true
+          carrier:
+            description: Carrier for this brand
+            type: string
+            example: AA
+          name:
+            description: Brand name.
+            type: string
+            example: Econo
+          tag_info:
+            description: Carriers mini blurb for the brand.
+            type: string
+            example: Econo flex provides all the comforts of economy with additional flexibility options relating to refunds and cancellation.
+          tag_line:
+            description: Brand marketing tag line.
+            type: string
+            example: Econo flex, flexibility when it matters.
+          services:
+            description: An outline of each service provided.
+            type: array
+            items:
+              type: object
+              properties:
+                classification:
+                  description: Text indicating the service provided.
+                  type: string
+                  example: Baggage charges that apply at the airport.
+                description:
+                  description: Title for the service.
+                  type: string
+                  example: CHECKED BAGGAGE
+                group:
+                  description: The group that the service is related to.
+                  type: string
+                  example: Baggage
+                marketing_carrier:
+                  description: The carrier that holds the service.
+                  type: string
+                  example: AA
+                status:
+                  description: Indicates whether the service is provided, not provided or at a cost.
+                  type: string
+                  example: $
+                text:
+                  description: Gives further details about the above service or may indicate the associated cost of the service.
+                  type: array
+                  items:
+                    type: string
+                    example: '23'
     CreateBookingRequest:
       title: Request
       type: object
@@ -777,62 +1339,6 @@ components:
           type: boolean
           description: Indicates whether all bookings from one GDS are stored under a single UR locator code *Travelport only*.
           example: true
-    CancelRequest:
-      title: Request
-      type: object
-      required:
-      - super_trip_id
-      properties:
-        super_trip_id:
-          description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
-          type: string
-          example: 5df23dd9s72hne223d299err2323423r2342r221
-    segment_type:
-      type: string
-      enum:
-      - one_way
-      - open_jaw
-      description: Type of flight
-    trip_pricing_breakdown_additional:
-      type: object
-      description: Breakdown of confirmed prices including taxes, fees, and markup for the trip.
-      properties:
-        confirmed_total_price:
-          type: float
-          description: Total price of the trip after price confirmation (base_fare + taxes + fees). Does not include markup.
-          example: 455.68
-        original_total_price:
-          type: float
-          description: Original price of trip from search request - does not include markup.
-          example: 455.61
-        base_fare:
-          type: float
-          description: Confirmed base_fare price for the trip.
-          example: 370.04
-        taxes:
-          type: float
-          description: Confirmed taxes for the trip.
-          example: 85.64
-        fees:
-          type: float
-          description: Confirmed fees for trip *Travelport customers only*
-          example: 0.0
-        markup:
-          type: float
-          description: Trip Ninja provided markup amount
-          example: 20.0
-        currency:
-          type: string
-          description: Currency in which trip was priced
-          example: USD
-        additional_markup:
-          type: float
-          description: Additional markup to be applied to the booking price.
-          example: 15.0
-        ancillary_total:
-          type: float
-          description: Total price of all ancillaries.
-          example: 30.0
     data_source:
       description: Data Source to call.
       required: true
@@ -841,218 +1347,6 @@ components:
       - amadeus
       - travelport
       example: amadeus
-    itinerary_response:
-      type: object
-      description: The itinerary to be priced
-      required:
-      - itinerary_reference
-      - plating_carrier
-      - credentials
-      - segments
-      properties:
-        itinerary_reference:
-          type: integer
-          description: itinerary reference id within the itinerary. Always starting from 1
-          example: 1
-        plating_carrier:
-          type: string
-          description: The airline that a ticket will be issued on behalf of.
-          required: true
-          example: WS
-        credentials:
-          $ref: '#/components/schemas/credentials'
-        itinerary_type:
-          $ref: '#/components/schemas/segment_type'
-        itinerary_markup:
-          type: number
-          default: 0
-          description: Markup for the itinerary. Trip markup and Itinerary markup parameters are mutualy exclusive
-          example: 7
-        segments:
-          type: array
-          description: The segments chosen for the trip
-          items:
-            $ref: '#/components/schemas/segment_response'
-        base_fare:
-          type: float
-          description: The confirmed base fare for this itinerary of the pricing response.
-          example: 115.5
-        taxes:
-          type: float
-          description: The confirmed taxes associated with this itinerary of the pricing response.
-          example: 34.55
-        fees:
-          type: float
-          description: The confirmed feess associated with this itinerary in the pricing response.
-          example: 12.99
-    brand:
-      type: array
-      description: An array of brands relating to each flight of the segment
-      items:
-        type: object
-        properties:
-          brand_description:
-            description: The name or brand descriptor.
-            type: string
-            example: Econo-Flex
-          brand_services:
-            type: object
-            description: Brand Services
-            properties:
-              checked_baggage:
-                description: Are checked bags permittied on this ticket.
-                type: boolean
-                example: true
-              meals_and_beverages:
-                description: Are meals and beverages provided as part of this ticket.
-                type: boolean
-                example: true
-              rebooking:
-                description: Rebooking available on this ticket.
-                type: string
-                example: $
-              refund:
-                description: Refundability of the ticket.
-                type: string
-                example: $
-              seat_assignment:
-                description: Seat assignment availability on this ticket.
-                type: string
-                example: $
-              carry_on_hand_baggage:
-                description: Is carry on hand baggage permitted on this ticket.
-                type: boolean
-                example: true
-          carrier:
-            description: Carrier for this brand
-            type: string
-            example: AA
-          name:
-            description: Brand name.
-            type: string
-            example: Econo
-          tag_info:
-            description: Carriers mini blurb for the brand.
-            type: string
-            example: Econo flex provides all the comforts of economy with additional flexibility options relating to refunds and cancellation.
-          tag_line:
-            description: Brand marketing tag line.
-            type: string
-            example: Econo flex, flexibility when it matters.
-          services:
-            description: An outline of each service provided.
-            type: array
-            items:
-              type: object
-              properties:
-                classification:
-                  description: Text indicating the service provided.
-                  type: string
-                  example: Baggage charges that apply at the airport.
-                description:
-                  description: Title for the service.
-                  type: string
-                  example: CHECKED BAGGAGE
-                group:
-                  description: The group that the service is related to.
-                  type: string
-                  example: Baggage
-                marketing_carrier:
-                  description: The carrier that holds the service.
-                  type: string
-                  example: AA
-                status:
-                  description: Indicates whether the service is provided, not provided or at a cost.
-                  type: string
-                  example: $
-                text:
-                  description: Gives further details about the above service or may indicate the associated cost of the service.
-                  type: array
-                  items:
-                    type: string
-                    example: '23'
-    baggage:
-      type: object
-      description: Details of carryon and checked baggage allowances
-      properties:
-        applicable_bags:
-          type: string
-          description: null
-          example: 1stChecked
-        applicable_carryon_bags:
-          type: string
-          description: null
-          example: '1'
-        baggage_restrictions:
-          type: string
-          description: null
-          example: UPTO50LB/23KG AND UPTO62LI/158LCM
-        carryon_restrictions:
-          type: string
-          description: null
-          example: CARRYON HAND BAGGAGE ALLOWANCE
-    ListBookingResponse:
-      title: Response
-      type: object
-      properties:
-        bookings:
-          type: array
-          items:
-            type: object
-            properties:
-              super_trip_id:
-                description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
-                type: string
-                example: 5df23dd9s72hne223d299err2323423r2342r221
-              primary_passenger:
-                $ref: '#/components/schemas/passenger'
-                description: Primary passenger information
-              booking_date:
-                description: Date on which the booking was made
-                type: string
-                example: '2019-07-07'
-              departure_date:
-                description: Date on which the first flight of the trip leaves.
-                type: string
-                format: date
-                example: '2019-11-21'
-              status:
-                description: Status of booking
-                type: string
-                example: booked
-                enum:
-                - booked
-                - ticketed
-                - cancelled
-              pnr_list:
-                type: array
-                description: List of each PNR information
-                items:
-                  $ref: '#/components/schemas/pnr_info'
-              currency:
-                description: Currency in which the booking was made
-                type: string
-                example: CAD
-    pnr_info:
-      type: object
-      properties:
-        pnr_number:
-          description: PNR Number.
-          type: string
-          example: DKCD62A
-        route:
-          description: PNR route.
-          type: string
-          example: YHZ-YOW,YOW-YYZ
-        departure_date:
-          description: PNR Departure Date.
-          type: string
-          format: date
-          example: '2019-11-21'
-        pnr_status:
-          description: The status of the PNR.
-          type: string
-          example: booked
     frequent_flyer_cards:
       description: The passenger's frequent flyer card details
       type: array
@@ -1071,135 +1365,6 @@ components:
             description: The frequent flyer card number.
             type: string
             example: '84299921292'
-    itinerary_response_list:
-      type: array
-      description: The itinerary chosen for the trip
-      items:
-        allOf:
-        - $ref: '#/components/schemas/itinerary_response'
-    GetBookingDetailsResponse:
-      title: Response
-      type: object
-      properties:
-        super_trip_id:
-          description: A unique key used to identify an entire super trip which incorporates all inclusive bookings (i.e. Cars, Hotels, other Flights). The key can be used to search and price flights again and place them into the same super trip.
-          type: string
-          example: 5df23dd9s72hne223d299err2323423r2342r221
-        pricing:
-          description: Breakdown of the total confirmed prices including taxes, fees, and markup for the trip.
-          type: object
-          $ref: '#/components/schemas/trip_pricing_breakdown_additional'
-        itinerary:
-          $ref: '#/components/schemas/itinerary_response_list'
-        passengers:
-          type: array
-          description: All passengers information
-          items:
-            $ref: '#/components/schemas/passenger_detail'
-        hotels:
-          type: array
-          description: A list of the hotels booked under this super trip.
-          items:
-            type: object
-            description: Hotels
-            properties:
-              hotel_trace_id:
-                type: string
-                example: ndsf6sjf6sdf7sdf6
-                description: An identifier to refer to the hotel for searching room availability
-              status:
-                enum:
-                - booked
-                - cancelled
-                description: Status of the hotel booking
-              booked_hotel_details:
-                type: object
-                description: The specific details of the booked hotel.
-                properties:
-                  address:
-                    type: object
-                    properties:
-                      street_address:
-                        type: string
-                        description: The street address of the hotel.
-                        example: 1583 Brunswick St, Halifax, NS B3J 3P5
-                      longitude:
-                        type: float
-                        description: The longitude of the hotel.
-                        example: 44.64511447836071
-                      lattitude:
-                        type: float
-                        description: The lattitude of the hotel.
-                        example: -63.575245615440565
-                      distance_from_search_reference:
-                        type: float
-                        description: The distance that the hotel is from the reference submitted in the search.
-                        example: 7.5
-                      phone_number:
-                        type: str
-                        description: The contact phone number for the hotel.
-                        example: +1 902-420-0555
-                  hotel_chain:
-                    type: string
-                    description: The refence for the hotel chain.
-                    example: GI
-                  hotel_code:
-                    type: string
-                    description: The reference for the hotel code
-                    example: '35573'
-                  hotel_name:
-                    type: string
-                    description: The name of the hotel
-                    example: Cambridge Suites Hotel Halifax
-                  location_iata:
-                    type: string
-                    description: The location of the hotel.
-                    example: LON
-                  check_in_time:
-                    type: string
-                    description: The check in time for the hotel.
-                    example: 3pm
-                  check_out_time:
-                    type: string
-                    description: The check out time
-                    example: 10am
-                  rate_plan_type:
-                    type: string
-                    example: A00BOB
-                    description: The type reference for the rate plan selected for this hotel and this room.
-                  total_price:
-                    type: number
-                    description: Total price of the hotel
-                    example: 40.0
-                  currency:
-                    type: string
-                    example: CAD
-                    description: Currency the booking was made in.
-                  rating:
-                    type: int
-                    description: The hotel rating
-                    example: 4
-                  traveller_total:
-                    type: int
-                    example: 3
-                    description: Number of people that will be staying at the hotel.
-                  rooms_total:
-                    type: int
-                    example: 2
-                    description: The number of rooms required for the above travellers.
-    booked_flights:
-      allOf:
-      - $ref: '#/components/schemas/flights'
-      - type: object
-        properties:
-          origin_name:
-            type: string
-            description: Full name of the flight origin
-            example: London, United Kingdom (LHR)
-          destination_name:
-            type: string
-            description: Full name of the flight destination
-            example: Paris, France (CDG)
     additional_details:
       type: object
       description: Additional Details
@@ -1241,183 +1406,18 @@ components:
         fare_types_info:
           type: string
           example: WS3 - Published fare
-    passenger_detail:
-      title: Primary passenger
-      type: object
-      properties:
-        first_name:
-          description: First Name
-          type: string
-          example: Andres
-        last_name:
-          description: Last Name
-          type: string
-          example: Collart
-        date_of_birth:
-          description: Date of Birth
-          type: string
-          format: date
-          example: '2017-07-23'
-        gender:
-          description: Gender
-          type: string
-          example: M
-          enum:
-          - F
-          - M
-        passport_number:
-          description: Passport Number *Optional*
-          type: string
-          example: KDS3468
-        passport_expiration:
-          description: Passport Expiry Date *Optional*
-          type: string
-          format: date
-          example: '2021-11-21'
-        passport_country:
-          description: Nationality *Optional*
-          type: string
-          example: Canada
-        passenger_type:
-          description: Type of passenger
-          type: string
-          example: ADT
-          enum:
-          - ADT
-          - STU
-          - CHD
-          - INF
-        email:
-          description: passenger email address *Primary passenger only*
-          type: string
-          example: andres.collar@tripninja.io
-        phone_number:
-          description: passenger phone number *Primary passenger only*
-          type: string
-          example: '9022222222'
-        frequent_flyer:
-          $ref: '#/components/schemas/frequent_flyer_cards'
-        meals:
-          description: The passenger's meals details
-          type: array
-          items:
-            type: object
-            properties:
-              itinerary_reference:
-                description: The itinerary reference to apply the meal to.
-                type: string
-                example: '1'
-              meal_choice:
-                description: Chosen meal
-                type: string
-                enum:
-                - AVML
-                - BBML
-                - BLML
-                - CHML
-                - DBML
-                - FPML
-                - GFML
-                - HNML
-                - JPML
-                - KSML
-                - LCML
-                - LFML
-                - LSML
-                - MOML
-                - NFML
-                - NLML
-                - OBML
-                - ORML
-                - RVML
-                - SFML
-                - SPML
-                - VGML
-                - VLML
-                - VOML
-                example: GFML
-              flight_numbers:
-                description: flight numbers including meal
-                type: string
-                example: QT723, AC693
-        additional_checked_bags:
-          description: The passenger's additional baggage details
-          type: array
-          items:
-            type: object
-            description: Excess Baggage
-            properties:
-              itinerary_reference:
-                description: The itinerary reference to apply the card to.
-                type: string
-                example: '1'
-              applicable_bags:
-                type: array
-                description: List of additional bags for this itinerary
-                items:
-                  type: object
-                  properties:
-                    baggage_type:
-                      type: string
-                      description: Describe which checked bag is this price applicable to
-                      example: 1stChecked
-                    base_price:
-                      type: number
-                      description: Base price of the checked bag
-                      example: 40.0
-                    total_price:
-                      type: number
-                      description: Total price of the checked bag
-                      example: 40.0
-                    restriction:
-                      type: string
-                      description: Information about baggage restrictions
-                      example: UPTO50LB/23KG AND UPTO62LI/158LCM
-        additional_carry_on_bags:
-          description: The passenger's carry on bag details
-          type: array
-          items:
-            type: object
-            description: Excess Baggage
-            properties:
-              itinerary_reference:
-                description: The itinerary reference to apply the card to.
-                type: string
-                example: '1'
-              applicable_bags:
-                type: array
-                description: List of additional bags for this itinerary
-                items:
-                  type: object
-                  properties:
-                    baggage_type:
-                      type: string
-                      description: Describe which carry on bag is this price applicable to
-                      example: 1
-                    base_price:
-                      type: number
-                      description: Base price of the bag
-                      example: 10.0
-                    total_price:
-                      type: number
-                      description: Total price of the bag
-                      example: 10.0
-                    restriction:
-                      type: string
-                      description: Information about baggage restrictions
-                      example: PERSONAL ITEM
-    CreateBookingRequest_2:
+    CancelRequest_2:
       allOf:
-      - $ref: tn_api_pricing_booking_spec.yml#/components/schemas/CreateBookingRequest
+      - $ref: tn_api_pricing_booking_spec.yml#/components/schemas/CancelRequest
       required:
       - super_trip_id
       properties:
         super_trip_id:
           type: string
           example: bdf876sf6sfsdf87sdf
-    CancelRequest_2:
+    CreateBookingRequest_2:
       allOf:
-      - $ref: tn_api_pricing_booking_spec.yml#/components/schemas/CancelRequest
+      - $ref: tn_api_pricing_booking_spec.yml#/components/schemas/CreateBookingRequest
       required:
       - super_trip_id
       properties:

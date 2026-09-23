@@ -7,13 +7,13 @@ servers:
 - url: https://sandbox.tripninja.io
   description: Sandbox server
 tags:
-- name: Adminpanel
+- name: Admin panel
 paths:
   /adminpanel/refresh-token/:
     post:
       summary: Refresh Token
       description: ''
-      operationId: ''
+      operationId: postAdminpanelRefreshToken
       requestBody:
         content:
           application/json:
@@ -42,7 +42,8 @@ paths:
                     description: A human-readable message providing more details about the error. (e.g., <code>"Invalid Token"</code>)
                     example: Invalid token
       tags:
-      - Adminpanel
+      - Admin panel
+      x-operation-id-source: derived
 components:
   schemas:
     RefreshTokenResponse:

@@ -2,7 +2,10 @@ openapi: 3.2.0
 info:
   version: 1.0.0
   title: Trip Ninja MSDP API Documentation Results API
-  description: "<h2>Introduction</h2>\nTrip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers\nare to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production\nand pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />\n<h2>Trip Ninja API URLs</h2>\n\nPre-Production: https://preprodapi.tripninja.io\n\nFor security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you\nwill be using.\n\nBefore you start ensure that:<br  />\n    - IP addresses have been provided to be whitelisted for our servers.<br  />\n    - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />\n    - API username and password have been provided by Trip Ninja.<br  />\n\n<h2>MSDP</h2>\nMulti Stop Dynamic Packaging (MSDP) provides an alternative to traditional, static packaging. \nIt allows users to build packages as they go. While users search for multi-destination flights, \nMSDP will find eligible hotels with which to bundle.\n\n<h2>Authentication</h2>\nTrip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the\nauthorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not\nshown.\n\nPython Example:\n\n<pre>\nimport base64\nauth = base64.b64encode(\"USERNAME:PASSWORD\")\nheaders = {\n    'authorization': \"Basic \"+ auth,\n}\nresponse = requests.post(url, headers=headers, data=json.dumps(payload))\n</pre>\n"
+  description: 'Introduction
+
+
+    Trip Ninja uses a REST API with requests and responses in JSON format.'
   x-logo:
     url: https://s3.amazonaws.com/tn-api-docs/trip_ninja_logo.png
     altText: Trip Ninja logo
@@ -80,9 +83,7 @@ paths:
       summary: MSDP Get Hotel Results
       description: 'This endpoint retrieves a specific MSDP hotel search result from the prior MSDP search
 
-        Example URL: `/results/hotels/?hotel_trace_id=4f499298b303c55a1ee522118afce28abe2f68e4&rating=1,2,3&area=Bedford,Dartmouth&min_price=100&max_price=1000&min_distance=2&max_distance=50&hotel_chain=WA&amenities=Air Conditioning,Wifi&sort_by=closest`
-
-        '
+        Example URL: `/results/hotels/?hotel_trace_id=4f499298b303c55a1ee522118afce28abe2f68e4&rating=1,2,3&area=Bedford,Dartmouth&min_price=100&max_price=1000&min_distance=2&max_distance=50&hotel_chain=WA&amenities=Air Conditioning,Wifi&sort_by=closest`'
       operationId: MSDPGetHotelResults
       responses:
         200:
