@@ -103,6 +103,13 @@ components:
           type: number
           description: Only if part type is flight. Trip Ninja provided markup for all flights in this supertrip, updated based on the removed flight
           example: 20.0
+    SuperTripUpdateRequest:
+      type: object
+      properties:
+        nickname:
+          type: string
+          description: Super Trip Nick name
+          example: My Super Trip
     SuperTripPartDeletionRequest:
       type: object
       properties:
@@ -118,10 +125,3 @@ components:
           type: string
           description: Super Trip Part ID. (itinerary_id, hotel_reservation_id, car_rental_id)
           example: hgasd65ashdg7a6w5
-    SuperTripUpdateRequest:
-      type: object
-      properties:
-        nickname:
-          type: string
-          description: Super Trip Nick name
-          example: My Super Trip

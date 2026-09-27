@@ -37,7 +37,9 @@
     "webjet-ticket-api-openapi.yml",
     "webjet-super-trip-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -143,12 +145,13 @@
     "tag 'Book' spans 2 source specs (webjet-tripninja-pricing-booking-openapi.yml, webjet-tripninja-v2-booking-openapi.yml): per-path servers applied",
     "tag 'Queue' spans 2 source specs (webjet-tripninja-pricing-booking-openapi.yml, webjet-tripninja-v2-booking-openapi.yml): per-path servers applied",
     "tag 'Ticket' spans 2 source specs (webjet-tripninja-pricing-booking-openapi.yml, webjet-tripninja-v2-booking-openapi.yml): per-path servers applied",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: webjet-admin-panel-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 19 total)"
   ],
   "skipped": [
     "_original/webjet-tripninja-virtual-interlining-get-searches-openapi.yml: archived document superseded by a larger archived document",
     "_original/webjet-tripninja-virtual-interlining-generate-solutions-openapi.yml: archived document superseded by a larger archived document",
-    "webjet-adminpanel-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "webjet-admin-panel-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "webjet-book-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "webjet-booking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "webjet-cancel-api-openapi.yml: previously refined output, superseded by openapi/_original/",
