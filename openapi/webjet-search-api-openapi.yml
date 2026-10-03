@@ -278,117 +278,306 @@ paths:
       description: Pre-Production server
 components:
   schemas:
-    FareStructureResponse:
-      title: Response
+    SegmentSearchResponse:
+      title: Search Response
       type: object
       properties:
-        trip:
-          type: object
-          description: Contains the JSON object provided as the request
-          example:
-            endpoint: Prod
-            num_results: 50
-            cabin_class: E
-            exclude_carriers: []
-            refundable: false
-            currency: USD
-            time_value: 0
-            max_cache: 24
-            travellers:
-            - ADT
-            - ADT
-            - CHD
-            provider: 1V
-            alliance: ''
-            alpha: 0.1
-            schema: 40
-            PCC: 2G3C
-        FareStructure:
-          type: object
-          description: Contains the JSON object of the response.
-          properties:
-            total_cost:
-              type: float
-              description: Total cost of cheapest segments recommended, in currency specified.
-              example: 693.6
-            tn_net_fare_markup:
-              type: float
-              description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
-              example: 25.0
-            structure:
-              type: Array of ints and/or Array of arrays
-              description: "\"Array representing the structure of the trip in terms of one-ways and open-jaw segments. \nFor example: [[0, 1], [3, 4], 2] means there would be three segments. One openjaw with key “01”, \none with key “34” and a one-way with key ‘2”.\"\nSee Price Confirm Report segment_ids field for more detail.\n"
-              example:
-              - - 0
-                - 1
-              - 2
-            ErrorDetails:
-              $ref: '#/components/schemas/ErrorDetails'
-            path_sequence:
-              type: array
-              description: An array of IATA codes representing the chronological order of your trip.
-              example:
-              - LON-CDG
-              - CDG-YUL
-              - YUL-LON
-            trip_id:
-              type: string
-              example: a2cf0bdf2ecca12f8dbbc139af58c99a561f21a1
-              description: A unique key used for identification and when booking a trip.
-            total_transportation_minutes:
-              type: integer
-              description: Total transportation minutes for recommended cheapest segments.
-            itineraries:
-              $ref: '#/components/schemas/Itineraries'
-            segments:
-              $ref: '#/components/schemas/Segments'
-            flight_details:
-              $ref: '#/components/schemas/FlightDetails'
-    CredentialInfo:
-      type: object
-      description: Indicate data source to call and required credentials
-      properties:
-        data_source:
-          description: data source to call.
-          required: true
+        currency:
           type: string
-          enum:
-          - amadeus
-          - travelport
-          - tripstack
-          - mystifly
-          example: amadeus
-        pcc:
-          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-          required: true
-          type: string
-          example: MEL49f839
-        provider:
-          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-          required: true
-          type: string
-          example: 1A
-        region:
-          description: Parameter toggles which travelport regional service endpoint you hit *Travelport Only*
-          required: false
-          type: string
-          enum:
-          - emea
-          - apac
-          - americas
-          - edge
-          default: americas
-          example: americas
-        pcc_currency:
-          description: Indicates the currency that the PCC is charged in.
-          required: false
-          type: string
+          description: Currency
           example: CAD
-        conversion_rate:
-          description: The conversion rate that was used to convert from the pcc_currency to the searched currency. In order to convery back to the pcc currency simply use price * (1 / conversion_rate).
-          required: true
+        markup:
           type: float
-          example: 0.78
+          description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
+          example: 25.0
+        path_sequence:
+          type: array
+          description: An array of IATA codes representing the chronological order of your trip.
+          example:
+          - LON-CDG
+          - CDG-YUL
+          - YUL-LON
+        trip_id:
+          type: string
+          example: a2cf0bdf2ecca12f8dbbc139af58c99a561f21a1
+          description: A unique key used for identification and when booking a trip.
+        segments:
+          $ref: '#/components/schemas/TripOptions'
+        flight_details:
+          $ref: '#/components/schemas/FlightDetails'
+    SegmentFSSearchResponse:
+      title: include_itineraries = false and route_flexible = false
+      type: object
+      properties:
+        fare_structure:
+          $ref: '#/components/schemas/SegmentSearchResponse'
+    FSSearchItineraries:
+      allOf:
+      - $ref: '#/components/schemas/FareStructureResponse/properties/FareStructure/properties'
+      - type: array
+        description: Array of itineraries sorted by weight.
+        items:
+          $ref: '#/components/schemas/ItineraryInfo'
+    SegmentInfo:
+      allOf:
+      - $ref: '#/components/schemas/BasicSegmentInfo'
+      - type: object
+        properties:
+          segment_source:
+            type: string
+            description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
+            example: travelport
+    SegmentFlexTripSearchResponse:
+      title: Segment FlexTrip Search Response
+      type: object
+      properties:
+        flex_trip:
+          $ref: '#/components/schemas/SegmentSearchResponse'
+    ItineraryInfo:
+      allOf:
+      - $ref: '#/components/schemas/BasicItineraryInfo'
+      - type: object
+        properties:
+          segments:
+            type: array
+            description: List of segments in the itinerary
+            items:
+              $ref: '#/components/schemas/SegmentInfo'
+    Itineraries:
+      allOf:
+      - $ref: '#/components/schemas/FareStructureResponse/properties/FareStructure/properties'
+      - type: array
+        description: Array of itineraries sorted by weight.
+        items:
+          $ref: '#/components/schemas/ItineraryInfo'
+    BasicSegmentInfo:
+      type: object
+      properties:
+        segment_id:
+          type: string
+          description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
+          example: 344d73be0d61f820aa9a6ace300742fed0672f2e
+        segment_source:
+          type: string
+          description: Data source that returned the segment.
+          example: travelport
+        segment_origin_full:
+          type: string
+          description: Origin of the segment.
+          example: London, United Kingdom (LHR)
+        segment_destination_full:
+          type: string
+          description: Destination of the segment.
+          example: Berlin, Germany (TXL)
+        travel_mode:
+          type: string
+          description: Mode of travel (air, ground, etc.)
+          example: air
+        weight:
+          type: string
+          description: Weight of the segment (time-value considered).
+          example: 96
+        price:
+          type: float
+          description: Price of the segment (fare and tax included)
+          example: 72.3
+        cancel_penalty:
+          type: object
+          description: Information about cancellation
+          properties:
+            amount:
+              type: float
+              description: Cancellation penalty amount (Optional)
+              example: 0
+            percentage:
+              type: float
+              description: Cancellation penalty percentage (Optional)
+              example: 100
+        change_penalty:
+          type: object
+          description: Information about changing.
+          properties:
+            amount:
+              type: float
+              description: Change penalty amount (Optional)
+              example: 78
+            percentage:
+              type: float
+              description: Change penalty percentage (Optional)
+              example: 0
+        flight_type:
+          type: string
+          description: “open_jaw” or “one_way”
+          example: open_jaw
+        brands:
+          type: string
+          description: Brands returned
+          example: null
+        price_breakdown_with_passenger_type_code:
+          $ref: '#/components/schemas/PriceBreakdownWithPassengerTypeCode'
+        legs:
+          $ref: '#/components/schemas/LegDetails'
+        baggage:
+          type: object
+          description: Contains baggage information.
+          properties:
+            number_of_pieces:
+              type: integer
+              description: Number of bags allowed.
+              example: 0
+        fare_basis_code:
+          type: string
+          description: Fare Basis Code for the segment.
+          example: QUSDSI0E
+        fare_rule_key:
+          type: string
+          description: Fare rule key for the segment
+          example: gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
+        fare_info_ref:
+          type: string
+          description: Fare Info reference for this segment
+          example: 3RxQ6ylJ0BKAhQAbnbAAAA==
+        private_fare:
+          type: boolean
+          description: True if segment is a private fare, otherwise False *Travelport customers only*
+          example: false
+        private_type:
+          type: string
+          description: Private type
+          example: null
+        plating_carrier:
+          type: string
+          description: Plating carrier of segment
+          example: AC
+        intermediate_stops:
+          type: string
+          description: Intermediate stops in the segment
+          example: null
+        itinerary_type:
+          type: string
+          description: Type of itinerary
+          example: ONE_WAY
+        segment_position:
+          type: number
+          description: Position of segment in response
+          example: 0
+        virtual_interline:
+          type: boolean
+          description: 'true if option is a vi solution
+
+            '
+          example: true
+        vi_solution_id:
+          type:
+          - string
+          - 'null'
+          description: "ID mapping VI parts of the option together. Helps finding VI solutions located in same segment position. \nWill be composed of each segment's segment_id joined together with two underscores. For oneway VI this \nwill be two segments, for openjaw VI will be 4 segments. \n"
+          example: fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da
+        risk_profile:
+          type:
+          - float
+          - 'null'
+          description: The probability of missing the connection and not performing the self-transfer during the VI self-connection (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+          example: 8.42
+        cancellation_probability:
+          type:
+          - float
+          - 'null'
+          description: The probability percentage that this flight will be cancelled (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+          example: 7.86
+        average_delay_time:
+          type:
+          - string
+          - 'null'
+          description: The average delay time of this flight in minutes. A negative value indicates an average early arrival time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+          example: -5
+        self_transfer_time:
+          type:
+          - string
+          - 'null'
+          description: The self transfer time in minutes between this flights arrival time and the next segments departure time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+          example: 134
+        is_international:
+          type:
+          - boolean
+          - 'null'
+          description: Indicates whether this flight is international. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+          example: true
+        itinerary_index:
+          type:
+          - int
+          - 'null'
+          description: 'Position of the virtual interlining option in itinerary(PNR). Starts from 0
+
+            '
+          example: 0
+        vi_position:
+          type:
+          - integer
+          - 'null'
+          description: "Position of the virtual interlining option in the VI itinerary. Starts from 0. For OneWay VI will be either of [0, 1]. \nFor OpenJaw VI will be one of [0, 1, 2, 3]\n"
+          example: 1
+        itinerary_structure:
+          type: String
+          description: "String Array representing the structure of the trip in terms of one-ways and open-jaw segments. \nFor example: [[0, 1], [3, 4], 2] means there would be three segments. One openjaw with key “01”, \none with key “34” and a one-way with key “2”.\nSee Price Confirm Report segment_ids field for more detail.\n"
+          example: '[[0, 1], 2]'
+        vi_pattern:
+          type: String
+          description: 'OpenJaw VI only: String Array representing the structue of the OpenJaw VI solution that was found.'
+          example: '[[0, 3], 1, 2]'
+        vi_segment_base_price:
+          type:
+          - float
+          - 'null'
+          description: The base price of the VI PNR not including taxes and fees.
+          example: 106.4
+        vi_segment_taxes:
+          type:
+          - float
+          - 'null'
+          description: The taxes associated with this VI PNR.
+          example: 24.12
+        vi_segment_fees:
+          type:
+          - float
+          - 'null'
+          description: The fees associated with this individual VI PNR.
+          example: 14.56
+    ItineraryFsSerachResposneWithFlexTrip:
+      title: include_itineraries = true and route_flexible = true
+      type: object
+      properties:
+        fare_structure:
+          $ref: '#/components/schemas/ItineraryFSSearchResponse'
+        flex_trip:
+          $ref: '#/components/schemas/ItineraryFlexTripSearchResponse'
+    ItinerarySearchResponse:
+      title: Search Response
+      type: object
+      properties:
+        path_sequence:
+          type: array
+          description: An array of IATA codes representing the chronological order of your trip.
+          example:
+          - LON-CDG
+          - CDG-YUL
+          - YUL-LON
+        currency:
+          type: string
+          description: Currency
+          example: CAD
+        itineraries:
+          $ref: '#/components/schemas/FSSearchItineraries'
+        ErrorDetails:
+          $ref: '#/components/schemas/ErrorDetails'
+        trip_id:
+          type: string
+          example: a2cf0bdf2ecca12f8dbbc139af58c99a561f21a1
+          description: A unique key used for identification and when booking a trip.
+        tn_net_fare_markup:
+          type: float
+          description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
+          example: 25.0
     PriceBreakdownWithPassengerTypeCode:
       type: array
       description: Displays the pricing for each passenger type
@@ -421,6 +610,11 @@ components:
                   type: float
                   description: Amount of tax
                   example: 7.12
+    TripOptions:
+      title: Trip Options
+      type: array
+      items:
+        $ref: '#/components/schemas/SegmentOptions'
     SegmentFSSearchResponseWithFlexTrip:
       title: include_itineraries = false and route_flexible = true
       type: object
@@ -705,84 +899,598 @@ components:
           availability_source:
             type: string
             example: S
-    SegmentFlexTripSearchResponse:
-      title: Segment FlexTrip Search Response
+    FlightDetails:
+      title: Flight Details
+      type: array
+      items:
+        type: object
+        properties:
+          origin:
+            type: string
+            description: IATA code of the segment origin
+            example: LHR
+          origin_name:
+            type: string
+            description: Full name of the flight origin
+            example: London, United Kingdom (LHR)
+          destination:
+            type: string
+            description: IATA code of the segment destination
+            example: CDG
+          destination_name:
+            type: string
+            description: Full name of the flight destination
+            example: Paris, France (CDG)
+          departure_time:
+            type: string
+            format: date-time
+            description: Departure date and time with timezone.
+            example: '2020-12-05T20:50:00-05:00'
+          arrival_time:
+            format: date-time
+            description: Arrival date and time with timezone.
+            example: '2020-12-06T09:10:00+00:00'
+          flight_number:
+            type: string
+            description: Flight number.
+            example: '530'
+          carrier:
+            type: string
+            minLength: 2
+            maxLength: 2
+            description: Airline carrier of the flight.
+            example: AC
+          flight_time:
+            type: integer
+            description: Flight duration in minutes
+            example: 475
+          carrier_fullname:
+            type: string
+            description: Full name of the carrier
+            example: Air Canada
+          reference:
+            type: string
+            description: reference to flight in flight_details list.
+            example: 83810422f17f30a4c7a366af5a12d9d05c86c04d
+          aircraft_type:
+            type: string
+            description: IATA type code for aircraft model.
+            example: 7M8
+          fare_info_ref:
+            type: string
+            description: Flight identifier required to make a travelport fare rule request. *Travelport Only*
+            example: WPADWJK0nDKATShj2JAAAA==
+          fare_rule_key:
+            type: string
+            description: Key corresponding to above fare_info_ref also required to make a travelport fare rule request. *Travelport Only*
+            example: gws-eJxNT0EKAjEMfMwy96SNxd5auqig7GFZlO7B/z/DaVR00oQOMxnaUkqQEOQosfxjwnOqDa3OwILA7pcdJkkESrZACFwf6ba37QwPyZpc+pWiu5FWPxx9CAOf2e8rBYvpbVBMiFZjVfIRYWK+Dmd13jxpqJrzN/y08g2EJ4odeOUPXvRTL2E=
+          departure_timestamp:
+            type: number
+            description: Departure date and time in Unix timestamp form.
+            example: 1687271700
+          arrival_timestamp:
+            type: number
+            description: Arrival date and time in Unix timestamp form.
+            example: 1687281000
+          cancellation_probability:
+            type:
+            - float
+            - 'null'
+            description: The probability percentage that this flight will be cancelled (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+            example: 7.86
+          average_delay_time:
+            type:
+            - string
+            - 'null'
+            description: The average delay time of this flight in minutes. A negative value indicates an average early arrival time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+            example: -5
+          self_transfer_time:
+            type:
+            - string
+            - 'null'
+            description: The self transfer time in minutes between this flights arrival time and the next segments departure time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+            example: 134
+          is_international:
+            type:
+            - boolean
+            - 'null'
+            description: Indicates whether this flight is international. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
+            example: true
+    LegDetails:
+      title: Leg Details
+      type: array
+      description: A list of legs for this segment
+      items:
+        type: object
+        properties:
+          OriginName:
+            type: string
+            description: Full name of the flight origin
+            example: London, United Kingdom (LHR)
+          Origin:
+            type: string
+            description: IATA code of the leg origin
+            example: LHR
+          DestinationName:
+            type: string
+            description: Full name of the leg destination
+            example: Paris, France (CDG)
+          Destination:
+            type: string
+            description: IATA code of the leg destination
+            example: CDG
+          DepartureTime:
+            type: string
+            description: Departure time of the leg
+            example: '2019-04-05T13:25:00.000+01:00'
+          DepartureTimestamp:
+            type: number
+            description: Departure timestamp of the leg
+            example: 1692138300
+          ArrivalTime:
+            type: string
+            description: Arrival time of the leg
+            example: '2019-04-05T15:40:00.000+02:00'
+          ArrivalTimestamp:
+            type: number
+            description: Arrival timestamp of the leg
+            example: 1692160260
+          FlightNumber:
+            type: string
+            description: Leg's flight number
+            example: '111'
+          Carrier:
+            type: string
+            description: Leg's carrier code
+            example: BA
+          CarrierFullName:
+            type: string
+            description: Leg's operating carrier name
+            example: British Airlines
+          FlightTime:
+            type: integer
+            description: Flight duration in minutes
+            example: 75
+          AircraftType:
+            type: string
+            description: IATA type code for aircraft model.
+            example: 7M8
+          Key:
+            type: string
+            description: Leg’s string identifier
+            example: oHzo6pBAAA/B1d6hPLAAAA==
+          BookingCode:
+            type: string
+            description: The airline booking code that describes the flight cabin class
+            example: X
+          cabin_class:
+            type: string
+            description: Leg’s cabin class *Travelport customers only*
+            example: Economy
+          fare_info_ref:
+            type: string
+            description: Flight identifer required to make a travelport fare rule request. *Travelport Only*
+            example: WPADWJK0nDKATShj2JAAAA==
+          fare_rule_key:
+            type: string
+            description: Key corresponding to above fare_info_ref also required to make a travelport fare rule request. *Travelport Only*
+            example: gws-eJxNT0EKAjEMfMwy96SNxd5auqig7GFZlO7B/z/DaVR00oQOMxnaUkqQEOQosfxjwnOqDa3OwILA7pcdJkkESrZACFwf6ba37QwPyZpc+pWiu5FWPxx9CAOf2e8rBYvpbVBMiFZjVfIRYWK+Dmd13jxpqJrzN/y08g2EJ4odeOUPXvRTL2E=
+          fare_type:
+            type: string
+            description: Leg's fare type
+            example: PublicFare
+    ErrorDetails:
+      description: When an error occurs, there will be a list of error codes detailing the issue(s). For more information regarding the errors refer to the error codes section.
+      type: object
+      properties:
+        IE01:
+          type: string
+          description: Need minimum 2 destinations
+        IE02:
+          type: string
+          description: Duplicate city in list
+        IE03:
+          type: string
+          description: Home city in cities list
+        IE04:
+          type: string
+          description: There are non-compliant IATA codes in your city list
+        IE05:
+          type: string
+          description: Multiple lockfirst found
+        IE06:
+          type: string
+          description: Multiple locklast found
+        IE07:
+          type: string
+          description: Incorrect item provided for "locked" (must be “Lock Last”, Lock First” or “None”)
+        IE08:
+          type: string
+          description: Zero nights found for some city/cities
+        IE09:
+          type: string
+          description: Can't run any queries for flight dates in the past
+        IE10:
+          type: string
+          description: Incorrect city_type value - expected one of ‘C’ or ‘A’
+        IE11:
+          type: string
+          description: General Input Error (FlexTrip)
+        IE13:
+          type: string
+          description: 'Check the id''s on your flights - should be in order starting from 1. For example: 1,2,3,4'
+        IE14:
+          type: string
+          description: Make sure your departure_dates are in order
+        IE15:
+          type: string
+          description: Each flight in flights must contain ‘to_city’, ‘from_city’ - to_city and from_city must be in the format of 3 character IATA code
+        IE16:
+          type: string
+          description: Please provide a PCC
+        IE17:
+          type: string
+          description: Invalid Carrier
+        IE18:
+          type: string
+          description: Time Value (Original Alpha) outside of expected range [$0,$200]/hr
+        IE19:
+          type: string
+          description: Incorrect region - expected one of ‘emea’, ’apac’, ’americas’, ’edge’
+        IE20:
+          type: string
+          description: Incorrect provider - expected one of '1V','1G','1P','1A'
+        IE21:
+          type: string
+          description: No currency input or currency input not 3 characters long (must be in the format USD, AUD, CAD, etc)
+        IE22:
+          type: string
+          description: Not a valid cabin option - expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'
+        IE23:
+          type: string
+          description: Not a valid alliance - expected one of *A, *S, *O
+        IE24:
+          type: string
+          description: Too many or too few travellers found (must be 1 to 10) - or not a valid type for travellers, must be int or list
+        IE25:
+          type: string
+          description: FlexTrip cannot contain gaps in from/to destination pairs
+        IE26:
+          type: string
+          description: exclude_carriers, alliance and permitted_carriers are mutually exclusive - please choose one
+        IE27:
+          type: string
+          description: num_results should be an integer between 50 and 5000
+        IE28:
+          type: string
+          description: refundable parameter must be a boolean value true or false
+        IE29:
+          type: string
+          description: Invalid traveller type in list, should be one of ADT, CHD, MIL, INF
+        IE30:
+          type: string
+          description: User not been mapped to any LCC
+        IE31:
+          type: string
+          description: No LCC token associated with user
+        IE32:
+          type: string
+          description: include_itineraries must be a boolean value (true or false)
+        IE33:
+          type: string
+          description: stops must be one of “any”, “direct”, “1”, “2”
+        IE34:
+          type: string
+          description: no_overnight_layovers must be a boolean value (true or false)
+        IE35:
+          type: string
+          description: baggage must be one of “any”, “1”, “2”
+        IE39:
+          type: string
+          description: 'Provider missing, expected one of "1V, 1G, 1P, 1A, 1S"
+
+            '
+    BasicItineraryInfo:
+      type: object
+      properties:
+        weight:
+          type: float
+          description: Weight of the segment (time-value considered).
+          example: 239
+        price:
+          type: float
+          description: Price of the segment (fare and tax included).
+          example: 197.1
+        base_price:
+          type: float
+          description: Base price of the segment (tax excluded)
+          example: 0
+        taxes:
+          type: float
+          description: Tax price of the segment
+          example: 119.1
+        fees:
+          type: float
+          description: Fees for the segment *Travelport customers only*
+          example: 0
+        latest_ticketing_date:
+          type: date
+          description: Latest ticketing time
+          example: '2019-05-07'
+        refundable:
+          type: boolean
+          description: Refundable tickets
+          example: false
+        e_ticketability:
+          type: boolean
+          example: true
+        transp_time:
+          type: integer
+          description: Total transportation time for the itinerary
+          example: 425
+        flight_numbers:
+          type: array
+          description: Array of flight numbers included in this itinerary
+          example:
+          - AC226
+          - AC850
+          - AC8811
+          - UA2278
+          - UA986
+        structure:
+          type: Array of ints and/or Array of arrays
+          description: "\"Array representing the structure of the trip in terms of one-ways and open-jaw segments. \nFor example: [[0, 1], [3, 4], 2] means there would be three segments. One openjaw with key “01”, \none with key “34” and a one-way with key ‘2”.\"\nSee Price Confirm Report segment_ids field for more detail.\n"
+          example:
+          - - 0
+            - 1
+          - 2
+    ItineraryFlexTripSearchResponse:
+      title: Itinerary FlexTrip Search Response
       type: object
       properties:
         flex_trip:
-          $ref: '#/components/schemas/SegmentSearchResponse'
-    SegmentInfo:
+          $ref: '#/components/schemas/ItinerarySearchResponse'
+    ItineraryFSSearchResponse:
+      title: include_itineraries = true and route_flexible = false
+      type: object
+      properties:
+        fare_structure:
+          $ref: '#/components/schemas/ItinerarySearchResponse'
+    Segments:
       allOf:
-      - $ref: '#/components/schemas/BasicSegmentInfo'
+      - $ref: '#/components/schemas/FareStructureResponse/properties/FareStructure/properties'
       - type: object
+        description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
         properties:
+          additional_details:
+            type: object
+            description: Additional details *in development for Travelport customers*
+          baggage:
+            type: object
+            description: Contains baggage information.
+            properties:
+              number_of_pieces:
+                type: integer
+                description: Number of bags allowed.
+                example: 0
+          weight:
+            type: float
+            description: Weight of the segment (time-value considered).
+            example: 96.9
+          price:
+            type: float
+            description: Price of the segment (fare and tax included).
+            example: 89.4
+          base_price:
+            type: float
+            description: Base price of the segment (tax excluded)
+            example: 55.0
+          taxes:
+            type: float
+            description: Tax price of the segment
+            example: 34.4
+          fees:
+            type: float
+            description: Fees for the segment *Travelport customers only*
+            example: 0
+          cabin_class:
+            type: string
+            description: Cabin class for the entire segment *Travelport customers only*
+            example: Economy
+          fare_basis_code:
+            type: string
+            description: Fare Basis Code for the segment.
+            example: QUSDSI0E
+          fare_rule_key:
+            type: string
+            description: Fare rule key for the segment
+            example: gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
+          fare_info_ref:
+            type: string
+            description: Fare Info reference for this segment
+            example: 3RxQ6ylJ0BKAhQAbnbAAAA==
+          private_fare:
+            type: boolean
+            description: True if segment is a private fare, otherwise False *Travelport customers only*
+            example: false
+          segment_id:
+            type: string
+            description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
+            example: b546cdcc82c872b7a5b1e54cc69a7b28ac6aeee2
+          transp_time:
+            type: float
+            description: Transportation time for the segment
+            example: 75
           segment_source:
             type: string
             description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
-            example: travelport
-    ItineraryFsSerachResposneWithFlexTrip:
-      title: include_itineraries = true and route_flexible = true
+          price_breakdown_with_passenger_type_code:
+            $ref: '#/components/schemas/PriceBreakdownWithPassengerTypeCode'
+          Group0:
+            type: object
+            description: One-way segment or first part of open-jaw segment
+            properties:
+              segment_origin_full:
+                type: string
+                description: Origin of the segment.
+                example: London, United Kingdom
+              segment_destination_full:
+                type: string
+                description: Destination of the segment.
+                example: Paris, France
+              key:
+                type: string
+                description: Segment_id for the group
+                example: 14c9e2e5c95a5bf0f9f7712de24348e6aba88c32
+              segment_details:
+                type: object
+                description: Contains information about the segment legs, and total travel time
+                properties:
+                  segment_time_w_connections:
+                    type: float
+                    description: segment travel time accounting for time between flights
+                    example: 75.0
+                  leg_details:
+                    $ref: '#/components/schemas/LegDetails'
+          Group1:
+            type: object
+            description: 'Second part of open-jaw segment
+
+              '
+            properties:
+              segment_origin_full:
+                type: string
+                description: Origin of the segment.
+                example: Paris, France
+              segment_destination_full:
+                type: string
+                description: Destination of the segment.
+                example: Montreal, Canada
+              key:
+                type: string
+                description: Segment_id for the group
+                example: 14c9e2e5c95a5bf0f9f7712de24348e6aba88c32
+              segment_details:
+                type: object
+                description: Contains information about the segment legs, and total travel time
+                properties:
+                  segment_time_w_connections:
+                    type: float
+                    description: segment travel time accounting for time between flights
+                    example: 1730.0
+                  leg_details:
+                    $ref: '#/components/schemas/LegDetails'
+    CredentialInfo:
       type: object
+      description: Indicate data source to call and required credentials
       properties:
-        fare_structure:
-          $ref: '#/components/schemas/ItineraryFSSearchResponse'
-        flex_trip:
-          $ref: '#/components/schemas/ItineraryFlexTripSearchResponse'
-    TripOptions:
-      title: Trip Options
-      type: array
-      items:
-        $ref: '#/components/schemas/SegmentOptions'
-    Itineraries:
-      allOf:
-      - $ref: '#/components/schemas/FareStructureResponse/properties/FareStructure/properties'
-      - type: array
-        description: Array of itineraries sorted by weight.
-        items:
-          $ref: '#/components/schemas/ItineraryInfo'
-    SegmentFSSearchResponse:
-      title: include_itineraries = false and route_flexible = false
-      type: object
-      properties:
-        fare_structure:
-          $ref: '#/components/schemas/SegmentSearchResponse'
-    ItineraryInfo:
-      allOf:
-      - $ref: '#/components/schemas/BasicItineraryInfo'
-      - type: object
-        properties:
-          segments:
-            type: array
-            description: List of segments in the itinerary
-            items:
-              $ref: '#/components/schemas/SegmentInfo'
-    ItinerarySearchResponse:
-      title: Search Response
-      type: object
-      properties:
-        path_sequence:
-          type: array
-          description: An array of IATA codes representing the chronological order of your trip.
-          example:
-          - LON-CDG
-          - CDG-YUL
-          - YUL-LON
-        currency:
+        data_source:
+          description: data source to call.
+          required: true
           type: string
-          description: Currency
+          enum:
+          - amadeus
+          - travelport
+          - tripstack
+          - mystifly
+          example: amadeus
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
+          required: true
+          type: string
+          example: MEL49f839
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          required: true
+          type: string
+          example: 1A
+        region:
+          description: Parameter toggles which travelport regional service endpoint you hit *Travelport Only*
+          required: false
+          type: string
+          enum:
+          - emea
+          - apac
+          - americas
+          - edge
+          default: americas
+          example: americas
+        pcc_currency:
+          description: Indicates the currency that the PCC is charged in.
+          required: false
+          type: string
           example: CAD
-        itineraries:
-          $ref: '#/components/schemas/FSSearchItineraries'
-        ErrorDetails:
-          $ref: '#/components/schemas/ErrorDetails'
-        trip_id:
-          type: string
-          example: a2cf0bdf2ecca12f8dbbc139af58c99a561f21a1
-          description: A unique key used for identification and when booking a trip.
-        tn_net_fare_markup:
+        conversion_rate:
+          description: The conversion rate that was used to convert from the pcc_currency to the searched currency. In order to convery back to the pcc currency simply use price * (1 / conversion_rate).
+          required: true
           type: float
-          description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
-          example: 25.0
+          example: 0.78
+    FareStructureResponse:
+      title: Response
+      type: object
+      properties:
+        trip:
+          type: object
+          description: Contains the JSON object provided as the request
+          example:
+            endpoint: Prod
+            num_results: 50
+            cabin_class: E
+            exclude_carriers: []
+            refundable: false
+            currency: USD
+            time_value: 0
+            max_cache: 24
+            travellers:
+            - ADT
+            - ADT
+            - CHD
+            provider: 1V
+            alliance: ''
+            alpha: 0.1
+            schema: 40
+            PCC: 2G3C
+        FareStructure:
+          type: object
+          description: Contains the JSON object of the response.
+          properties:
+            total_cost:
+              type: float
+              description: Total cost of cheapest segments recommended, in currency specified.
+              example: 693.6
+            tn_net_fare_markup:
+              type: float
+              description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
+              example: 25.0
+            structure:
+              type: Array of ints and/or Array of arrays
+              description: "\"Array representing the structure of the trip in terms of one-ways and open-jaw segments. \nFor example: [[0, 1], [3, 4], 2] means there would be three segments. One openjaw with key “01”, \none with key “34” and a one-way with key ‘2”.\"\nSee Price Confirm Report segment_ids field for more detail.\n"
+              example:
+              - - 0
+                - 1
+              - 2
+            ErrorDetails:
+              $ref: '#/components/schemas/ErrorDetails'
+            path_sequence:
+              type: array
+              description: An array of IATA codes representing the chronological order of your trip.
+              example:
+              - LON-CDG
+              - CDG-YUL
+              - YUL-LON
+            trip_id:
+              type: string
+              example: a2cf0bdf2ecca12f8dbbc139af58c99a561f21a1
+              description: A unique key used for identification and when booking a trip.
+            total_transportation_minutes:
+              type: integer
+              description: Total transportation minutes for recommended cheapest segments.
+            itineraries:
+              $ref: '#/components/schemas/Itineraries'
+            segments:
+              $ref: '#/components/schemas/Segments'
+            flight_details:
+              $ref: '#/components/schemas/FlightDetails'
     FlightSearchRequest:
       title: Request
       type: object
@@ -1001,836 +1709,6 @@ components:
             Requires a 3+ flight search.'
           default: false
           type: boolean
-    FlightDetails:
-      title: Flight Details
-      type: array
-      items:
-        type: object
-        properties:
-          origin:
-            type: string
-            description: IATA code of the segment origin
-            example: LHR
-          origin_name:
-            type: string
-            description: Full name of the flight origin
-            example: London, United Kingdom (LHR)
-          destination:
-            type: string
-            description: IATA code of the segment destination
-            example: CDG
-          destination_name:
-            type: string
-            description: Full name of the flight destination
-            example: Paris, France (CDG)
-          departure_time:
-            type: string
-            format: date-time
-            description: Departure date and time with timezone.
-            example: '2020-12-05T20:50:00-05:00'
-          arrival_time:
-            format: date-time
-            description: Arrival date and time with timezone.
-            example: '2020-12-06T09:10:00+00:00'
-          flight_number:
-            type: string
-            description: Flight number.
-            example: '530'
-          carrier:
-            type: string
-            minLength: 2
-            maxLength: 2
-            description: Airline carrier of the flight.
-            example: AC
-          flight_time:
-            type: integer
-            description: Flight duration in minutes
-            example: 475
-          carrier_fullname:
-            type: string
-            description: Full name of the carrier
-            example: Air Canada
-          reference:
-            type: string
-            description: reference to flight in flight_details list.
-            example: 83810422f17f30a4c7a366af5a12d9d05c86c04d
-          aircraft_type:
-            type: string
-            description: IATA type code for aircraft model.
-            example: 7M8
-          fare_info_ref:
-            type: string
-            description: Flight identifier required to make a travelport fare rule request. *Travelport Only*
-            example: WPADWJK0nDKATShj2JAAAA==
-          fare_rule_key:
-            type: string
-            description: Key corresponding to above fare_info_ref also required to make a travelport fare rule request. *Travelport Only*
-            example: gws-eJxNT0EKAjEMfMwy96SNxd5auqig7GFZlO7B/z/DaVR00oQOMxnaUkqQEOQosfxjwnOqDa3OwILA7pcdJkkESrZACFwf6ba37QwPyZpc+pWiu5FWPxx9CAOf2e8rBYvpbVBMiFZjVfIRYWK+Dmd13jxpqJrzN/y08g2EJ4odeOUPXvRTL2E=
-          departure_timestamp:
-            type: number
-            description: Departure date and time in Unix timestamp form.
-            example: 1687271700
-          arrival_timestamp:
-            type: number
-            description: Arrival date and time in Unix timestamp form.
-            example: 1687281000
-          cancellation_probability:
-            type:
-            - float
-            - 'null'
-            description: The probability percentage that this flight will be cancelled (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-            example: 7.86
-          average_delay_time:
-            type:
-            - string
-            - 'null'
-            description: The average delay time of this flight in minutes. A negative value indicates an average early arrival time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-            example: -5
-          self_transfer_time:
-            type:
-            - string
-            - 'null'
-            description: The self transfer time in minutes between this flights arrival time and the next segments departure time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-            example: 134
-          is_international:
-            type:
-            - boolean
-            - 'null'
-            description: Indicates whether this flight is international. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-            example: true
-    SegmentSearchResponse:
-      title: Search Response
-      type: object
-      properties:
-        currency:
-          type: string
-          description: Currency
-          example: CAD
-        markup:
-          type: float
-          description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
-          example: 25.0
-        path_sequence:
-          type: array
-          description: An array of IATA codes representing the chronological order of your trip.
-          example:
-          - LON-CDG
-          - CDG-YUL
-          - YUL-LON
-        trip_id:
-          type: string
-          example: a2cf0bdf2ecca12f8dbbc139af58c99a561f21a1
-          description: A unique key used for identification and when booking a trip.
-        segments:
-          $ref: '#/components/schemas/TripOptions'
-        flight_details:
-          $ref: '#/components/schemas/FlightDetails'
-    LegDetails:
-      title: Leg Details
-      type: array
-      description: A list of legs for this segment
-      items:
-        type: object
-        properties:
-          OriginName:
-            type: string
-            description: Full name of the flight origin
-            example: London, United Kingdom (LHR)
-          Origin:
-            type: string
-            description: IATA code of the leg origin
-            example: LHR
-          DestinationName:
-            type: string
-            description: Full name of the leg destination
-            example: Paris, France (CDG)
-          Destination:
-            type: string
-            description: IATA code of the leg destination
-            example: CDG
-          DepartureTime:
-            type: string
-            description: Departure time of the leg
-            example: '2019-04-05T13:25:00.000+01:00'
-          DepartureTimestamp:
-            type: number
-            description: Departure timestamp of the leg
-            example: 1692138300
-          ArrivalTime:
-            type: string
-            description: Arrival time of the leg
-            example: '2019-04-05T15:40:00.000+02:00'
-          ArrivalTimestamp:
-            type: number
-            description: Arrival timestamp of the leg
-            example: 1692160260
-          FlightNumber:
-            type: string
-            description: Leg's flight number
-            example: '111'
-          Carrier:
-            type: string
-            description: Leg's carrier code
-            example: BA
-          CarrierFullName:
-            type: string
-            description: Leg's operating carrier name
-            example: British Airlines
-          FlightTime:
-            type: integer
-            description: Flight duration in minutes
-            example: 75
-          AircraftType:
-            type: string
-            description: IATA type code for aircraft model.
-            example: 7M8
-          Key:
-            type: string
-            description: Leg’s string identifier
-            example: oHzo6pBAAA/B1d6hPLAAAA==
-          BookingCode:
-            type: string
-            description: The airline booking code that describes the flight cabin class
-            example: X
-          cabin_class:
-            type: string
-            description: Leg’s cabin class *Travelport customers only*
-            example: Economy
-          fare_info_ref:
-            type: string
-            description: Flight identifer required to make a travelport fare rule request. *Travelport Only*
-            example: WPADWJK0nDKATShj2JAAAA==
-          fare_rule_key:
-            type: string
-            description: Key corresponding to above fare_info_ref also required to make a travelport fare rule request. *Travelport Only*
-            example: gws-eJxNT0EKAjEMfMwy96SNxd5auqig7GFZlO7B/z/DaVR00oQOMxnaUkqQEOQosfxjwnOqDa3OwILA7pcdJkkESrZACFwf6ba37QwPyZpc+pWiu5FWPxx9CAOf2e8rBYvpbVBMiFZjVfIRYWK+Dmd13jxpqJrzN/y08g2EJ4odeOUPXvRTL2E=
-          fare_type:
-            type: string
-            description: Leg's fare type
-            example: PublicFare
-    BasicItineraryInfo:
-      type: object
-      properties:
-        weight:
-          type: float
-          description: Weight of the segment (time-value considered).
-          example: 239
-        price:
-          type: float
-          description: Price of the segment (fare and tax included).
-          example: 197.1
-        base_price:
-          type: float
-          description: Base price of the segment (tax excluded)
-          example: 0
-        taxes:
-          type: float
-          description: Tax price of the segment
-          example: 119.1
-        fees:
-          type: float
-          description: Fees for the segment *Travelport customers only*
-          example: 0
-        latest_ticketing_date:
-          type: date
-          description: Latest ticketing time
-          example: '2019-05-07'
-        refundable:
-          type: boolean
-          description: Refundable tickets
-          example: false
-        e_ticketability:
-          type: boolean
-          example: true
-        transp_time:
-          type: integer
-          description: Total transportation time for the itinerary
-          example: 425
-        flight_numbers:
-          type: array
-          description: Array of flight numbers included in this itinerary
-          example:
-          - AC226
-          - AC850
-          - AC8811
-          - UA2278
-          - UA986
-        structure:
-          type: Array of ints and/or Array of arrays
-          description: "\"Array representing the structure of the trip in terms of one-ways and open-jaw segments. \nFor example: [[0, 1], [3, 4], 2] means there would be three segments. One openjaw with key “01”, \none with key “34” and a one-way with key ‘2”.\"\nSee Price Confirm Report segment_ids field for more detail.\n"
-          example:
-          - - 0
-            - 1
-          - 2
-    ItineraryFSSearchResponse:
-      title: include_itineraries = true and route_flexible = false
-      type: object
-      properties:
-        fare_structure:
-          $ref: '#/components/schemas/ItinerarySearchResponse'
-    BasicSegmentInfo:
-      type: object
-      properties:
-        segment_id:
-          type: string
-          description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-          example: 344d73be0d61f820aa9a6ace300742fed0672f2e
-        segment_source:
-          type: string
-          description: Data source that returned the segment.
-          example: travelport
-        segment_origin_full:
-          type: string
-          description: Origin of the segment.
-          example: London, United Kingdom (LHR)
-        segment_destination_full:
-          type: string
-          description: Destination of the segment.
-          example: Berlin, Germany (TXL)
-        travel_mode:
-          type: string
-          description: Mode of travel (air, ground, etc.)
-          example: air
-        weight:
-          type: string
-          description: Weight of the segment (time-value considered).
-          example: 96
-        price:
-          type: float
-          description: Price of the segment (fare and tax included)
-          example: 72.3
-        cancel_penalty:
-          type: object
-          description: Information about cancellation
-          properties:
-            amount:
-              type: float
-              description: Cancellation penalty amount (Optional)
-              example: 0
-            percentage:
-              type: float
-              description: Cancellation penalty percentage (Optional)
-              example: 100
-        change_penalty:
-          type: object
-          description: Information about changing.
-          properties:
-            amount:
-              type: float
-              description: Change penalty amount (Optional)
-              example: 78
-            percentage:
-              type: float
-              description: Change penalty percentage (Optional)
-              example: 0
-        flight_type:
-          type: string
-          description: “open_jaw” or “one_way”
-          example: open_jaw
-        brands:
-          type: string
-          description: Brands returned
-          example: null
-        price_breakdown_with_passenger_type_code:
-          $ref: '#/components/schemas/PriceBreakdownWithPassengerTypeCode'
-        legs:
-          $ref: '#/components/schemas/LegDetails'
-        baggage:
-          type: object
-          description: Contains baggage information.
-          properties:
-            number_of_pieces:
-              type: integer
-              description: Number of bags allowed.
-              example: 0
-        fare_basis_code:
-          type: string
-          description: Fare Basis Code for the segment.
-          example: QUSDSI0E
-        fare_rule_key:
-          type: string
-          description: Fare rule key for the segment
-          example: gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
-        fare_info_ref:
-          type: string
-          description: Fare Info reference for this segment
-          example: 3RxQ6ylJ0BKAhQAbnbAAAA==
-        private_fare:
-          type: boolean
-          description: True if segment is a private fare, otherwise False *Travelport customers only*
-          example: false
-        private_type:
-          type: string
-          description: Private type
-          example: null
-        plating_carrier:
-          type: string
-          description: Plating carrier of segment
-          example: AC
-        intermediate_stops:
-          type: string
-          description: Intermediate stops in the segment
-          example: null
-        itinerary_type:
-          type: string
-          description: Type of itinerary
-          example: ONE_WAY
-        segment_position:
-          type: number
-          description: Position of segment in response
-          example: 0
-        virtual_interline:
-          type: boolean
-          description: 'true if option is a vi solution
-
-            '
-          example: true
-        vi_solution_id:
-          type:
-          - string
-          - 'null'
-          description: "ID mapping VI parts of the option together. Helps finding VI solutions located in same segment position. \nWill be composed of each segment's segment_id joined together with two underscores. For oneway VI this \nwill be two segments, for openjaw VI will be 4 segments. \n"
-          example: fc906f39e5151f1bc5ef788b85f3d280770b5b7c__b9ebd56ff7bf07a65a3e4dc70e9551e4ae50f1da
-        risk_profile:
-          type:
-          - float
-          - 'null'
-          description: The probability of missing the connection and not performing the self-transfer during the VI self-connection (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-          example: 8.42
-        cancellation_probability:
-          type:
-          - float
-          - 'null'
-          description: The probability percentage that this flight will be cancelled (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-          example: 7.86
-        average_delay_time:
-          type:
-          - string
-          - 'null'
-          description: The average delay time of this flight in minutes. A negative value indicates an average early arrival time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-          example: -5
-        self_transfer_time:
-          type:
-          - string
-          - 'null'
-          description: The self transfer time in minutes between this flights arrival time and the next segments departure time. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-          example: 134
-        is_international:
-          type:
-          - boolean
-          - 'null'
-          description: Indicates whether this flight is international. (only returned if you have our average delay time module enabled, and only for VI segments with a self transfer)
-          example: true
-        itinerary_index:
-          type:
-          - int
-          - 'null'
-          description: 'Position of the virtual interlining option in itinerary(PNR). Starts from 0
-
-            '
-          example: 0
-        vi_position:
-          type:
-          - integer
-          - 'null'
-          description: "Position of the virtual interlining option in the VI itinerary. Starts from 0. For OneWay VI will be either of [0, 1]. \nFor OpenJaw VI will be one of [0, 1, 2, 3]\n"
-          example: 1
-        itinerary_structure:
-          type: String
-          description: "String Array representing the structure of the trip in terms of one-ways and open-jaw segments. \nFor example: [[0, 1], [3, 4], 2] means there would be three segments. One openjaw with key “01”, \none with key “34” and a one-way with key “2”.\nSee Price Confirm Report segment_ids field for more detail.\n"
-          example: '[[0, 1], 2]'
-        vi_pattern:
-          type: String
-          description: 'OpenJaw VI only: String Array representing the structue of the OpenJaw VI solution that was found.'
-          example: '[[0, 3], 1, 2]'
-        vi_segment_base_price:
-          type:
-          - float
-          - 'null'
-          description: The base price of the VI PNR not including taxes and fees.
-          example: 106.4
-        vi_segment_taxes:
-          type:
-          - float
-          - 'null'
-          description: The taxes associated with this VI PNR.
-          example: 24.12
-        vi_segment_fees:
-          type:
-          - float
-          - 'null'
-          description: The fees associated with this individual VI PNR.
-          example: 14.56
-    ItineraryFlexTripSearchResponse:
-      title: Itinerary FlexTrip Search Response
-      type: object
-      properties:
-        flex_trip:
-          $ref: '#/components/schemas/ItinerarySearchResponse'
-    FSSearchItineraries:
-      allOf:
-      - $ref: '#/components/schemas/FareStructureResponse/properties/FareStructure/properties'
-      - type: array
-        description: Array of itineraries sorted by weight.
-        items:
-          $ref: '#/components/schemas/ItineraryInfo'
-    ErrorDetails:
-      description: When an error occurs, there will be a list of error codes detailing the issue(s). For more information regarding the errors refer to the error codes section.
-      type: object
-      properties:
-        IE01:
-          type: string
-          description: Need minimum 2 destinations
-        IE02:
-          type: string
-          description: Duplicate city in list
-        IE03:
-          type: string
-          description: Home city in cities list
-        IE04:
-          type: string
-          description: There are non-compliant IATA codes in your city list
-        IE05:
-          type: string
-          description: Multiple lockfirst found
-        IE06:
-          type: string
-          description: Multiple locklast found
-        IE07:
-          type: string
-          description: Incorrect item provided for "locked" (must be “Lock Last”, Lock First” or “None”)
-        IE08:
-          type: string
-          description: Zero nights found for some city/cities
-        IE09:
-          type: string
-          description: Can't run any queries for flight dates in the past
-        IE10:
-          type: string
-          description: Incorrect city_type value - expected one of ‘C’ or ‘A’
-        IE11:
-          type: string
-          description: General Input Error (FlexTrip)
-        IE13:
-          type: string
-          description: 'Check the id''s on your flights - should be in order starting from 1. For example: 1,2,3,4'
-        IE14:
-          type: string
-          description: Make sure your departure_dates are in order
-        IE15:
-          type: string
-          description: Each flight in flights must contain ‘to_city’, ‘from_city’ - to_city and from_city must be in the format of 3 character IATA code
-        IE16:
-          type: string
-          description: Please provide a PCC
-        IE17:
-          type: string
-          description: Invalid Carrier
-        IE18:
-          type: string
-          description: Time Value (Original Alpha) outside of expected range [$0,$200]/hr
-        IE19:
-          type: string
-          description: Incorrect region - expected one of ‘emea’, ’apac’, ’americas’, ’edge’
-        IE20:
-          type: string
-          description: Incorrect provider - expected one of '1V','1G','1P','1A'
-        IE21:
-          type: string
-          description: No currency input or currency input not 3 characters long (must be in the format USD, AUD, CAD, etc)
-        IE22:
-          type: string
-          description: Not a valid cabin option - expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'
-        IE23:
-          type: string
-          description: Not a valid alliance - expected one of *A, *S, *O
-        IE24:
-          type: string
-          description: Too many or too few travellers found (must be 1 to 10) - or not a valid type for travellers, must be int or list
-        IE25:
-          type: string
-          description: FlexTrip cannot contain gaps in from/to destination pairs
-        IE26:
-          type: string
-          description: exclude_carriers, alliance and permitted_carriers are mutually exclusive - please choose one
-        IE27:
-          type: string
-          description: num_results should be an integer between 50 and 5000
-        IE28:
-          type: string
-          description: refundable parameter must be a boolean value true or false
-        IE29:
-          type: string
-          description: Invalid traveller type in list, should be one of ADT, CHD, MIL, INF
-        IE30:
-          type: string
-          description: User not been mapped to any LCC
-        IE31:
-          type: string
-          description: No LCC token associated with user
-        IE32:
-          type: string
-          description: include_itineraries must be a boolean value (true or false)
-        IE33:
-          type: string
-          description: stops must be one of “any”, “direct”, “1”, “2”
-        IE34:
-          type: string
-          description: no_overnight_layovers must be a boolean value (true or false)
-        IE35:
-          type: string
-          description: baggage must be one of “any”, “1”, “2”
-        IE39:
-          type: string
-          description: 'Provider missing, expected one of "1V, 1G, 1P, 1A, 1S"
-
-            '
-    Segments:
-      allOf:
-      - $ref: '#/components/schemas/FareStructureResponse/properties/FareStructure/properties'
-      - type: object
-        description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
-        properties:
-          additional_details:
-            type: object
-            description: Additional details *in development for Travelport customers*
-          baggage:
-            type: object
-            description: Contains baggage information.
-            properties:
-              number_of_pieces:
-                type: integer
-                description: Number of bags allowed.
-                example: 0
-          weight:
-            type: float
-            description: Weight of the segment (time-value considered).
-            example: 96.9
-          price:
-            type: float
-            description: Price of the segment (fare and tax included).
-            example: 89.4
-          base_price:
-            type: float
-            description: Base price of the segment (tax excluded)
-            example: 55.0
-          taxes:
-            type: float
-            description: Tax price of the segment
-            example: 34.4
-          fees:
-            type: float
-            description: Fees for the segment *Travelport customers only*
-            example: 0
-          cabin_class:
-            type: string
-            description: Cabin class for the entire segment *Travelport customers only*
-            example: Economy
-          fare_basis_code:
-            type: string
-            description: Fare Basis Code for the segment.
-            example: QUSDSI0E
-          fare_rule_key:
-            type: string
-            description: Fare rule key for the segment
-            example: gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
-          fare_info_ref:
-            type: string
-            description: Fare Info reference for this segment
-            example: 3RxQ6ylJ0BKAhQAbnbAAAA==
-          private_fare:
-            type: boolean
-            description: True if segment is a private fare, otherwise False *Travelport customers only*
-            example: false
-          segment_id:
-            type: string
-            description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-            example: b546cdcc82c872b7a5b1e54cc69a7b28ac6aeee2
-          transp_time:
-            type: float
-            description: Transportation time for the segment
-            example: 75
-          segment_source:
-            type: string
-            description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
-          price_breakdown_with_passenger_type_code:
-            $ref: '#/components/schemas/PriceBreakdownWithPassengerTypeCode'
-          Group0:
-            type: object
-            description: One-way segment or first part of open-jaw segment
-            properties:
-              segment_origin_full:
-                type: string
-                description: Origin of the segment.
-                example: London, United Kingdom
-              segment_destination_full:
-                type: string
-                description: Destination of the segment.
-                example: Paris, France
-              key:
-                type: string
-                description: Segment_id for the group
-                example: 14c9e2e5c95a5bf0f9f7712de24348e6aba88c32
-              segment_details:
-                type: object
-                description: Contains information about the segment legs, and total travel time
-                properties:
-                  segment_time_w_connections:
-                    type: float
-                    description: segment travel time accounting for time between flights
-                    example: 75.0
-                  leg_details:
-                    $ref: '#/components/schemas/LegDetails'
-          Group1:
-            type: object
-            description: 'Second part of open-jaw segment
-
-              '
-            properties:
-              segment_origin_full:
-                type: string
-                description: Origin of the segment.
-                example: Paris, France
-              segment_destination_full:
-                type: string
-                description: Destination of the segment.
-                example: Montreal, Canada
-              key:
-                type: string
-                description: Segment_id for the group
-                example: 14c9e2e5c95a5bf0f9f7712de24348e6aba88c32
-              segment_details:
-                type: object
-                description: Contains information about the segment legs, and total travel time
-                properties:
-                  segment_time_w_connections:
-                    type: float
-                    description: segment travel time accounting for time between flights
-                    example: 1730.0
-                  leg_details:
-                    $ref: '#/components/schemas/LegDetails'
-    HotelSearchRequest:
-      required:
-      - check_in_date
-      - check_out_date
-      - hotel_itinerary_reference
-      - credential_info
-      - traveller_total
-      - rooms_total
-      - hotel_location
-      - currency
-      properties:
-        super_trip_id:
-          type: string
-          example: bdf876sf6sfsdf87sdf
-          description: id of the super trip, may not be present in the initial search.
-        hotel_location:
-          type: object
-          description: location (city, airport, or reference point) to search for hotels in.
-          required:
-          - type
-          - IATA
-          properties:
-            type:
-              type: string
-              description: Defines whether it's a city ('C'), airport ('A'), or reference point ('R')
-              example: R
-            IATA:
-              type: string
-              description: The IATA code for the city/airport, or nearest IATA for the reference point
-              example: PAR
-            name:
-              type: string
-              description: The IATA code for the city/airport, or nearest IATA for the reference point. Required for reference point.
-              example: Eiffel Tower
-            region:
-              type: string
-              description: The state/province for the reference point. Only required for reference point if there are multiple reference points with same name in the same country.
-              example: NS
-            country:
-              type: string
-              description: The 2-letter country code for the reference point. Required for reference point.
-              example: FR
-            country_name:
-              type: string
-              description: The full name of the country.
-              example: France
-            city_name:
-              type: string
-              description: The full name of the city.
-              example: Paris
-        check_in_date:
-          type: string
-          format: date
-          description: 'Date of check-in. format: YYYY-MM-DD.'
-        check_out_date:
-          type: string
-          format: date
-          description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
-        currency:
-          type: string
-          example: CAD
-          description: Currency to make the search in.
-        traveller_total:
-          type: int
-          example: 3
-          description: Number of people that will be staying at the hotel.
-        rooms_total:
-          type: int
-          example: 2
-          description: The number of rooms required for the above travellers.
-        rooms:
-          type: array
-          example:
-          - num_adults: 2
-            num_children: 3
-            nationality: CO
-            country_of_residence: CA
-            children_age_list:
-            - 1
-            - 5
-            - 8
-          - num_adults: 1
-            num_children: 0
-          description: List of guest info per room required to make WebBeds hotel search requests. *WebBeds Only*
-          items:
-            $ref: '#/components/schemas/webbeds_room_obj'
-        credential_info:
-          $ref: '#/components/schemas/credential_info'
-        next_result_reference:
-          type: array
-          description: The reference object with the reference and the provider map.
-          items:
-            type: object
-            properties:
-              reference:
-                description: The reference for the GDS to make the next search.
-                example: GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==
-                type: string
-              provider:
-                description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-                type: string
-                example: 1V
-        hotel_itinerary_reference:
-          type: string
-          example: '1'
-          description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
-        endpoint:
-          type: string
-          example: preprod
-          description: The endpoint for this search.
-        webbeds_country_code:
-          type: string
-          example: null
-          description: The country code used by WebBeds (WebBeds only).
-        webbeds_city_code:
-          type: string
-          example: null
-          description: The city code used by WebBeds (WebBeds only).
-        load_geocode_data:
-          type: boolean
-          example: false
-          description: If true, load the geocode data.
     HotelSearchResponse:
       properties:
         hotel_trace_id:
@@ -2035,35 +1913,6 @@ components:
           - Fort Garry
         search_request:
           $ref: '#/components/schemas/HotelSearchRequest'
-    credential_info:
-      description: The credential info that will be used to make the request.
-      type: object
-      required:
-      - pcc
-      - provider
-      - data_source
-      properties:
-        pcc:
-          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
-          type: string
-          example: 2G3C
-        provider:
-          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-          type: string
-          example: 1V
-        data_source:
-          description: The datasource that is associated with the PCC.
-          type: string
-          enum:
-          - travelport
-          - travelport_student
-          - travelport_itx
-          - amadeus
-          - tripstack
-          - mystifly
-        queue:
-          type: number
-          example: 1
     webbeds_room_obj:
       description: The guest info required for WebBeds hotel search requests. *WebBeds only*
       type: object
@@ -2094,14 +1943,165 @@ components:
           - 5
           - 7
           - 11
-    FlightSearchRequest_2:
+    HotelSearchRequest:
+      required:
+      - check_in_date
+      - check_out_date
+      - hotel_itinerary_reference
+      - credential_info
+      - traveller_total
+      - rooms_total
+      - hotel_location
+      - currency
+      properties:
+        super_trip_id:
+          type: string
+          example: bdf876sf6sfsdf87sdf
+          description: id of the super trip, may not be present in the initial search.
+        hotel_location:
+          type: object
+          description: location (city, airport, or reference point) to search for hotels in.
+          required:
+          - type
+          - IATA
+          properties:
+            type:
+              type: string
+              description: Defines whether it's a city ('C'), airport ('A'), or reference point ('R')
+              example: R
+            IATA:
+              type: string
+              description: The IATA code for the city/airport, or nearest IATA for the reference point
+              example: PAR
+            name:
+              type: string
+              description: The IATA code for the city/airport, or nearest IATA for the reference point. Required for reference point.
+              example: Eiffel Tower
+            region:
+              type: string
+              description: The state/province for the reference point. Only required for reference point if there are multiple reference points with same name in the same country.
+              example: NS
+            country:
+              type: string
+              description: The 2-letter country code for the reference point. Required for reference point.
+              example: FR
+            country_name:
+              type: string
+              description: The full name of the country.
+              example: France
+            city_name:
+              type: string
+              description: The full name of the city.
+              example: Paris
+        check_in_date:
+          type: string
+          format: date
+          description: 'Date of check-in. format: YYYY-MM-DD.'
+        check_out_date:
+          type: string
+          format: date
+          description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
+        currency:
+          type: string
+          example: CAD
+          description: Currency to make the search in.
+        traveller_total:
+          type: int
+          example: 3
+          description: Number of people that will be staying at the hotel.
+        rooms_total:
+          type: int
+          example: 2
+          description: The number of rooms required for the above travellers.
+        rooms:
+          type: array
+          example:
+          - num_adults: 2
+            num_children: 3
+            nationality: CO
+            country_of_residence: CA
+            children_age_list:
+            - 1
+            - 5
+            - 8
+          - num_adults: 1
+            num_children: 0
+          description: List of guest info per room required to make WebBeds hotel search requests. *WebBeds Only*
+          items:
+            $ref: '#/components/schemas/webbeds_room_obj'
+        credential_info:
+          $ref: '#/components/schemas/credential_info'
+        next_result_reference:
+          type: array
+          description: The reference object with the reference and the provider map.
+          items:
+            type: object
+            properties:
+              reference:
+                description: The reference for the GDS to make the next search.
+                example: GvCe60ac0/ca8J7rRpzT99+A990Uzoz9uPnDvrR9vlPYyiAdwA/4TedEKvTDZyf87Yyw51a62Z0vr9lr1UD15D2BfyUpgIOXDnCDubYq+Qg9pzbZYLqUbA==
+                type: string
+              provider:
+                description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+                type: string
+                example: 1V
+        hotel_itinerary_reference:
+          type: string
+          example: '1'
+          description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
+        endpoint:
+          type: string
+          example: preprod
+          description: The endpoint for this search.
+        webbeds_country_code:
+          type: string
+          example: null
+          description: The country code used by WebBeds (WebBeds only).
+        webbeds_city_code:
+          type: string
+          example: null
+          description: The city code used by WebBeds (WebBeds only).
+        load_geocode_data:
+          type: boolean
+          example: false
+          description: If true, load the geocode data.
+    credential_info:
+      description: The credential info that will be used to make the request.
+      type: object
+      required:
+      - pcc
+      - provider
+      - data_source
+      properties:
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
+          type: string
+          example: 2G3C
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          type: string
+          example: 1V
+        data_source:
+          description: The datasource that is associated with the PCC.
+          type: string
+          enum:
+          - travelport
+          - travelport_student
+          - travelport_itx
+          - amadeus
+          - tripstack
+          - mystifly
+        queue:
+          type: number
+          example: 1
+    FlightSearchResponse:
       allOf:
       - $ref: tn_api_spec.yml#/components/schemas/FareStructureRequest
       properties:
         super_trip_id:
           type: string
           example: bdf876sf6sfsdf87sdf
-    FlightSearchResponse:
+    FlightSearchRequest_2:
       allOf:
       - $ref: tn_api_spec.yml#/components/schemas/FareStructureRequest
       properties:

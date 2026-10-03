@@ -273,21 +273,21 @@ paths:
       description: Sandbox server
 components:
   examples:
-    IE52ErrorCode:
-      summary: Trip ID Validation Error
-      value:
-        status: IE52
-        message: Trip ID not found
-    IE55ErrorCode:
-      summary: Reporting Data Validation Error
-      value:
-        status: IE55
-        message: One of pricing_solution_ids or itinerary_id is required.
     IE45ErrorCode:
       summary: customer_booking_reference_id Validation Error
       value:
         status: IE45
         message: '`customer_booking_reference_id` length is invalid (must be less than 255 characters)'
+    IE55ErrorCode:
+      summary: Reporting Data Validation Error
+      value:
+        status: IE55
+        message: One of pricing_solution_ids or itinerary_id is required.
+    IE52ErrorCode:
+      summary: Trip ID Validation Error
+      value:
+        status: IE52
+        message: Trip ID not found
     IE41ErrorCode:
       summary: Invalid Itinerary Status Validation Error
       value:

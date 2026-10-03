@@ -46,6 +46,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RefreshTokenRequest:
+      title: Request
+      type: object
+      required:
+      - access_token
+      - refresh_token
+      properties:
+        access_token:
+          type: string
+          description: 'Token used to authorize requests to protected API endpoints. (Send as Authorization: Token <code>access_token</code> to protected endpoints). Expires 90 days after <code>created_date</code>.'
+          example: 6774c6717cb93ba8dbfac19c142d043d2ca5a7e7
+        refresh_token:
+          type: string
+          description: Token used to obtain a new <code>access_token</code>. Has indefinite lifespan until regenerated. When used to generate new credentials (e.g., after the 90-day <code>access_token</code> expiration), a new <code>refresh_token</code> is also issued.
+          example: 9aecb3c4aa17cb35758a2446a5c957040c879684
     RefreshTokenResponse:
       title: Response
       type: object
@@ -74,18 +89,3 @@ components:
           type: boolean
           description: When <code>false</code>, indicates that the generated <code>access_token</code> and <code>refresh_token</code> are intended for SmartFlights only.
           example: false
-    RefreshTokenRequest:
-      title: Request
-      type: object
-      required:
-      - access_token
-      - refresh_token
-      properties:
-        access_token:
-          type: string
-          description: 'Token used to authorize requests to protected API endpoints. (Send as Authorization: Token <code>access_token</code> to protected endpoints). Expires 90 days after <code>created_date</code>.'
-          example: 6774c6717cb93ba8dbfac19c142d043d2ca5a7e7
-        refresh_token:
-          type: string
-          description: Token used to obtain a new <code>access_token</code>. Has indefinite lifespan until regenerated. When used to generate new credentials (e.g., after the 90-day <code>access_token</code> expiration), a new <code>refresh_token</code> is also issued.
-          example: 9aecb3c4aa17cb35758a2446a5c957040c879684

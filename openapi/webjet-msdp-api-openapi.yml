@@ -1451,428 +1451,10 @@ components:
             description: Indicates the currency that the PCC is charged in.
             type: string
             example: CAD
-    Responses:
-      ItineraryNoHotelResultsSearchResponse:
-        title: include_itineraries = true and should_include_hotel_results = false
+    MSDPHotelDetailErrorDetails:
+      MISSING_FIELDS:
         type: object
-        properties:
-          flight_results:
-            type: object
-            description: Consists of all the flight results
-            properties:
-              fare_structure:
-                $ref: '#/components/schemas/SearchComponents/Flight/ItineraryFareStructure'
-          hotel_results:
-            $ref: '#/components/schemas/SearchComponents/Hotel/NotShouldIncludeHotelResultsResponse'
-        allOf:
-        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
-        - type: object
-      ItineraryHotelResultsSearchResponse:
-        title: include_itineraries = true and should_include_hotel_results = true
-        type: object
-        properties:
-          flight_results:
-            type: object
-            description: Consists of all the flight results
-            properties:
-              fare_structure:
-                $ref: '#/components/schemas/SearchComponents/Flight/ItineraryFareStructure'
-          hotel_results:
-            $ref: '#/components/schemas/SearchComponents/Hotel/ShouldIncludeHotelResultsResponse'
-        allOf:
-        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
-        - type: object
-      SegmentNoHotelResultsSearchResponse:
-        title: include_itineraries = false and should_include_hotel_results = false
-        type: object
-        properties:
-          flight_results:
-            type: object
-            description: Consists of all the flight results
-            properties:
-              fare_structure:
-                $ref: '#/components/schemas/SearchComponents/Flight/SegmentFareStructure'
-          hotel_results:
-            $ref: '#/components/schemas/SearchComponents/Hotel/NotShouldIncludeHotelResultsResponse'
-        allOf:
-        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
-        - type: object
-      SegmentItineraryHotelResultsSearchResponse:
-        title: include_itineraries = false and should_include_hotel_results = true
-        type: object
-        properties:
-          flight_results:
-            type: object
-            description: Consists of all the flight results
-            properties:
-              fare_structure:
-                $ref: '#/components/schemas/SearchComponents/Flight/SegmentFareStructure'
-          hotel_results:
-            $ref: '#/components/schemas/SearchComponents/Hotel/ShouldIncludeHotelResultsResponse'
-        allOf:
-        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
-        - type: object
-      MSDPSearchResponse:
-        properties:
-          total_trip_price:
-            description: Total trip price with the cheapest flights and hotels combined
-            type: float
-            example: 123.23
-          msdp_package_id:
-            description: A unique identifier for each msdp search
-            type: string
-            example: d8af3a35dd77333f99510ad7373c98cf7fe502bf
-          msdp_search_details:
-            $ref: '#/components/schemas/Requests/MSDPSearchRequest'
-      MSDPGetFlightResultsItineraryResponse:
-        title: include_itineraries = true
-        description: Consists of all the flight results when include_itinerary=true
-        type: object
-        properties:
-          fare_structure:
-            $ref: '#/components/schemas/SearchComponents/Flight/ItineraryFareStructure'
-      MSDPGetFlightResultsSegmentResponse:
-        title: include_itineraries = false
-        description: Consists of all the flight results when include_itinerary=false
-        type: object
-        properties:
-          fare_structure:
-            $ref: '#/components/schemas/SearchComponents/Flight/SegmentFareStructure'
-      MSDPGetHotelDetailsResponse:
-        properties:
-          super_trip_id:
-            type: string
-            example: fb3d8eff432a329dc21fad8449c686fa93e5ce24
-            description: id of the super trip
-          hotel_trace_id:
-            type: string
-            example: 4f499298b303c55a1ee522118afce28abe2f68e4
-            description: An identifier to refer to the hotel for searching room availability
-          hotel_itinerary_reference:
-            type: string
-            example: '1'
-            description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
-          address:
-            type: object
-            description: The address of the hotel.
-            properties:
-              street_address:
-                type: string
-                description: The street address of the hotel. This is more details than the one returned at search.
-                example: 1583 Brunswick St, Halifax, NS B3J 3P5
-              longitude:
-                type: float
-                description: The longitude of the hotel.
-                example: 44.64511447836071
-              lattitude:
-                type: float
-                description: The lattitude of the hotel.
-                example: -63.575245615440565
-              distance_from_reference_point_km:
-                type: float
-                description: The distance that the hotel is from the reference submitted in the search.
-                example: 7.5
-              phone_number:
-                type: str
-                description: The contact phone number for the hotel.
-                example: +1 902-420-0555
-          location_iata:
-            type: string
-            description: The location of the hotel.
-            example: LON
-          hotel_name:
-            type: string
-            description: The name of the hotel.
-            example: Cambridge Suites Hotel Halifax
-          check_in_time:
-            type: string
-            description: The check in time for the hotel.
-            example: 3pm
-          check_out_time:
-            type: string
-            description: The check out time.
-            example: 10am
-          rooms:
-            type: array
-            description: The list of rooms available at the hotel.
-            items:
-              type: object
-              properties:
-                total_price:
-                  type: float
-                  description: The total price of the entire stay at the hotel for this room.
-                  example: 705.1
-                price_per_room_per_night:
-                  type: float
-                  description: The price of the room per night.
-                  example: 141.02
-                meals:
-                  type: object
-                  description: Indicates if meal is provided with the room.
-                  properties:
-                    breakfast:
-                      type: boolean
-                      description: Indicates if breakfast is provided with the room.
-                      example: true
-                    lunch:
-                      type: boolean
-                      description: Indicates if lunch is provided with the room.
-                      example: true
-                    dinner:
-                      type: boolean
-                      description: Indicates if dinner is provided with the room.
-                      example: true
-                bed_types:
-                  type: object
-                  description: An object where the key is the name of the room type and the value is the number of those beds in the room.
-                  example:
-                    Queen bed: 2
-                    King Single: 1
-                original_total_string:
-                  type: string
-                  description: The original total price as a string in the hotels currency is required for the rules request and is presented here.
-                  example: SGD172.00
-                room_name:
-                  type: string
-                  description: A name of the room.
-                  example: Room
-                guarantee:
-                  type: string
-                  description: The guarantee type for the room - needed for pricing.
-                  example: Guarantee
-                room_description:
-                  type: string
-                  description: A description of the room.
-                  example: Executive Suite Room
-                rate_descriotion:
-                  type: string
-                  description: A description of the rate.
-                  example: 2 Double Bed Non Smoking Featuring All The Modern-day Essentials Including A Flat Screen
-                refundable:
-                  type: boolean
-                  description: Explains whether the booking will be refundable.
-                  example: true
-                smoking:
-                  type: boolean
-                  description: Indicates whether you are allowed to smoke in the room.
-                  example: false
-                max_occupancy:
-                  type: int
-                  description: Indicates the max occupancy in the room.
-                  example: 1
-                cancel_deadline:
-                  type: string
-                  format: date
-                  description: 'Last date of cancel deadline to cancel hotel. format: YYYY-MM-DD.'
-                base_price:
-                  type: string
-                  description: The base price as a string in the hotels currency is required for the rules request and is presented here.
-                  example: SGD172.00
-                cancellation_policy:
-                  type: string
-                  description: The cancellation policy
-                  example: non-refundable rate cancellation permitted up to 1days before arrival
-                guarantee_policy:
-                  type: string
-                  description: The guarantee policy.
-                  example: ''
-                deposit:
-                  type: string
-                  description: The deposit requirements
-                  example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
-                room_rate_descriptions:
-                  type: object
-                  description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
-                  example:
-                    Rate description: Early check in and check out when available.
-                    Room rate: Maximum occupancy - 1
-                rule_descriptions:
-                  type: object
-                  description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
-                  example:
-                    Guarantee: Accept all guarantee methods
-                    Checkin Checkout: Check in time 15:00, check out time 11:00
-          hotel_description:
-            type: string
-            description: Description of the hotel.
-            example: PROPERTY DESCRIPTION Midscale Unspecified3 Welcome to Best Western Plus Hawthorne Terrace a oneofakind boutique hotel experience at the center of one of Chicagos most popular neighborhoods Lakeview East.
-          search_request:
-            description: parameters to search for this hotel
-            type: object
-            properties:
-              credential_info:
-                $ref: '#/components/schemas/SearchComponents/Credentials'
-              hotel_location:
-                $ref: '#/components/schemas/SearchComponents/Hotel/HotelLocation'
-              check_in_date:
-                type: string
-                format: date
-                description: 'Date of check-in. format: YYYY-MM-DD.'
-                example: '2023-06-20'
-              check_out_date:
-                type: string
-                format: date
-                description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
-                example: '2023-06-25'
-              next_result_reference:
-                $ref: '#/components/schemas/SearchComponents/Hotel/HotelNextResultReference'
-              hotel_itinerary_reference:
-                $ref: '#/components/schemas/SearchComponents/Hotel/HotelItineraryReference'
-              traveller_total:
-                description: Number of people that will be staying at the hotel.
-                type: int
-                example: 3
-              rooms_total:
-                description: The number of rooms required for the above travellers.
-                type: int
-                example: 2
-              rooms:
-                description: List of guest info for 1 room required to make hotel search requests.
-                type: array
-                items:
-                  type: object
-                  properties:
-                    num_adults:
-                      description: Number of adults staying in the room.
-                      type: int
-                      example: 2
-                    num_children:
-                      description: Number of children staying in the room, if none use 0.
-                      type: int
-                      example: 3
-                    children_age_list:
-                      description: List of ages for children staying in room. Optional if num_children = 0, Required if num_children > 0.
-                      type: array of ints
-                      example:
-                      - 5
-                      - 7
-                      - 11
-                    nationality:
-                      description: 2 letter country code of nationality of primary guest. e.g. CA for Canada, GB for United Kingdom, CO for Colombia.
-                      type: string
-                      example: CA
-                    country_of_residence:
-                      description: 2 letter country code of country of residence of primary guest. e.g. CA for Canada, GB for United Kingdom, CO for Colombia.
-                      type: string
-                      example: CA
-              currency:
-                type: string
-                description: Currency
-                example: CAD
-              endpoint:
-                type: string
-                description: GDS endpoint called.
-                example: prod
-              hotel_trace_id:
-                type: string
-                example: 4f499298b303c55a1ee522118afce28abe2f68e4
-                description: An identifier to refer to the hotel for searching room availability
-          detail_request:
-            type: object
-            description: Parameters to search for the hotel details.
-            properties:
-              super_trip_id:
-                type: string
-                example: fb3d8eff432a329dc21fad8449c686fa93e5ce24
-                description: id of the super trip
-              hotel_trace_id:
-                type: string
-                example: 4f499298b303c55a1ee522118afce28abe2f68e4
-                description: An identifier to refer to the hotel for searching room availability
-              hotel_itinerary_reference:
-                type: string
-                example: '1'
-                description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
-              credential_info:
-                $ref: '#/components/schemas/SearchComponents/Credentials'
-              hotel_chain:
-                type: string
-                description: The refence for the hotel chain.
-                example: GI
-              hotel_code:
-                type: string
-                description: The reference for the hotel code
-                example: '35573'
-              traveller_total:
-                type: int
-                example: 3
-                description: Number of people that will be staying at the hotel.
-              rooms_total:
-                type: int
-                example: 2
-                description: The number of rooms required for the above travellers.
-              room_type:
-                type: string
-                example: Double
-                description: The type of room to price.
-              currency:
-                type: string
-                example: CAD
-                description: The currency that the details should be presented in.
-              check_in_date:
-                type: string
-                format: date
-                description: 'Date of check-in to search hotel availibilities on. format: YYYY-MM-DD.'
-                example: '2021-05-10'
-              check_out_date:
-                type: string
-                format: date
-                description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
-                example: '2021-05-15'
-              hotel_location:
-                type: object
-                description: location (city, airport, or reference point) to search for hotels in.
-                required:
-                - type
-                - IATA
-                properties:
-                  type:
-                    type: string
-                    description: Defines whether it's a city ('C'), airport ('A'), or reference point ('R')
-                    example: R
-                  IATA:
-                    type: string
-                    description: The IATA code for the city/airport, or nearest IATA for the reference point
-                    example: PAR
-                  name:
-                    type: string
-                    description: The IATA code for the city/airport, or nearest IATA for the reference point. Required for reference point.
-                    example: Eiffel Tower
-                  region:
-                    type: string
-                    description: The state/province for the reference point. Only required for reference point if there are multiple reference points with same name in the same country.
-                    example: NS
-                  country:
-                    type: string
-                    description: The 2-letter country code for the reference point. Required for reference point.
-                    example: FR
-      MSDPPreBookingResponse:
-        description: Consists of the hotel status response
-        type: object
-        properties:
-          hotel_results:
-            type: array
-            description: Consists of the hotel status response
-            items:
-              type: object
-              properties:
-                id:
-                  type: int
-                  description: Matching id from the flight id for the msdp package
-                  example: 1
-                hotel_trace_id:
-                  type: string
-                  example: 4f499298b303c55a1ee522118afce28abe2f68e4
-                  description: An identifier to refer to the hotel for searching room availability
-                allocation_details:
-                  type: array
-                  description: A time-limited token for further booking steps for Webbeds Hotels
-                  example:
-                  - 1671746519000001B1029B0
-    MSDPRemoveHotelErrorDetails:
-      INVALID_REQUEST:
-        type: object
-        title: Expired request or hotel_trace_id not found
+        title: Missing Fields
         properties:
           status:
             type: string
@@ -1881,64 +1463,55 @@ components:
           message:
             type: string
             description: Contains the error message
-            example: Query parameters are wrong or cached request is expired.
-      INVALID_NUM_OF_HOTELS:
+            example: Value missing for field traveller_total
+      INVALID_IATA:
         type: object
-        title: Invalid number of hotels in the package
+        title: Invalid IATA Code
         properties:
           status:
             type: string
             description: Error code and 0 for success response
-            example: '218'
+            example: '400'
           message:
             type: string
             description: Contains the error message
-            example: MSDP requests need a minimum of one flight and one hotel in the request.
-    MSDPSearchErrorDetails:
-      MISSING_MSDP_SEARCH_FIELD:
+            example: IATA code must be 3 letters you passed TEST
+      INVALID_FIELD_TYPE:
         type: object
-        title: Missing field
-        properties:
-          field:
-            type: array or object or string
-            description: Contains the error message
-            example: This field is required.
-      INVALID_MSDP_SEARCH_REQUEST:
-        type: object
-        title: Invalid MSDP search request
+        title: Invalid field type
         properties:
           status:
             type: string
-            description: Error code
-            example: '218'
+            description: Error code and 0 for success response
+            example: '400'
           message:
             type: string
             description: Contains the error message
-            example: MSDP requests need a minimum of one flight and one hotel in the request.
-      INVALID_MSDP_ID:
+            example: Type wrong for field traveller_total, expected int but was passed str
+      INVALID_FIELD_VALUE:
         type: object
-        title: Mis-matching flights and hotels ID
+        title: Invalid field value
         properties:
           status:
             type: string
-            description: Error code
-            example: '218'
+            description: Error code and 0 for success response
+            example: '400'
           message:
             type: string
             description: Contains the error message
-            example: MSDP ID validation failed. MSDP flights and hotels require matching and unique IDs for all MSDP requests
-      INVALID_MSDP_PACKAGE_DATES:
+            example: Bad traveller_total value of 25. 1 <= traveller_total <= 20
+      HOTEL_LOCATION_MISSING_TYPE_R:
         type: object
-        title: Un-matching flights and hotels dates
+        title: Hotel location name missing with hotel_location_type='R'
         properties:
           status:
             type: string
-            description: Error code
-            example: '218'
+            description: Error code and 0 for success response
+            example: '400'
           message:
             type: string
             description: Contains the error message
-            example: MSDP search requests require flight departure dates to occur before hotel check in dates for each package
+            example: if hotel location type is R then the hotel location name must be passed
     Requests:
       MSDPSearchRequest:
         description: Contains the searched parameters for the MSDP package search
@@ -2375,10 +1948,10 @@ components:
             type: string
             description: MSDP Package ID returned in MSDP search response
             example: 6be6e72c60102bd489ac46434d4ac6c11e047ee8
-    MSDPHotelDetailErrorDetails:
-      MISSING_FIELDS:
+    MSDPOTABookingErrorDetails:
+      UNABLE_TO_RETRIEVE_ITINERARY_PROFILE:
         type: object
-        title: Missing Fields
+        title: Invalid msdp_pacakge_id
         properties:
           status:
             type: string
@@ -2387,80 +1960,7 @@ components:
           message:
             type: string
             description: Contains the error message
-            example: Value missing for field traveller_total
-      INVALID_IATA:
-        type: object
-        title: Invalid IATA Code
-        properties:
-          status:
-            type: string
-            description: Error code and 0 for success response
-            example: '400'
-          message:
-            type: string
-            description: Contains the error message
-            example: IATA code must be 3 letters you passed TEST
-      INVALID_FIELD_TYPE:
-        type: object
-        title: Invalid field type
-        properties:
-          status:
-            type: string
-            description: Error code and 0 for success response
-            example: '400'
-          message:
-            type: string
-            description: Contains the error message
-            example: Type wrong for field traveller_total, expected int but was passed str
-      INVALID_FIELD_VALUE:
-        type: object
-        title: Invalid field value
-        properties:
-          status:
-            type: string
-            description: Error code and 0 for success response
-            example: '400'
-          message:
-            type: string
-            description: Contains the error message
-            example: Bad traveller_total value of 25. 1 <= traveller_total <= 20
-      HOTEL_LOCATION_MISSING_TYPE_R:
-        type: object
-        title: Hotel location name missing with hotel_location_type='R'
-        properties:
-          status:
-            type: string
-            description: Error code and 0 for success response
-            example: '400'
-          message:
-            type: string
-            description: Contains the error message
-            example: if hotel location type is R then the hotel location name must be passed
-    MSDPOTAPreBookingErrorDetails:
-      NO_ROOM_AVAILABLE:
-        type: object
-        title: Hotel room not available
-        properties:
-          status:
-            type: string
-            description: Error code and 0 for success response
-            example: IE38
-          message:
-            type: string
-            description: Contains the error message
-            example: No room available
-      MISSING_DATASOURCE:
-        type: object
-        title: Missing Datasource (wrong format of the response)
-        properties:
-          status:
-            type: string
-            description: Error code and 0 for success response
-            example: '400'
-          message:
-            type: string
-            description: Contains the error message
-            example: 'Failed to save pre-booked flight: Data source is not found in the request'
+            example: 'Error while getting itinerary profile for hotel 4f8d0f694db55e220c5749ee48f1962252beda41: ItineraryProfile matching query does not exist.'
     GeneralErrorDetails:
       NOT_BOOKED:
         type: object
@@ -2673,10 +2173,485 @@ components:
             description: Array of rooms for the booked hotel rooms
             items:
               $ref: '#/components/schemas/ReportComponents/hotel_price_confirm_details'
-    MSDPOTABookingErrorDetails:
-      UNABLE_TO_RETRIEVE_ITINERARY_PROFILE:
+    Responses:
+      ItineraryNoHotelResultsSearchResponse:
+        title: include_itineraries = true and should_include_hotel_results = false
         type: object
-        title: Invalid msdp_pacakge_id
+        properties:
+          flight_results:
+            type: object
+            description: Consists of all the flight results
+            properties:
+              fare_structure:
+                $ref: '#/components/schemas/SearchComponents/Flight/ItineraryFareStructure'
+          hotel_results:
+            $ref: '#/components/schemas/SearchComponents/Hotel/NotShouldIncludeHotelResultsResponse'
+        allOf:
+        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
+        - type: object
+      ItineraryHotelResultsSearchResponse:
+        title: include_itineraries = true and should_include_hotel_results = true
+        type: object
+        properties:
+          flight_results:
+            type: object
+            description: Consists of all the flight results
+            properties:
+              fare_structure:
+                $ref: '#/components/schemas/SearchComponents/Flight/ItineraryFareStructure'
+          hotel_results:
+            $ref: '#/components/schemas/SearchComponents/Hotel/ShouldIncludeHotelResultsResponse'
+        allOf:
+        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
+        - type: object
+      SegmentNoHotelResultsSearchResponse:
+        title: include_itineraries = false and should_include_hotel_results = false
+        type: object
+        properties:
+          flight_results:
+            type: object
+            description: Consists of all the flight results
+            properties:
+              fare_structure:
+                $ref: '#/components/schemas/SearchComponents/Flight/SegmentFareStructure'
+          hotel_results:
+            $ref: '#/components/schemas/SearchComponents/Hotel/NotShouldIncludeHotelResultsResponse'
+        allOf:
+        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
+        - type: object
+      SegmentItineraryHotelResultsSearchResponse:
+        title: include_itineraries = false and should_include_hotel_results = true
+        type: object
+        properties:
+          flight_results:
+            type: object
+            description: Consists of all the flight results
+            properties:
+              fare_structure:
+                $ref: '#/components/schemas/SearchComponents/Flight/SegmentFareStructure'
+          hotel_results:
+            $ref: '#/components/schemas/SearchComponents/Hotel/ShouldIncludeHotelResultsResponse'
+        allOf:
+        - $ref: '#/components/schemas/Responses/MSDPSearchResponse'
+        - type: object
+      MSDPSearchResponse:
+        properties:
+          total_trip_price:
+            description: Total trip price with the cheapest flights and hotels combined
+            type: float
+            example: 123.23
+          msdp_package_id:
+            description: A unique identifier for each msdp search
+            type: string
+            example: d8af3a35dd77333f99510ad7373c98cf7fe502bf
+          msdp_search_details:
+            $ref: '#/components/schemas/Requests/MSDPSearchRequest'
+      MSDPGetFlightResultsItineraryResponse:
+        title: include_itineraries = true
+        description: Consists of all the flight results when include_itinerary=true
+        type: object
+        properties:
+          fare_structure:
+            $ref: '#/components/schemas/SearchComponents/Flight/ItineraryFareStructure'
+      MSDPGetFlightResultsSegmentResponse:
+        title: include_itineraries = false
+        description: Consists of all the flight results when include_itinerary=false
+        type: object
+        properties:
+          fare_structure:
+            $ref: '#/components/schemas/SearchComponents/Flight/SegmentFareStructure'
+      MSDPGetHotelDetailsResponse:
+        properties:
+          super_trip_id:
+            type: string
+            example: fb3d8eff432a329dc21fad8449c686fa93e5ce24
+            description: id of the super trip
+          hotel_trace_id:
+            type: string
+            example: 4f499298b303c55a1ee522118afce28abe2f68e4
+            description: An identifier to refer to the hotel for searching room availability
+          hotel_itinerary_reference:
+            type: string
+            example: '1'
+            description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
+          address:
+            type: object
+            description: The address of the hotel.
+            properties:
+              street_address:
+                type: string
+                description: The street address of the hotel. This is more details than the one returned at search.
+                example: 1583 Brunswick St, Halifax, NS B3J 3P5
+              longitude:
+                type: float
+                description: The longitude of the hotel.
+                example: 44.64511447836071
+              lattitude:
+                type: float
+                description: The lattitude of the hotel.
+                example: -63.575245615440565
+              distance_from_reference_point_km:
+                type: float
+                description: The distance that the hotel is from the reference submitted in the search.
+                example: 7.5
+              phone_number:
+                type: str
+                description: The contact phone number for the hotel.
+                example: +1 902-420-0555
+          location_iata:
+            type: string
+            description: The location of the hotel.
+            example: LON
+          hotel_name:
+            type: string
+            description: The name of the hotel.
+            example: Cambridge Suites Hotel Halifax
+          check_in_time:
+            type: string
+            description: The check in time for the hotel.
+            example: 3pm
+          check_out_time:
+            type: string
+            description: The check out time.
+            example: 10am
+          rooms:
+            type: array
+            description: The list of rooms available at the hotel.
+            items:
+              type: object
+              properties:
+                total_price:
+                  type: float
+                  description: The total price of the entire stay at the hotel for this room.
+                  example: 705.1
+                price_per_room_per_night:
+                  type: float
+                  description: The price of the room per night.
+                  example: 141.02
+                meals:
+                  type: object
+                  description: Indicates if meal is provided with the room.
+                  properties:
+                    breakfast:
+                      type: boolean
+                      description: Indicates if breakfast is provided with the room.
+                      example: true
+                    lunch:
+                      type: boolean
+                      description: Indicates if lunch is provided with the room.
+                      example: true
+                    dinner:
+                      type: boolean
+                      description: Indicates if dinner is provided with the room.
+                      example: true
+                bed_types:
+                  type: object
+                  description: An object where the key is the name of the room type and the value is the number of those beds in the room.
+                  example:
+                    Queen bed: 2
+                    King Single: 1
+                original_total_string:
+                  type: string
+                  description: The original total price as a string in the hotels currency is required for the rules request and is presented here.
+                  example: SGD172.00
+                room_name:
+                  type: string
+                  description: A name of the room.
+                  example: Room
+                guarantee:
+                  type: string
+                  description: The guarantee type for the room - needed for pricing.
+                  example: Guarantee
+                room_description:
+                  type: string
+                  description: A description of the room.
+                  example: Executive Suite Room
+                rate_descriotion:
+                  type: string
+                  description: A description of the rate.
+                  example: 2 Double Bed Non Smoking Featuring All The Modern-day Essentials Including A Flat Screen
+                refundable:
+                  type: boolean
+                  description: Explains whether the booking will be refundable.
+                  example: true
+                smoking:
+                  type: boolean
+                  description: Indicates whether you are allowed to smoke in the room.
+                  example: false
+                max_occupancy:
+                  type: int
+                  description: Indicates the max occupancy in the room.
+                  example: 1
+                cancel_deadline:
+                  type: string
+                  format: date
+                  description: 'Last date of cancel deadline to cancel hotel. format: YYYY-MM-DD.'
+                base_price:
+                  type: string
+                  description: The base price as a string in the hotels currency is required for the rules request and is presented here.
+                  example: SGD172.00
+                cancellation_policy:
+                  type: string
+                  description: The cancellation policy
+                  example: non-refundable rate cancellation permitted up to 1days before arrival
+                guarantee_policy:
+                  type: string
+                  description: The guarantee policy.
+                  example: ''
+                deposit:
+                  type: string
+                  description: The deposit requirements
+                  example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
+                room_rate_descriptions:
+                  type: object
+                  description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
+                  example:
+                    Rate description: Early check in and check out when available.
+                    Room rate: Maximum occupancy - 1
+                rule_descriptions:
+                  type: object
+                  description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
+                  example:
+                    Guarantee: Accept all guarantee methods
+                    Checkin Checkout: Check in time 15:00, check out time 11:00
+          hotel_description:
+            type: string
+            description: Description of the hotel.
+            example: PROPERTY DESCRIPTION Midscale Unspecified3 Welcome to Best Western Plus Hawthorne Terrace a oneofakind boutique hotel experience at the center of one of Chicagos most popular neighborhoods Lakeview East.
+          search_request:
+            description: parameters to search for this hotel
+            type: object
+            properties:
+              credential_info:
+                $ref: '#/components/schemas/SearchComponents/Credentials'
+              hotel_location:
+                $ref: '#/components/schemas/SearchComponents/Hotel/HotelLocation'
+              check_in_date:
+                type: string
+                format: date
+                description: 'Date of check-in. format: YYYY-MM-DD.'
+                example: '2023-06-20'
+              check_out_date:
+                type: string
+                format: date
+                description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
+                example: '2023-06-25'
+              next_result_reference:
+                $ref: '#/components/schemas/SearchComponents/Hotel/HotelNextResultReference'
+              hotel_itinerary_reference:
+                $ref: '#/components/schemas/SearchComponents/Hotel/HotelItineraryReference'
+              traveller_total:
+                description: Number of people that will be staying at the hotel.
+                type: int
+                example: 3
+              rooms_total:
+                description: The number of rooms required for the above travellers.
+                type: int
+                example: 2
+              rooms:
+                description: List of guest info for 1 room required to make hotel search requests.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    num_adults:
+                      description: Number of adults staying in the room.
+                      type: int
+                      example: 2
+                    num_children:
+                      description: Number of children staying in the room, if none use 0.
+                      type: int
+                      example: 3
+                    children_age_list:
+                      description: List of ages for children staying in room. Optional if num_children = 0, Required if num_children > 0.
+                      type: array of ints
+                      example:
+                      - 5
+                      - 7
+                      - 11
+                    nationality:
+                      description: 2 letter country code of nationality of primary guest. e.g. CA for Canada, GB for United Kingdom, CO for Colombia.
+                      type: string
+                      example: CA
+                    country_of_residence:
+                      description: 2 letter country code of country of residence of primary guest. e.g. CA for Canada, GB for United Kingdom, CO for Colombia.
+                      type: string
+                      example: CA
+              currency:
+                type: string
+                description: Currency
+                example: CAD
+              endpoint:
+                type: string
+                description: GDS endpoint called.
+                example: prod
+              hotel_trace_id:
+                type: string
+                example: 4f499298b303c55a1ee522118afce28abe2f68e4
+                description: An identifier to refer to the hotel for searching room availability
+          detail_request:
+            type: object
+            description: Parameters to search for the hotel details.
+            properties:
+              super_trip_id:
+                type: string
+                example: fb3d8eff432a329dc21fad8449c686fa93e5ce24
+                description: id of the super trip
+              hotel_trace_id:
+                type: string
+                example: 4f499298b303c55a1ee522118afce28abe2f68e4
+                description: An identifier to refer to the hotel for searching room availability
+              hotel_itinerary_reference:
+                type: string
+                example: '1'
+                description: A reference that indicates the itineraries position in the flow of itineraries in the super_trip with the index starting at 0.
+              credential_info:
+                $ref: '#/components/schemas/SearchComponents/Credentials'
+              hotel_chain:
+                type: string
+                description: The refence for the hotel chain.
+                example: GI
+              hotel_code:
+                type: string
+                description: The reference for the hotel code
+                example: '35573'
+              traveller_total:
+                type: int
+                example: 3
+                description: Number of people that will be staying at the hotel.
+              rooms_total:
+                type: int
+                example: 2
+                description: The number of rooms required for the above travellers.
+              room_type:
+                type: string
+                example: Double
+                description: The type of room to price.
+              currency:
+                type: string
+                example: CAD
+                description: The currency that the details should be presented in.
+              check_in_date:
+                type: string
+                format: date
+                description: 'Date of check-in to search hotel availibilities on. format: YYYY-MM-DD.'
+                example: '2021-05-10'
+              check_out_date:
+                type: string
+                format: date
+                description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
+                example: '2021-05-15'
+              hotel_location:
+                type: object
+                description: location (city, airport, or reference point) to search for hotels in.
+                required:
+                - type
+                - IATA
+                properties:
+                  type:
+                    type: string
+                    description: Defines whether it's a city ('C'), airport ('A'), or reference point ('R')
+                    example: R
+                  IATA:
+                    type: string
+                    description: The IATA code for the city/airport, or nearest IATA for the reference point
+                    example: PAR
+                  name:
+                    type: string
+                    description: The IATA code for the city/airport, or nearest IATA for the reference point. Required for reference point.
+                    example: Eiffel Tower
+                  region:
+                    type: string
+                    description: The state/province for the reference point. Only required for reference point if there are multiple reference points with same name in the same country.
+                    example: NS
+                  country:
+                    type: string
+                    description: The 2-letter country code for the reference point. Required for reference point.
+                    example: FR
+      MSDPPreBookingResponse:
+        description: Consists of the hotel status response
+        type: object
+        properties:
+          hotel_results:
+            type: array
+            description: Consists of the hotel status response
+            items:
+              type: object
+              properties:
+                id:
+                  type: int
+                  description: Matching id from the flight id for the msdp package
+                  example: 1
+                hotel_trace_id:
+                  type: string
+                  example: 4f499298b303c55a1ee522118afce28abe2f68e4
+                  description: An identifier to refer to the hotel for searching room availability
+                allocation_details:
+                  type: array
+                  description: A time-limited token for further booking steps for Webbeds Hotels
+                  example:
+                  - 1671746519000001B1029B0
+    MSDPSearchErrorDetails:
+      MISSING_MSDP_SEARCH_FIELD:
+        type: object
+        title: Missing field
+        properties:
+          field:
+            type: array or object or string
+            description: Contains the error message
+            example: This field is required.
+      INVALID_MSDP_SEARCH_REQUEST:
+        type: object
+        title: Invalid MSDP search request
+        properties:
+          status:
+            type: string
+            description: Error code
+            example: '218'
+          message:
+            type: string
+            description: Contains the error message
+            example: MSDP requests need a minimum of one flight and one hotel in the request.
+      INVALID_MSDP_ID:
+        type: object
+        title: Mis-matching flights and hotels ID
+        properties:
+          status:
+            type: string
+            description: Error code
+            example: '218'
+          message:
+            type: string
+            description: Contains the error message
+            example: MSDP ID validation failed. MSDP flights and hotels require matching and unique IDs for all MSDP requests
+      INVALID_MSDP_PACKAGE_DATES:
+        type: object
+        title: Un-matching flights and hotels dates
+        properties:
+          status:
+            type: string
+            description: Error code
+            example: '218'
+          message:
+            type: string
+            description: Contains the error message
+            example: MSDP search requests require flight departure dates to occur before hotel check in dates for each package
+    MSDPOTAPreBookingErrorDetails:
+      NO_ROOM_AVAILABLE:
+        type: object
+        title: Hotel room not available
+        properties:
+          status:
+            type: string
+            description: Error code and 0 for success response
+            example: IE38
+          message:
+            type: string
+            description: Contains the error message
+            example: No room available
+      MISSING_DATASOURCE:
+        type: object
+        title: Missing Datasource (wrong format of the response)
         properties:
           status:
             type: string
@@ -2685,7 +2660,32 @@ components:
           message:
             type: string
             description: Contains the error message
-            example: 'Error while getting itinerary profile for hotel 4f8d0f694db55e220c5749ee48f1962252beda41: ItineraryProfile matching query does not exist.'
+            example: 'Failed to save pre-booked flight: Data source is not found in the request'
+    MSDPRemoveHotelErrorDetails:
+      INVALID_REQUEST:
+        type: object
+        title: Expired request or hotel_trace_id not found
+        properties:
+          status:
+            type: string
+            description: Error code and 0 for success response
+            example: '400'
+          message:
+            type: string
+            description: Contains the error message
+            example: Query parameters are wrong or cached request is expired.
+      INVALID_NUM_OF_HOTELS:
+        type: object
+        title: Invalid number of hotels in the package
+        properties:
+          status:
+            type: string
+            description: Error code and 0 for success response
+            example: '218'
+          message:
+            type: string
+            description: Contains the error message
+            example: MSDP requests need a minimum of one flight and one hotel in the request.
     MSDPOTATicketingCancelErrorDetails:
       INVALID_MSDP_PACKAGE_ID:
         type: object
