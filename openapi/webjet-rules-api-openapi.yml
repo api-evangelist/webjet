@@ -94,35 +94,6 @@ paths:
       - Rules
 components:
   schemas:
-    credential_info:
-      description: The credential info that will be used to make the request.
-      type: object
-      required:
-      - pcc
-      - provider
-      - data_source
-      properties:
-        pcc:
-          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
-          type: string
-          example: 2G3C
-        provider:
-          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-          type: string
-          example: 1V
-        data_source:
-          description: The datasource that is associated with the PCC.
-          type: string
-          enum:
-          - travelport
-          - travelport_student
-          - travelport_itx
-          - amadeus
-          - tripstack
-          - mystifly
-        queue:
-          type: number
-          example: 1
     HotelRulesResponse:
       properties:
         cancellation_policy:
@@ -200,3 +171,32 @@ components:
           description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
         credential_info:
           $ref: '#/components/schemas/credential_info'
+    credential_info:
+      description: The credential info that will be used to make the request.
+      type: object
+      required:
+      - pcc
+      - provider
+      - data_source
+      properties:
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
+          type: string
+          example: 2G3C
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          type: string
+          example: 1V
+        data_source:
+          description: The datasource that is associated with the PCC.
+          type: string
+          enum:
+          - travelport
+          - travelport_student
+          - travelport_itx
+          - amadeus
+          - tripstack
+          - mystifly
+        queue:
+          type: number
+          example: 1
