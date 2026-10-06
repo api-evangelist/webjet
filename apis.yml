@@ -75,7 +75,7 @@ accessModel:
   generated: '2026-09-03'
   method: derived
 created: '2026-07-28'
-modified: '2026-07-28'
+modified: '2026-10-06'
 enriched: '2026-07-28'
 specificationVersion: '0.23'
 apis:
@@ -1204,6 +1204,8 @@ apis:
   - type: Arazzo
     url: arazzo/webjet-tripninja-search-price-book-ticket.yml
 common:
+- url: https://www.webjetgroup.com/news/rss.xml
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/webjet-capability-edges.yml
   name: Webjet Business Capability Map
