@@ -2,17 +2,34 @@
   "repo": "webjet",
   "feeds": [
     {
-      "source": "https://github.com/trip-ninja-inc",
-      "feed_url": "https://github.com/trip-ninja-inc",
+      "source": "https://www.tripninja.io/blog",
+      "feed_url": "https://www.tripninja.io/blog",
       "title": "",
       "saved": 0,
       "method": "none"
     },
     {
-      "source": "https://www.linkedin.com/company/webjet-group",
-      "error": "HTTPError"
+      "source": "https://www.webjetgroup.com/news/rss.xml",
+      "feed_url": "https://www.webjetgroup.com/news/rss.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://www.webjetgroup.com/news/",
+      "feed_url": "https://www.webjetgroup.com/news/rss/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
+      "source": "https://github.com/trip-ninja-inc",
+      "feed_url": "https://github.com/trip-ninja-inc",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-10-03T12:30:02Z"
+  "fetched": "2026-10-10T13:15:00Z"
 }
