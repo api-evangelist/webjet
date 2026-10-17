@@ -94,32 +94,35 @@ paths:
       - Rules
 components:
   schemas:
-    HotelRulesResponse:
+    credential_info:
+      description: The credential info that will be used to make the request.
+      type: object
+      required:
+      - pcc
+      - provider
+      - data_source
       properties:
-        cancellation_policy:
+        pcc:
+          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
           type: string
-          description: The cancellation policy
-          example: non-refundable rate cancellation permitted up to 1days before arrival
-        guarantee_policy:
+          example: 2G3C
+        provider:
+          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
           type: string
-          description: The guarantee policy.
-          example: ''
-        deposit:
+          example: 1V
+        data_source:
+          description: The datasource that is associated with the PCC.
           type: string
-          description: The deposit requirements
-          example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
-        room_rate_descriptions:
-          type: object
-          description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
-          example:
-            Rate description: Early check in and check out when available.
-            Room rate: Maximum occupancy - 1
-        rule_descriptions:
-          type: object
-          description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
-          example:
-            Guarantee: Accept all guarantee methods
-            Checkin Checkout: Check in time 15:00, check out time 11:00
+          enum:
+          - travelport
+          - travelport_student
+          - travelport_itx
+          - amadeus
+          - tripstack
+          - mystifly
+        queue:
+          type: number
+          example: 1
     HotelRulesRequest:
       required:
       - hotel_trace_id
@@ -171,32 +174,29 @@ components:
           description: 'Date to checkout from the hotel. format: YYYY-MM-DD.'
         credential_info:
           $ref: '#/components/schemas/credential_info'
-    credential_info:
-      description: The credential info that will be used to make the request.
-      type: object
-      required:
-      - pcc
-      - provider
-      - data_source
+    HotelRulesResponse:
       properties:
-        pcc:
-          description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries.
+        cancellation_policy:
           type: string
-          example: 2G3C
-        provider:
-          description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+          description: The cancellation policy
+          example: non-refundable rate cancellation permitted up to 1days before arrival
+        guarantee_policy:
           type: string
-          example: 1V
-        data_source:
-          description: The datasource that is associated with the PCC.
+          description: The guarantee policy.
+          example: ''
+        deposit:
           type: string
-          enum:
-          - travelport
-          - travelport_student
-          - travelport_itx
-          - amadeus
-          - tripstack
-          - mystifly
-        queue:
-          type: number
-          example: 1
+          description: The deposit requirements
+          example: book 7 days before arrival full room , tax payment due 174.40 gbp deposit due -at time of booking credit card deposit only
+        room_rate_descriptions:
+          type: object
+          description: The various rate descriptions - includes types such as Extra Charges, Rate comment, Rate description, Room detail, Room rate, Room text.
+          example:
+            Rate description: Early check in and check out when available.
+            Room rate: Maximum occupancy - 1
+        rule_descriptions:
+          type: object
+          description: The various rate rules - includes types such as Cancellation, Deposit, Location Text, Miscellaneous, Promotional, and PropertyText
+          example:
+            Guarantee: Accept all guarantee methods
+            Checkin Checkout: Check in time 15:00, check out time 11:00

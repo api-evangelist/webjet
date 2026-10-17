@@ -52,12 +52,6 @@ paths:
       - Booking
 components:
   schemas:
-    segment_ids:
-      type: Array of strings and/or Array of arrays
-      description: "Array of segment_id's for the booked segments - These will be strings for one-ways, arrays of strings for open-jaws and joined strings for VI flights.\n\nFor the booking of oneway virtually interlined tickets there will be two segment_id's. For example segment_id_0_1 and segment_id_0_2. \nWhen being booked the segment_id's should be joined together by two underscores **segment_id_0_1__segment_id_0_2** and the resulting string should be sent in the position of the original search.\n\ne.g. `18fd1992fd90e6e2cf44d49308a1482b2ecd7f67__59e15240be759a023c950e66379dca775fd8aaf1`\n\nThis is the example structure but should be generalized for all combinations as Trip Ninja's technology handles more than just 3-segment trips.\n1) structure: [0, 1]\n    - `segment_ids: [\"segment_id_0\", \"segment_id_1\"]`\n2) structure: [(0, 1)]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_1\"]]`\n3) VI structure: [0, 1.1, 1.2]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_1_1__segment_id_1_2\"]]`\n4) structure: [0, 1, 2]\n    - `segment_ids: [\"segment_id_0\", \"segment_id_1\", \"segment_id_2\"]`\n5) structure: [(0, 1), 2]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_1\"], \"segment_id_2\"]`\n6) structure: [(0, 2), 1]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_2\"], \"segment_id_1\"]`\n7) structure: [0, (1, 2)]\n    - `segment_ids: [\"segment_id_0\", [\"segment_id_1\", \"segment_id_2\"]]`\n8) structure: [0.1, 0.2, (1, 2), 3.1. 3.2]\n    - `segment_ids: [\"segment_id_0_1__segment_id_0_2\", [\"segment_id_1\", \"segment_id_2\"]], \"segment_id_3_1__segment_id_3_2]\"`\n"
-      example:
-      - 18fd1992fd90e6e2cf44d49308a1482b2ecd7f67
-      - 59e15240be759a023c950e66379dca775fd8aaf1
     BookingReportRequest:
       title: Request
       type: object
@@ -73,3 +67,9 @@ components:
           type: string
           description: Customer booking reference ID from the client.
           example: cust-book-1234aa94d
+    segment_ids:
+      type: Array of strings and/or Array of arrays
+      description: "Array of segment_id's for the booked segments - These will be strings for one-ways, arrays of strings for open-jaws and joined strings for VI flights.\n\nFor the booking of oneway virtually interlined tickets there will be two segment_id's. For example segment_id_0_1 and segment_id_0_2. \nWhen being booked the segment_id's should be joined together by two underscores **segment_id_0_1__segment_id_0_2** and the resulting string should be sent in the position of the original search.\n\ne.g. `18fd1992fd90e6e2cf44d49308a1482b2ecd7f67__59e15240be759a023c950e66379dca775fd8aaf1`\n\nThis is the example structure but should be generalized for all combinations as Trip Ninja's technology handles more than just 3-segment trips.\n1) structure: [0, 1]\n    - `segment_ids: [\"segment_id_0\", \"segment_id_1\"]`\n2) structure: [(0, 1)]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_1\"]]`\n3) VI structure: [0, 1.1, 1.2]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_1_1__segment_id_1_2\"]]`\n4) structure: [0, 1, 2]\n    - `segment_ids: [\"segment_id_0\", \"segment_id_1\", \"segment_id_2\"]`\n5) structure: [(0, 1), 2]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_1\"], \"segment_id_2\"]`\n6) structure: [(0, 2), 1]\n    - `segment_ids: [[\"segment_id_0\", \"segment_id_2\"], \"segment_id_1\"]`\n7) structure: [0, (1, 2)]\n    - `segment_ids: [\"segment_id_0\", [\"segment_id_1\", \"segment_id_2\"]]`\n8) structure: [0.1, 0.2, (1, 2), 3.1. 3.2]\n    - `segment_ids: [\"segment_id_0_1__segment_id_0_2\", [\"segment_id_1\", \"segment_id_2\"]], \"segment_id_3_1__segment_id_3_2]\"`\n"
+      example:
+      - 18fd1992fd90e6e2cf44d49308a1482b2ecd7f67
+      - 59e15240be759a023c950e66379dca775fd8aaf1
