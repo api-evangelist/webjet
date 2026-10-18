@@ -1148,6 +1148,8 @@ apis:
   humanURL: https://devhub.tripninja.io/data-stream/overview/
   baseURL: https://sandbox.tripninja.io
   tags:
+  - Admin Panel
+  tags_raw:
   - Admin panel
   properties:
   - type: OpenAPI
